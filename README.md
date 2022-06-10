@@ -16,7 +16,7 @@ This is from course work authored by Maria Fox and Derek Long and other coworker
 2. Hello world in propositional, numeric, temporal and with continuous numeric effects.
 
 This set of classroom exercises is accompanied by a series of videos explaining the
-challenges and live-coding the solution: [Modeling in PDDL, back to the basics](https://www.youtube.com/playlist?list=PL1Q0jeuU6XppS_r2Sa9fzVanpbXKqLsYS).
+challenges and live-coding the solution: ![Youtube](https://www.youtube.com/s/desktop/f2388c5e/img/favicon.ico) [Modeling in PDDL, back to the basics](https://www.youtube.com/playlist?list=PL1Q0jeuU6XppS_r2Sa9fzVanpbXKqLsYS).
 
 ## [Assignments and assessments](/assignments/README.md)
 
