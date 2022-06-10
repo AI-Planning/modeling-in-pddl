@@ -1,4 +1,4 @@
-# Exercise: Cup of tea for grandpa
+# Cup of tea for grandpa
 
 You have a robot and grandpa. Robot can pick up a cup of tea in the kitchen and deliver it to the grandpa, who deserves it. Grandpa may be in either the kitchen or the living room. Robot can move through the doorway between the kitchen and living room.
 
@@ -28,7 +28,11 @@ Similarly, to test the move action, define the goal this way:
 )
 ```
 
-Challenges
+## Challenges
 
 - What if you have two cups and two thirsty grand parents in two different rooms?
 - Rooms are separated by walls. What if some rooms are not interconnected by door ways?
+
+## Credits
+
+Maria Fox, Derek Long, Schlumberger AI Planning course
