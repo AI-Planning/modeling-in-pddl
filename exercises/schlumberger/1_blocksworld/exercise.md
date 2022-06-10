@@ -16,4 +16,9 @@ You can try to build the problem file visually, or just animate your plan on the
 
 ## Need help?
 
+While this exercise is meant to be done with lot of hand holding, the PDDL constructs exercised are:
+
+* [Types](https://planning.wiki/ref/pddl/domain#object-types)
+* [Objects](https://planning.wiki/ref/pddl/problem#objects)
+
 If you are unsure where to start, the live coding demo is in this video: [Modeling in PDDL - Episode 1 - Blocksworld](https://youtu.be/_NOVa4i7Us8).
