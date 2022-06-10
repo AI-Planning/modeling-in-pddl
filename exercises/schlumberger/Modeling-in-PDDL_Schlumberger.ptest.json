@@ -17,21 +17,26 @@
         },
         {
             "label": "3. Hello deaf world (numeric)",
-            "domain": "tbd/hello_deaf_world/begin_here/domain.pddl",
-            "problem": "tbd/hello_deaf_world/begin_here/problem.pddl"
+            "domain": "3_hello_deaf_world/begin_here/domain.pddl",
+            "problem": "3_hello_deaf_world/begin_here/problem.pddl"
         },
         {
             "label": "4. Hello neighbors (objects)",
-            "domain": "tbd/hello_neighbors/begin_here/domain.pddl",
-            "problem": "tbd/hello_neighbors/begin_here/problem.pddl"
+            "domain": "4_hello_neighbors/begin_here/domain.pddl",
+            "problem": "4_hello_neighbors/begin_here/problem.pddl"
         },
         {
-            "label": "5. Hello colleagues (temporal)",
-            "domain": "7a_hello_temporal_world/begin_here/domain.pddl",
-            "problem": "7a_hello_temporal_world/begin_here/problem.pddl"
+            "label": "5. Hello everyone else (typing+numeric)",
+            "domain": "5_hello_everyone_else/begin_here/domain.pddl",
+            "problem": "5_hello_everyone_else/begin_here/problem.pddl"
         },
         {
-            "label": "5. Hello world (continuous effects)",
+            "label": "6. Hello colleagues (temporal)",
+            "domain": "tbd/7a_hello_temporal_world/begin_here/domain.pddl",
+            "problem": "tbd/7a_hello_temporal_world/begin_here/problem.pddl"
+        },
+        {
+            "label": "7. Hello world (continuous effects)",
             "domain": "tbd/hello_world_continuous_effects/begin_here/domain.pddl",
             "problem": "tbd/hello_world_continuous_effects/begin_here/problem.pddl"
         }
