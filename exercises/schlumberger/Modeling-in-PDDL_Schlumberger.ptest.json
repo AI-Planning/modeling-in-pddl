@@ -32,13 +32,13 @@
         },
         {
             "label": "6. Hello colleagues (temporal)",
-            "domain": "tbd/7a_hello_temporal_world/begin_here/domain.pddl",
-            "problem": "tbd/7a_hello_temporal_world/begin_here/problem.pddl"
+            "domain": "6_hello_temporal_world/begin_here/domain.pddl",
+            "problem": "6_hello_temporal_world/begin_here/problem.pddl"
         },
         {
             "label": "7. Hello world (continuous effects)",
-            "domain": "tbd/hello_world_continuous_effects/begin_here/domain.pddl",
-            "problem": "tbd/hello_world_continuous_effects/begin_here/problem.pddl"
+            "domain": "7_hello_world_continuous_effects/begin_here/domain.pddl",
+            "problem": "7_hello_world_continuous_effects/begin_here/problem.pddl"
         }
     ]
 }
