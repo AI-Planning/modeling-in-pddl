@@ -4,7 +4,8 @@ Repository for PDDL examples, exercises and coursework assignments.
 
 ## [Examples](/examples/README.md)
 
-tbd
+This section is for interesting PDDL models that are not published elsewhere, or not as well organized
+and described for educational purposes.
 
 ## [Exercises](/exercises/README.md)
 
@@ -20,4 +21,4 @@ challenges and live-coding the solution: ![Youtube](https://www.youtube.com/s/de
 
 ## [Assignments and assessments](/assignments/README.md)
 
-tbd
+See list of available [Assignments and assessments](/assignments/README.md).
