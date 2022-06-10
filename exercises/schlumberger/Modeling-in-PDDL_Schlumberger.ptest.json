@@ -1,0 +1,39 @@
+{
+    "cases": [
+        {
+            "label": "1a. Blocksworld (demo)",
+            "domain": "1_blocksworld/begin_here/blocksworld.pddl",
+            "problem": "1_blocksworld/begin_here/demo.pddl"
+        },
+        {
+            "label": "1b. Blocksworld (solution)",
+            "domain": "1_blocksworld/solution/blocksworld_with_grippers.pddl",
+            "problem": "1_blocksworld/solution/demo.pddl"
+        },
+        {
+            "label": "2. Hello world (propositional)",
+            "domain": "2_helloworld/begin_here/domain.pddl",
+            "problem": "2_helloworld/begin_here/problem.pddl"
+        },
+        {
+            "label": "3. Hello deaf world (numeric)",
+            "domain": "tbd/hello_deaf_world/begin_here/domain.pddl",
+            "problem": "tbd/hello_deaf_world/begin_here/problem.pddl"
+        },
+        {
+            "label": "4. Hello neighbors (objects)",
+            "domain": "tbd/hello_neighbors/begin_here/domain.pddl",
+            "problem": "tbd/hello_neighbors/begin_here/problem.pddl"
+        },
+        {
+            "label": "5. Hello colleagues (temporal)",
+            "domain": "7a_hello_temporal_world/begin_here/domain.pddl",
+            "problem": "7a_hello_temporal_world/begin_here/problem.pddl"
+        },
+        {
+            "label": "5. Hello world (continuous effects)",
+            "domain": "tbd/hello_world_continuous_effects/begin_here/domain.pddl",
+            "problem": "tbd/hello_world_continuous_effects/begin_here/problem.pddl"
+        }
+    ]
+}
