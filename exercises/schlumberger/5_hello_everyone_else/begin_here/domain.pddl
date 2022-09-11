@@ -1,8 +1,8 @@
 ;Hello colleague 1,2,..N and everyone else domain
 
-(define (domain _5_hello_everyone_else)
+(define (domain ex5_hello_everyone_else)
 
-    (:requirements :strips :typing)
+    (:requirements :strips :typing :negative-preconditions)
 
     (:types
         colleague

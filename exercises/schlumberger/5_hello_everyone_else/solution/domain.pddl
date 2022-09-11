@@ -1,6 +1,6 @@
 ; Schlumberger Public
 
-(define (domain _5_hello_everyone_else)
+(define (domain ex5_hello_everyone_else)
 
     (:requirements :strips :typing :fluents :negative-preconditions)
 

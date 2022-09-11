@@ -1,7 +1,7 @@
 ;Hello deaf world domain
 (define (domain hello-deaf-world)
 
-(:requirements :strips :negative-preconditions :fluents)
+(:requirements :strips :fluents)
 
 
 (:functions 
@@ -10,7 +10,7 @@
 
 (:action hello-world
      :parameters ()
-     :precondition ( )
+     :precondition (and )
      :effect (and (increase (hello_counter) 1))
 )
 )

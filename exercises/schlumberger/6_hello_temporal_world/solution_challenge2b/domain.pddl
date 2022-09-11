@@ -2,7 +2,7 @@
 
 (define (domain hello-colleagues-temporal)
 
-    (:requirements :strips :typing :fluents :negative-preconditions :durative-actions :disjunctive-preconditions)
+    (:requirements :strips :typing :fluents :negative-preconditions :durative-actions :disjunctive-preconditions :conditional-effects)
 
     (:types
         colleague

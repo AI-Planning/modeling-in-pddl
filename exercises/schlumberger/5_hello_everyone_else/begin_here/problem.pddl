@@ -1,7 +1,7 @@
 ; Schlumberger Public
 
 (define (problem greet_three_people_and_everyone)
-    (:domain _5_hello_everyone_else)
+    (:domain ex5_hello_everyone_else)
 
     (:objects
         angela emmanuel mark stefan paolo viktor - colleague

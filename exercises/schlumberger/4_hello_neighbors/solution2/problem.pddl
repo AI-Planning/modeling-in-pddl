@@ -1,5 +1,6 @@
 (define (problem hello-world)
     (:domain hello-world)
+    (:requirements :universal-preconditions)
 
     (:objects
         derek maria n3 n4 n5 n6 - neighbor
