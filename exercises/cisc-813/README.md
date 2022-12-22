@@ -13,7 +13,7 @@ This repository contains the exercises for the course CISC 813: Automated Planni
 
 ### Setup
 
-Nothing required -- just use the online PDDL editor, or adapt the links to open in VSCode with the PDDL plugin enabled. Slides are in the [`fod`](/fod) directory.
+Nothing required -- just use the online PDDL editor, or adapt the links to open in VSCode with the PDDL plugin enabled. Slides are in the [`fod`](fod/) directory.
 
 ----
 
@@ -38,7 +38,7 @@ Coming soon...
 
 ### Setup
 
-- Use the custom Dockerfile provided in the [`rddl`](/rddl) directory.
+- Use the custom Dockerfile provided in the [`rddl`](rddl/) directory.
 
 ----
 
