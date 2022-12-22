@@ -55,7 +55,7 @@ RUN pip3 install --upgrade pygame
 
 # RUN pip3 install --upgrade pyRDDLGym
 WORKDIR /workspace
-RUN git clone https://github.com/thomaskeller79/pyRDDLGym.git
+RUN git clone https://github.com/haz/pyRDDLGym.git
 
 
 # install prost
