@@ -23,7 +23,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     zlib1g-dev      \
     bison           \
     flex            \
-    libbdd-dev
+    libbdd-dev      \
+    vim
 
 # install python and related
 RUN apt-get install -y python3 python3-dev python3-pip python3-venv python-is-python3
@@ -64,6 +65,15 @@ RUN git clone https://github.com/prost-planner/prost
 WORKDIR /workspace/prost
 RUN python build.py
 
+WORKDIR /workspace
+RUN ls
+# Copy in the run scripts
+COPY run.py /workspace/pyRDDLGym/run.py
+COPY run.sh /workspace/run.sh
 
-ENTRYPOINT ["/bin/bash"]
+RUN chmod a+x /workspace/run.sh
+
+
+# ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/workspace/run.sh"]
 

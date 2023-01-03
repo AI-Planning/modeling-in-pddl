@@ -27,7 +27,6 @@ Walks through a mixed autonomous and non-autonomous domain of shuttling around p
 - Shuttles that stop when someone wants off (demonstrating `exists`).
 - Only allowing moving when it looks safe
 
-
 These elements are introduced incrementally throughout the exercise. The PDDL found in the [`adl`](adl/) directory is numbered based on the step of the tutorial, and the final completed version of the domain is just named [domain.pddl](adl/domain.pddl) and [problem.pddl](adl/problem.pddl). Finally, the slides are in the [`adl`](adl/) directory [here](adl/slides.pptx).
 
 ----
@@ -43,11 +42,13 @@ Coming soon...
 ### Summary
 
 - Focuses on the RDDL language.
-- Exercises walk through the fire fighter domain.
+- Exercise walks through the fire fighter domain.
 
 ### Setup
 
 - Use the custom Dockerfile provided in the [`rddl`](rddl/) directory.
+- It will take a while to build (largely due to z3 being required), but following the instructions there will get it to an apptainer .sif than can be run as a stand-alone executable.
+- Alternatively, this may be offered via planutils as a package to install.
 
 ----
 
