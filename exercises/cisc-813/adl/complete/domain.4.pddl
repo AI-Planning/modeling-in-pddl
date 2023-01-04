@@ -1,4 +1,4 @@
-(define (domain shuttle)
+(define (domain shuttle4)
 
     (:requirements :equality :negative-preconditions :typing :adl)
 
@@ -12,11 +12,10 @@
         (at ?obj - locateable ?loc - location)
         (in ?per - person ?car - car)
         (link ?loc1 ?loc2 - location)
-
         (destination ?per - person ?loc - location)
-        (hub ?loc - location)
-
         (path ?car - av ?loc1 ?loc2 - location)
+
+        (hub ?loc - location)
     )
 
     (:action step
@@ -84,29 +83,6 @@
         :precondition (and
             (at ?car ?loc1)
             (link ?loc1 ?loc2)
-
-            ; Safe movement
-            (or
-                ; No shuttles around me
-                (forall (?loc3 - location)
-                    (imply
-                        (link ?loc3 ?loc1)
-                        (forall (?car2 - av)
-                            (not (at ?car2 ?loc3))
-                        )
-                    )
-                )
-
-                ; No shuttles around the destination
-                (forall (?loc3 - location)
-                    (imply
-                        (link ?loc3 ?loc2)
-                        (forall (?car2 - av)
-                            (not (at ?car2 ?loc3))
-                        )
-                    )
-                )
-            )
         )
 
         :effect (and

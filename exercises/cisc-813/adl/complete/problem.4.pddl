@@ -1,6 +1,6 @@
-(define (problem shuttle-1)
+(define (problem shuttle_4_1)
 
-    (:domain shuttle)
+    (:domain shuttle4)
 
     (:objects
         p1 p2 p3 p4 p5 - person
@@ -18,6 +18,7 @@
         (link l4 l5)
         (link l5 l1)
 
+        ; Hub for passengers to be dropped off / picked up
         (hub l1)
 
         ; People are at locations
@@ -54,14 +55,8 @@
 
     (:goal
         (and
-
-            ; (at c1 l2)
-
-            ; (at p1 l4)
-
             (forall (?per - person ?loc - location)
                 (imply (destination ?per ?loc) (at ?per ?loc)))
-
         )
     )
 )
