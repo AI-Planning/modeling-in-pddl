@@ -33,7 +33,13 @@ These elements are introduced incrementally throughout the exercise. The PDDL fo
 
 ## Fully Observable Non-deterministic Planning
 
-Coming soon...
+This tutorial walks students through increasingly complex applications of non-determinism in PDDL. It is loosely based on the tried-and-true Canadian Traveller's Problem (CTP) domain, but with a few twists to make it more interesting. The slides and PDDL (template + complete) are all in the [`fond`](fond/) directory. Aspects explored:
+
+- Simple non-determinism that disables the repeated sensing (encoding simple observability).
+- Nesting of non-determinism in universal (check all adjacent roads).
+- Reset actions that can bring things back to being fair (encoding technique).
+- Nesting of oneof clauses (if a road is passable, only one way is).
+- Long-lived agent that resets when everything is clear (shifting to a snow-plow perspective).
 
 ----
 
