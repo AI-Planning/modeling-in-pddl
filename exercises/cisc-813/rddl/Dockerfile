@@ -64,16 +64,26 @@ WORKDIR /workspace
 RUN git clone https://github.com/prost-planner/prost
 WORKDIR /workspace/prost
 RUN python build.py
+RUN cp builds/release/rddl_parser/rddl-parser rddl-parser-release
+RUN cp builds/release/search/search search-release
+
 
 WORKDIR /workspace
-RUN ls
 # Copy in the run scripts
 COPY run.py /workspace/pyRDDLGym/run.py
-COPY run.sh /workspace/run.sh
 
 RUN chmod a+x /workspace/run.sh
 
+WORKDIR /workspace/pyRDDLGym
+RUN git pull
+WORKDIR /workspace
 
-# ENTRYPOINT ["/bin/bash"]
-ENTRYPOINT ["/workspace/run.sh"]
+RUN mkdir /workspace/bin
+COPY run.sh /workspace/bin/rddlprost
+
+ENV PATH="/workspace/bin:${PATH}"
+RUN chmod -R 777 /workspace/bin
+
+
+ENTRYPOINT ["/bin/bash"]
 
