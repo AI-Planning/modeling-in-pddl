@@ -49,12 +49,17 @@ This tutorial walks students through increasingly complex applications of non-de
 
 - Focuses on the RDDL language.
 - Exercise walks through the fire fighter domain.
+- Slides for the tutorial are [here](rddl/slides.pptx).
 
 ### Setup
 
 - Use the custom Dockerfile provided in the [`rddl`](rddl/) directory.
-- It will take a while to build (largely due to z3 being required), but following the instructions there will get it to an apptainer .sif than can be run as a stand-alone executable.
-- Alternatively, this may be offered via planutils as a package to install.
+- It will take a while to build (largely due to z3 being required)
+- Once built, students can mount a local directory (with their rddl code in it) using,
+
+```bash
+docker run -it -v $(pwd):/PROJECT rddlprost
+```
 
 ----
 
