@@ -8,7 +8,6 @@
         ; Set up home
         (at home)
         (observed home)
-        (road home home)
 
         (road home l1)
         (road l1 home)
@@ -32,6 +31,7 @@
         (road l5 l3)
         (road l4 l5)
         (road l5 l4)
+
     )
 
     ; Goal to get to the end of the street
@@ -40,4 +40,5 @@
             (at l5)
         )
     )
+
 )

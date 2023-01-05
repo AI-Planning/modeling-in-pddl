@@ -7,7 +7,8 @@
 
         ; Set up home
         (at home)
-        (observed home)
+        (home home)
+        (observed home home)
         (road home home)
 
         (road home l1)
@@ -32,12 +33,18 @@
         (road l5 l3)
         (road l4 l5)
         (road l5 l4)
+
+        (= (total-cost) 0)
     )
 
     ; Goal to get to the end of the street
     (:goal
         (and
-            (at l5)
+            (done)
         )
+    )
+
+    (:metric minimize
+        (total-cost)
     )
 )

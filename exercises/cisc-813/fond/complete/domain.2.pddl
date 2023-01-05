@@ -27,25 +27,30 @@
         )
 
         :effect (and
-
             (not (at ?x))
             (at ?y)
-
-            ; Observe snow status on all connected locations
-            (forall
-                (?z)
-                (when
-                    (and
-                        (road ?y ?z)
-                        (not (observed ?z)))
-                    (and
-                        (observed ?z)
-                        (oneof
-                            (snow ?z)
-                            (not (snow ?z))))
-                )
-            )
         )
+    )
+
+    (:action look
+
+        :parameters (?x ?y)
+
+        :precondition (and
+            (at ?x)
+            (road ?x ?y)
+            (not (observed ?y))
+        )
+
+        :effect (and
+
+            (observed ?y)
+
+            (oneof
+                (snow ?y)
+                (not (snow ?y)))
+        )
+
     )
 
 )

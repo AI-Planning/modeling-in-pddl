@@ -2,13 +2,18 @@
 
 (define (domain snow3)
 
-    (:requirements :conditional-effects :negative-preconditions :equality :adl :non-deterministic)
+    (:requirements :action-costs :conditional-effects :negative-preconditions :equality :adl :non-deterministic)
 
     (:predicates
         (at ?x)
         (road ?x ?y)
         (snow ?x)
+        (home ?x)
         (observed ?x)
+    )
+
+    (:functions
+        (total-cost)
     )
 
     (:action move
@@ -45,6 +50,24 @@
                             (not (snow ?z))))
                 )
             )
+
+            (increase (total-cost) 1)
+        )
+    )
+
+    ; Sleeping at home resets the observed status of all locations
+    (:action sleep
+        :parameters (?x)
+        :precondition (and
+            (at ?x)
+            (home ?x)
+        )
+        :effect (and
+            (forall
+                (?y)
+                (when
+                    (not (home ?y)) (not (observed ?y))))
+            (increase (total-cost) 100)
         )
     )
 
