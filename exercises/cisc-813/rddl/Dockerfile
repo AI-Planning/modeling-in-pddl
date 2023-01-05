@@ -67,23 +67,15 @@ RUN python build.py
 RUN cp builds/release/rddl_parser/rddl-parser rddl-parser-release
 RUN cp builds/release/search/search search-release
 
-
-WORKDIR /workspace
 # Copy in the run scripts
 COPY run.py /workspace/pyRDDLGym/run.py
-
-RUN chmod a+x /workspace/run.sh
-
-WORKDIR /workspace/pyRDDLGym
-RUN git pull
-WORKDIR /workspace
-
 RUN mkdir /workspace/bin
 COPY run.sh /workspace/bin/rddlprost
 
 ENV PATH="/workspace/bin:${PATH}"
 RUN chmod -R 777 /workspace/bin
 
+WORKDIR /PROJECT
 
 ENTRYPOINT ["/bin/bash"]
 
