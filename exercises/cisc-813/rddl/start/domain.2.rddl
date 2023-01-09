@@ -34,7 +34,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-domain wildfire_mdp {
+domain wildfire_mdp_v1 {
 
 	types {
 		x-pos : object;
@@ -68,7 +68,7 @@ domain wildfire_mdp {
 	cpfs {
 
 		burning'(?x, ?y) =
-			if ( put-out(?x, ?y) ) // Intervention to put out fire?
+			if ( put-out(?x,?y) ) // Intervention to put out fire?
 				then false
             // Modification: targets can only start to burn if at least one neighbor is on fire
             else if (~out-of-fuel(?x, ?y) ^ ~burning(?x, ?y)) // Ignition of a new fire? Depends on neighbors.
@@ -91,3 +91,4 @@ domain wildfire_mdp {
  	  + [sum_{?x: x-pos, ?y: y-pos} [ PENALTY-NONTARGET-BURN*[ burning(?x, ?y) ^ ~TARGET(?x, ?y) ]]];
 
 }
+
