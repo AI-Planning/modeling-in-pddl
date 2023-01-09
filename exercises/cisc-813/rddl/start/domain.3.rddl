@@ -3,10 +3,6 @@
 // A boolean version of the wildfire fighting domain.
 //
 // V2 CHANGE: modify Wildfire so that a cell stops burning as soon as it is out of fuel
-// V3 CHANGE: add a new column of locations without vertical connections
-// V4 CHANGE: Extend the v3 modification to add a new fluent almost-out-of-fuel that
-//            allows a fire to burn for three time steps, i.e., a burning cell
-//            progresses to almost-out-of-fuel then out-of-fuel.
 //
 // Author: Zhenyu Yu (fry3721@gmail.com)
 //
@@ -40,7 +36,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-domain wildfire_mdp_v4 {
+domain wildfire_mdp_v3 {
 
 	types {
 		x_pos : object;
@@ -65,9 +61,6 @@ domain wildfire_mdp_v4 {
 		burning(x_pos, y_pos)     : { state-fluent, bool, default = false }; // cell currently on fire
 		out-of-fuel(x_pos, y_pos) : { state-fluent, bool, default = false }; // cell does not have fuel to burn (i.e., cut-out or already burned)
 
-		// V4 ADDITION
-		almost-out-of-fuel(x_pos, y_pos) : { state-fluent, bool, default = false }; // cell is almost out-of-fuel
-
 		// Action fluents
 		put-out(x_pos, y_pos) : { action-fluent, bool, default = false }; // actions to put-out out the fire
 		cut-out(x_pos, y_pos) : { action-fluent, bool, default = false }; // cut-out out the fuel
@@ -89,19 +82,13 @@ domain wildfire_mdp_v4 {
 				burning(?x, ?y); // State persists
 
 		// Modification: only allow non-target cells to be cut-out (cannot remove fuel from targets, e.g., housing)
+		out-of-fuel'(?x, ?y) = out-of-fuel(?x, ?y) | burning(?x,?y) | (~TARGET(?x, ?y) ^ cut-out(?x, ?y));
 
-		// V4 CHANGE: burning no longer leads to out-of-fuel, but almost out-of-fuel leads to out-of-fuel
-		// OLD: out-of-fuel'(?x, ?y) = out-of-fuel(?x, ?y) | burning(?x,?y) | (~TARGET(?x, ?y) ^ cut-out(?x, ?y));
-		// NEW:
-		out-of-fuel'(?x, ?y) = out-of-fuel(?x, ?y) | (almost-out-of-fuel(?x, ?y) ^ burning(?x, ?y)) | (~TARGET(?x, ?y) ^ cut-out(?x, ?y));
-
-		// V4 CHANGE: need to add transition for new fluent -- burning can cause, otherwise previous state persists
-		almost-out-of-fuel'(?x,?y) = almost-out-of-fuel(?x, ?y) | burning(?x, ?y);
 	};
 
 	reward =
- 	    [sum_{?x: x_pos, ?y: y_pos} [ COST-CUTOUT*cut-out(?x, ?y) ]]
- 	  + [sum_{?x: x_pos, ?y: y_pos} [ COST-PUTOUT*put-out(?x, ?y) ]]
+ 	    [sum_{?x: x_pos, ?y: y_pos} [ COST-CUTOUT*cut-out(?x,?y) ]]
+ 	  + [sum_{?x: x_pos, ?y: y_pos} [ COST-PUTOUT*put-out(?x,?y) ]]
  	    // Modification: if a target is out-of-fuel, it was burnt so still penalize (since it could not have been cut-out)
  	  + [sum_{?x: x_pos, ?y: y_pos} [ PENALTY-TARGET-BURN*[ (burning(?x, ?y) | out-of-fuel(?x, ?y)) ^ TARGET(?x, ?y) ]]]
  	  + [sum_{?x: x_pos, ?y: y_pos} [ PENALTY-NONTARGET-BURN*[ burning(?x, ?y) ^ ~TARGET(?x, ?y) ]]];

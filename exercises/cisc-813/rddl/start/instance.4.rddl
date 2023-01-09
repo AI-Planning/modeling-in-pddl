@@ -68,13 +68,13 @@ non-fluents nf_wildfire_inst_mdp__1_v4 {
 }
 
 instance wildfire_inst_mdp__1_v4 {
-	domain = wildfire_mdp_v4;
+	domain = wildfire_mdp_v3;
 	non-fluents = nf_wildfire_inst_mdp__1_v4;
 	init-state {
 		burning(x1,y3);
 	};
 
 	max-nondef-actions = 1;
-	horizon  = 4;
+	horizon  = 40;
 	discount = 1.0;
 }
