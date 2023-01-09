@@ -8,25 +8,14 @@ GREEN = '\x1b[6;30;42m'
 
 
 def main(data):
-    trace = [
-        {
-            'a': True,
-            'b': False,
-            'c': False,
-        },
-        {
-            'a': False,
-            'b': True,
-            'c': False,
-        },
-        {
-            'a': False,
-            'b': False,
-            'c': True,
-        }
-    ]
+    traces = []
+    for trace in data:
+        traces.append([])
+        for step in trace:
+            traces[-1].append(step['state'])
 
-    print_trace(trace)
+    for trace in traces:
+        print_trace(trace)
 
 def print_trace(trace):
 
