@@ -71,6 +71,10 @@ RUN cp builds/release/search/search search-release
 COPY run.py /workspace/pyRDDLGym/run.py
 RUN mkdir /workspace/bin
 COPY run.sh /workspace/bin/rddlprost
+COPY viz.py /workspace/bin/viz.py
+
+# Add alias to vizualize things
+RUN echo "alias viz='python3 /workspace/bin/viz.py'" >> ~/.bashrc
 
 ENV PATH="/workspace/bin:${PATH}"
 RUN chmod -R 777 /workspace/bin
