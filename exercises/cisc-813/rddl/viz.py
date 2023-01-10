@@ -3,9 +3,9 @@ import argparse, json
 
 USAGE = "python viz.py data.json"
 
-RED = '\x1b[6;30;41m'
-DARKRED = '\x1b[6;30;48;5;124m'
-GREEN = '\x1b[6;30;42m'
+RED = '\x1b[6;30;48;2;255;0;0m'
+DARKRED = '\x1b[6;30;48;2;124m'
+GREEN = '\x1b[6;30;48;5;120m'
 DARKGREEN = '\x1b[6;30;48;5;28m'
 
 
