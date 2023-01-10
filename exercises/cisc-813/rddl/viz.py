@@ -4,7 +4,9 @@ import argparse, json
 USAGE = "python viz.py data.json"
 
 RED = '\x1b[6;30;41m'
+DARKRED = '\x1b[6;30;48;5;124m'
 GREEN = '\x1b[6;30;42m'
+DARKGREEN = '\x1b[6;30;48;5;28m'
 
 
 def main(data):
@@ -26,11 +28,19 @@ def print_trace(trace):
     for f in  fluents:
         # print the fluent right aligned with maxfluentlen characters
         print(f.rjust(maxfluentlen), end=' ')
+        lastf = "init"
         for t in trace:
-            if t[f]:
-                print(GREEN + '  ' + '\x1b[0m', end=' ')
+            if t[f] != lastf:
+                lastf = t[f]
+                if t[f]:
+                    print(GREEN + '  ' + '\x1b[0m', end=' ')
+                else:
+                    print(RED + '  ' + '\x1b[0m', end=' ')
             else:
-                print(RED + '  ' + '\x1b[0m', end=' ')
+                if t[f]:
+                    print(DARKGREEN + '  ' + '\x1b[0m', end=' ')
+                else:
+                    print(DARKRED + '  ' + '\x1b[0m', end=' ')
         print()
     print()
 
