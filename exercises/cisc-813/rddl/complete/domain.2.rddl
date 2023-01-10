@@ -39,8 +39,8 @@
 domain wildfire_mdp_v2 {
 
 	types {
-		x_pos : object;
-		y_pos : object;
+		x-pos : object;
+		y-pos : object;
 	};
 
 	pvariables {
@@ -52,18 +52,18 @@ domain wildfire_mdp_v2 {
 		PENALTY-NONTARGET-BURN : {non-fluent, real, default =   -5 }; // Penalty for each non-target cell that is burning
 
 		// Topology of the cells (can be any neighborhood topology, not necessarily rectangular)
-		NEIGHBOR(x_pos, y_pos, x_pos, y_pos) : { non-fluent, bool, default = false };
+		NEIGHBOR(x-pos, y-pos, x-pos, y-pos) : { non-fluent, bool, default = false };
 
 		// High value cells that should be protected from fire
-		TARGET(x_pos, y_pos) : {non-fluent, bool, default = false };
+		TARGET(x-pos, y-pos) : {non-fluent, bool, default = false };
 
 		// State fluents
-		burning(x_pos, y_pos)     : { state-fluent, bool, default = false }; // cell currently on fire
-		out-of-fuel(x_pos, y_pos) : { state-fluent, bool, default = false }; // cell does not have fuel to burn (i.e., cut-out or already burned)
+		burning(x-pos, y-pos)     : { state-fluent, bool, default = false }; // cell currently on fire
+		out-of-fuel(x-pos, y-pos) : { state-fluent, bool, default = false }; // cell does not have fuel to burn (i.e., cut-out or already burned)
 
 		// Action fluents
-		put-out(x_pos, y_pos) : { action-fluent, bool, default = false }; // actions to put-out out the fire
-		cut-out(x_pos, y_pos) : { action-fluent, bool, default = false }; // cut-out out the fuel
+		put-out(x-pos, y-pos) : { action-fluent, bool, default = false }; // actions to put-out out the fire
+		cut-out(x-pos, y-pos) : { action-fluent, bool, default = false }; // cut-out out the fuel
 
 	};
 
@@ -75,9 +75,9 @@ domain wildfire_mdp_v2 {
 				then false
             // Modification: targets can only start to burn if at least one neighbor is on fire
             else if (~out-of-fuel(?x, ?y) ^ ~burning(?x, ?y)) // Ignition of a new fire? Depends on neighbors.
-              then [if (TARGET(?x, ?y) ^ ~exists_{?x2: x_pos, ?y2: y_pos} (NEIGHBOR(?x, ?y, ?x2, ?y2) ^ burning(?x2, ?y2)))
+              then [if (TARGET(?x, ?y) ^ ~exists_{?x2: x-pos, ?y2: y-pos} (NEIGHBOR(?x, ?y, ?x2, ?y2) ^ burning(?x2, ?y2)))
                     then false
-                    else Bernoulli( 1.0 / (1.0 + exp[4.5 - (sum_{?x2: x_pos, ?y2: y_pos} (NEIGHBOR(?x, ?y, ?x2, ?y2) ^ burning(?x2, ?y2)))]) ) ]
+                    else Bernoulli( 1.0 / (1.0 + exp[4.5 - (sum_{?x2: x-pos, ?y2: y-pos} (NEIGHBOR(?x, ?y, ?x2, ?y2) ^ burning(?x2, ?y2)))]) ) ]
 			else
 				burning(?x, ?y); // State persists
 
@@ -87,11 +87,11 @@ domain wildfire_mdp_v2 {
 	};
 
 	reward =
- 	    [sum_{?x: x_pos, ?y: y_pos} [ COST-CUTOUT*cut-out(?x,?y) ]]
- 	  + [sum_{?x: x_pos, ?y: y_pos} [ COST-PUTOUT*put-out(?x,?y) ]]
+ 	    [sum_{?x: x-pos, ?y: y-pos} [ COST-CUTOUT*cut-out(?x, ?y) ]]
+ 	  + [sum_{?x: x-pos, ?y: y-pos} [ COST-PUTOUT*put-out(?x, ?y) ]]
  	    // Modification: if a target is out-of-fuel, it was burnt so still penalize (since it could not have been cut-out)
- 	  + [sum_{?x: x_pos, ?y: y_pos} [ PENALTY-TARGET-BURN*[ (burning(?x, ?y) | out-of-fuel(?x, ?y)) ^ TARGET(?x, ?y) ]]]
- 	  + [sum_{?x: x_pos, ?y: y_pos} [ PENALTY-NONTARGET-BURN*[ burning(?x, ?y) ^ ~TARGET(?x, ?y) ]]];
+ 	  + [sum_{?x: x-pos, ?y: y-pos} [ PENALTY-TARGET-BURN*[ (burning(?x, ?y) | out-of-fuel(?x, ?y)) ^ TARGET(?x, ?y) ]]]
+ 	  + [sum_{?x: x-pos, ?y: y-pos} [ PENALTY-NONTARGET-BURN*[ burning(?x, ?y) ^ ~TARGET(?x, ?y) ]]];
 
 }
 

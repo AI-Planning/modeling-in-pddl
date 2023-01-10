@@ -79,7 +79,7 @@ domain wildfire_mdp_v5 {
 				burning(?x, ?y); // State persists
 
 		// Modification: only allow non-target cells to be cut-out (cannot remove fuel from targets, e.g., housing)
-		out-of-fuel'(?x, ?y) = out-of-fuel(?x, ?y) | burning(?x,?y) | (~TARGET(?x, ?y) ^ cut-out(?x, ?y));
+		out-of-fuel'(?x, ?y) = out-of-fuel(?x, ?y) | burning(?x, ?y) | (~TARGET(?x, ?y) ^ cut-out(?x, ?y));
 
 	};
 
