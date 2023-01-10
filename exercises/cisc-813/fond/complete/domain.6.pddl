@@ -8,8 +8,8 @@
         (at ?x)
         (road ?x ?y)
         (snow ?x ?y)
+        (maybe-snow ?x ?y)
         (home ?x)
-        (observed ?x ?y)
         (mustsleep)
         (done)
     )
@@ -30,7 +30,7 @@
             ; Can only travel if there's a road and the
             ; destination is observed to be snow free
             (road ?x ?y)
-            (observed ?x ?y)
+            (not (maybe-snow ?x ?y))
             (not (snow ?x ?y))
         )
 
@@ -51,9 +51,13 @@
             (home ?x)
         )
         :effect (and
+            (not (mustsleep))
             (forall
                 (?y ?z)
-                (not (observed ?y ?z)))
+                (when
+                    (road ?y ?z)
+                    (and (not (snow ?y ?z)) (maybe-snow ?y ?z)))
+            )
             (increase (total-cost) 1)
         )
     )
@@ -65,14 +69,14 @@
         :precondition (and
             (at ?x)
             (road ?x ?y)
-            (not (observed ?x ?y))
+            (maybe-snow ?x ?y)
             (not (mustsleep))
         )
 
         :effect (and
 
-            (observed ?x ?y)
-            (observed ?y ?x)
+            (not (maybe-snow ?x ?y))
+            (not (maybe-snow ?y ?x))
 
             (oneof
                 ; snowy
@@ -97,7 +101,7 @@
             (at ?x)
             (road ?x ?y)
             (snow ?x ?y)
-            (observed ?x ?y)
+            (not (maybe-snow ?x ?y))
             (not (mustsleep))
         )
         :effect (and
@@ -114,9 +118,11 @@
             (not (mustsleep))
             (forall
                 (?y ?z)
-                (imply
-                    (road ?x ?y)
-                    (and (observed ?x ?y) (not (snow ?x ?y)))))
+                (and
+                    (not (maybe-snow ?y ?z))
+                    (not (snow ?y ?z))
+                )
+            )
         )
         :effect (and
             (mustsleep)

@@ -50,7 +50,11 @@
         :effect (and
             (forall
                 (?y ?z)
-                (not (observed ?y ?z)))
+                (and
+                    (not (observed ?y ?z))
+                    (not (snow ?y ?z))
+                )
+            )
             (increase (total-cost) 1)
         )
     )
