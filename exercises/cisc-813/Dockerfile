@@ -60,5 +60,6 @@ RUN planutils install -f -y poprp
 # Misc
 RUN planutils install -f -y val
 
+WORKDIR /root/cisc813
 
 CMD planutils activate
