@@ -8,10 +8,13 @@
         (at ?x)
         (road ?x ?y)
         (snow ?x ?y)
-        (maybe-snow ?x ?y)
+        (maybe-snow ?x ?y) ; NOTE: Shifted to a "maybe-snow" instead of "observed" predicate
         (home ?x)
-        (mustsleep)
-        (done)
+
+
+        ; NOTE: Two new fluents
+        (mustsleep) ; TODO: make sure this is false for every action except sleep
+        (done) ; NOTE: This is the new goal
     )
 
     (:functions
@@ -25,13 +28,12 @@
         :precondition (and
 
             (at ?x)
-            (not (mustsleep))
 
             ; Can only travel if there's a road and the
             ; destination is observed to be snow free
             (road ?x ?y)
-            (not (maybe-snow ?x ?y))
-            (not (snow ?x ?y))
+
+            ; TODO: shouldn't be snow (and shouldn't maybe be snow)
         )
 
         :effect (and
@@ -51,13 +53,11 @@
             (home ?x)
         )
         :effect (and
-            (not (mustsleep))
-            (forall
-                (?y ?z)
-                (when
-                    (road ?y ?z)
-                    (and (not (snow ?y ?z)) (maybe-snow ?y ?z)))
-            )
+
+            ; TODO: No longer need to sleep
+
+            ; TODO: Every road has it's snow and maybe-snow status reset
+
             (increase (total-cost) 1)
         )
     )
@@ -67,10 +67,9 @@
         :parameters (?x ?y)
 
         :precondition (and
-            (at ?x)
-            (road ?x ?y)
-            (maybe-snow ?x ?y)
-            (not (mustsleep))
+
+            ; TODO: Can only look at adjacent locations when there may be snow
+
         )
 
         :effect (and
@@ -98,14 +97,10 @@
     (:action plow
         :parameters (?x ?y)
         :precondition (and
-            (at ?x)
-            (road ?x ?y)
-            (snow ?x ?y)
-            (not (maybe-snow ?x ?y))
-            (not (mustsleep))
+            ; TODO: Can plow the road to an adjacent location if there's certainly snow
         )
         :effect (and
-            (not (snow ?x ?y))
+            ; TODO: Road is now snow free
             (increase (total-cost) 10)
         )
     )
@@ -113,22 +108,10 @@
     (:action done
         :parameters (?x)
         :precondition (and
-            (home ?x)
-            (at ?x)
-            (not (mustsleep))
-            (forall
-                (?y ?z)
-                (and
-                    (not (maybe-snow ?y ?z))
-                    (not (snow ?y ?z))
-                )
-            )
+            ; TODO: Can only be done if at home and all roads are known to be snow free.
         )
         :effect (and
-            (mustsleep)
-            (oneof
-                (done)
-                (not (done)))
+            ; TODO: Been a long day. Now you must sleep and you're possibly done (or not ;)).
         )
     )
 )

@@ -9,6 +9,9 @@
         (road ?x ?y)
         (snow ?x ?y)
         (home ?x)
+
+
+        ; NOTE: We've now made the /road/ observable
         (observed ?x ?y)
     )
 
@@ -64,29 +67,16 @@
         :parameters (?x ?y)
 
         :precondition (and
-            (at ?x)
-            (road ?x ?y)
-            (not (observed ?x ?y))
+            ; TODO: Can look at an unobserved adjacent location
         )
 
         :effect (and
 
-            (observed ?x ?y)
-            (observed ?y ?x)
+            ; TODO: Both directions of the road are observed
 
-            (oneof
-                ; snowy
-                (oneof
-                    (and (snow ?x ?y) (not (snow ?y ?x)))
-                    (and (snow ?y ?x) (not (snow ?x ?y)))
-                )
-
-                ; not snowy
-                (and
-                    (not (snow ?x ?y))
-                    (not (snow ?y ?x))
-                )
-            )
+            ; TODO: Either snow is detected or not
+            ; TODO: If snow is detected, then one one direction has snow
+            ; HINT: Use a nested oneof
         )
 
     )
