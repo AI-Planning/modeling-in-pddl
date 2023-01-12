@@ -8,10 +8,11 @@
         (at ?x)
         (road ?x ?y)
         (snow ?x)
-        (home ?x)
+        (home ?x) ; NOTE: We now want to know when we're home
         (observed ?x)
     )
 
+    ; NOTE: Used so cheaper plans are preferred
     (:functions
         (total-cost)
     )
@@ -51,6 +52,7 @@
                 )
             )
 
+            ; NOTE: Small price to move around
             (increase (total-cost) 1)
         )
     )
@@ -59,14 +61,12 @@
     (:action sleep
         :parameters (?x)
         :precondition (and
-            (at ?x)
-            (home ?x)
+            ; TODO: Should be at home
         )
         :effect (and
-            (forall
-                (?y)
-                (when
-                    (not (home ?y)) (not (observed ?y))))
+            ; TODO: Every location that's not home is no longer observed
+
+            ; NOTE: Sleeping is very expensive (otherwise we'd just sleep all the time!)
             (increase (total-cost) 100)
         )
     )

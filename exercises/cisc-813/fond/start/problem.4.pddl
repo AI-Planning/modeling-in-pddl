@@ -7,7 +7,7 @@
 
         ; Set up home
         (at home)
-        (home home)
+        (home home) ; NOTE: The first "home" is a fluent while the second "home" is the object
         (observed home)
         (road home home)
 
@@ -34,7 +34,7 @@
         (road l4 l5)
         (road l5 l4)
 
-        (= (total-cost) 0)
+        (= (total-cost) 0) ; NOTE: Simple start to get cheaper plans
     )
 
     ; Goal to get to the end of the street
@@ -44,6 +44,7 @@
         )
     )
 
+    ; NOTE: This is how we tell the planner to minimize the total cost
     (:metric minimize
         (total-cost)
     )

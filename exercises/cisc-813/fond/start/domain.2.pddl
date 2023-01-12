@@ -22,7 +22,7 @@
             ; Can only travel if there's a road and the
             ; destination is observed to be snow free
             (road ?x ?y)
-            (observed ?y)
+            (observed ?y) ; NOTE: This was added as a precondition
             (not (snow ?y))
         )
 
@@ -37,18 +37,15 @@
         :parameters (?x ?y)
 
         :precondition (and
-            (at ?x)
-            (road ?x ?y)
-            (not (observed ?y))
+
+            ; TODO: Can only look at an unobserved destination next to where we are
+
         )
 
         :effect (and
 
-            (observed ?y)
+            ; TODO: It's observed, and either snowy or snow-free
 
-            (oneof
-                (snow ?y)
-                (not (snow ?y)))
         )
 
     )

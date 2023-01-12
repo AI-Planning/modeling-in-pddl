@@ -31,20 +31,8 @@
             (not (at ?x))
             (at ?y)
 
-            ; Observe snow status on all connected locations
-            (forall
-                (?z)
-                (when
-                    (and
-                        (road ?y ?z)
-                        (not (observed ?z)))
-                    (and
-                        (observed ?z)
-                        (oneof
-                            (snow ?z)
-                            (not (snow ?z))))
-                )
-            )
+            ; TODO: Observe snow status on all connected locations not yet observed
+
         )
     )
 

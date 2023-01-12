@@ -11,7 +11,7 @@
 
         (road home l1)
         (road l1 home)
-        (maybe-snow home l1)
+        (maybe-snow home l1) ; NOTE: All roads now maybe have snow
         (maybe-snow l1 home)
 
         (road home l2)
@@ -54,7 +54,7 @@
     ; Goal to get to the end of the street
     (:goal
         (and
-            (done)
+            (done) ; NOTE: New goal
         )
     )
 

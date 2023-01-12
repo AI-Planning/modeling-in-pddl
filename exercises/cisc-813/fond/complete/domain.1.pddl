@@ -8,7 +8,6 @@
         (at ?x)
         (road ?x ?y)
         (snow ?x)
-        (observed ?x)
     )
 
     (:action move

@@ -6,6 +6,7 @@
     (:init
 
         ; Set up home
+        ; NOTE: Because we want to observe things connected to home, we add a road from home to home
         (at home)
         (observed home)
         (road home home)

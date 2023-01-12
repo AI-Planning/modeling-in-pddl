@@ -8,7 +8,6 @@
         (at ?x)
         (road ?x ?y)
         (snow ?x)
-        (observed ?x)
     )
 
     (:action move
@@ -17,17 +16,14 @@
 
         :precondition (and
 
-            (at ?x)
+            ; TODO: Must be in the right location, road must exist, and it must be snow-free
 
-            ; Can only travel if there's a road and the
-            ; destination is observed to be snow free
-            (road ?x ?y)
-            (not (snow ?y))
         )
 
         :effect (and
-            (not (at ?x))
-            (at ?y)
+
+            ; TODO: Update the location
+
         )
     )
 )
