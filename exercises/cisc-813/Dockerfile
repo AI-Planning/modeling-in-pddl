@@ -28,8 +28,7 @@ RUN planutils install -f -y prp
 RUN mkdir /workspace
 RUN mkdir /workspace/bin
 COPY fond/prpviz.py /workspace/bin/prpviz.py
-# TODO: Fetch the prppp .sif
-# COPY fond/prppp.sif /workspace/bin/prppp.sif
+COPY fond/prppp.sif /workspace/bin/prppp.sif
 # Add bash scripts
 RUN echo "#!/bin/bash" >> /usr/local/bin/prpviz
 RUN echo "python3 /workspace/bin/prpviz.py \$@" >> /usr/local/bin/prpviz
@@ -45,7 +44,7 @@ RUN chmod 777 /usr/local/bin/prppp
 
 # PPOS
 RUN planutils install -f -y poprp
-# RUN planutils install -f -y cpor
+RUN planutils install -f -y cpor
 
 
 # Temporal
