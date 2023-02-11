@@ -76,6 +76,10 @@ COPY viz.py /workspace/bin/viz.py
 # Add alias to vizualize things
 RUN echo "alias viz='python3 /workspace/bin/viz.py'" >> ~/.bashrc
 
+COPY ../fetch.py /workspace/fetch.py
+RUN echo "#!/bin/bash" >> /workspace/bin/fetch-exercise
+RUN echo "python3 /workspace/bin/fetch.py \$@" >> /workspace/bin/fetch-exercise
+
 ENV PATH="/workspace/bin:${PATH}"
 RUN chmod -R 777 /workspace/bin
 
