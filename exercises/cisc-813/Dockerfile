@@ -59,6 +59,11 @@ RUN planutils install -f -y cpor
 # Misc
 RUN planutils install -f -y val
 
+COPY fetch.py /workspace/bin/fetch.py
+RUN echo "#!/bin/bash" >> /usr/local/bin/fetch-exercise
+RUN echo "python3 /workspace/bin/fetch.py \$@" >> /usr/local/bin/fetch-exercise
+RUN chmod 777 /usr/local/bin/fetch-exercise
+
 WORKDIR /root/cisc813
 
 CMD planutils activate
