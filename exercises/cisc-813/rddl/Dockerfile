@@ -46,12 +46,14 @@ ENV Z3_ROOT=/workspace/z3-install
 
 
 # install pyrddl
+RUN apt-get install --no-install-recommends -y libsdl2-dev libfreetype6-dev
 RUN pip3 install --upgrade ply
 RUN pip3 install --upgrade pillow
 RUN pip3 install --upgrade numpy
 RUN pip3 install --upgrade matplotlib
 RUN pip3 install --upgrade gym
 RUN pip3 install --upgrade pygame
+RUN pip3 install --upgrade requests
 
 
 # RUN pip3 install --upgrade pyRDDLGym
@@ -76,9 +78,9 @@ COPY viz.py /workspace/bin/viz.py
 # Add alias to vizualize things
 RUN echo "alias viz='python3 /workspace/bin/viz.py'" >> ~/.bashrc
 
-COPY ../fetch.py /workspace/fetch.py
+COPY fetch.py /workspace/fetch.py
 RUN echo "#!/bin/bash" >> /workspace/bin/fetch-exercise
-RUN echo "python3 /workspace/bin/fetch.py \$@" >> /workspace/bin/fetch-exercise
+RUN echo "python3 /workspace/fetch.py \$@" >> /workspace/bin/fetch-exercise
 
 ENV PATH="/workspace/bin:${PATH}"
 RUN chmod -R 777 /workspace/bin
