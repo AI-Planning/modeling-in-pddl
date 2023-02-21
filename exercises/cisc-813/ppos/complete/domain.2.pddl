@@ -1,8 +1,8 @@
 
 (define (domain secredoku)
 
-    (:requirements :strips :typing)
-    (:types loc num)
+    (:requirements :strips :typing :negative-preconditions)
+    (:types loc num direction)
 
     (:constants
         num1 num2 num3 num4 - num
@@ -14,9 +14,7 @@
         (solved ?l - loc)
         (assigned ?l - loc ?n - num)
         (at ?l - loc)
-        (link ?l1 ?l2 - loc ?d - direction)
-        (wall ?l1 ?l2 - loc)
-        (started)
+        (link ?l1 ?l2 - loc)
     )
 
     (:action check
@@ -24,21 +22,30 @@
         :precondition (and
             (at ?loc)
             (not (solved ?loc))
-            (not (assigned ?loc ?n))
         )
         :observe (assigned ?loc ?n)
     )
 
-    (:action move-east
-        :parameters (?d - direction)
+    (:action move
+        :parameters (?l1 ?l2 - loc)
         :precondition (and
-            (started)
+            (at ?l1)
+            (link ?l1 ?l2)
         )
         :effect (and
-            (when (at l11) (at l21))
+            (at ?l2)
+            (not (at ?l1))
         )
     )
 
+    (:action teleport
+        :parameters (?l1 ?l2 - loc)
+        :precondition(at ?l1)
+        :effect (and
+            (at ?l2)
+            (not (at ?l1))
+        )
+    )
 
     (:action solve
         :parameters (?loc - loc ?n - num)
