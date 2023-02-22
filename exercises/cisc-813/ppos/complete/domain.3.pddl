@@ -18,23 +18,34 @@
         (check-count ?n)
         (teleport-count ?n)
         (succ ?n1 ?n2 - num)
+        (can-check ?l - loc)
     )
 
     (:action check
-        :parameters (?loc - loc ?n ?n1 ?n2 - num)
+        :parameters (?loc - loc ?n - num)
         :precondition (and
             (at ?loc)
             (not (solved ?loc))
-            (succ ?n1 ?n2)
-            (check-count ?n1)
-            (not (check-count num12))
+            (can-check ?loc)
         )
         :observe (assigned ?loc ?n)
+    )
+
+    (:action setup-check
+        :parameters (?loc - loc ?n1 ?n2 - num)
+        :precondition (and
+            (at ?loc)
+            (succ ?n1 ?n2)
+            (check-count ?n1)
+            (not (check-count num14))
+        )
         :effect (and
-            (not (check-count ?n1))
             (check-count ?n2)
+            (not (check-count ?n1))
+            (can-check ?loc)
         )
     )
+
 
     (:action move
         :parameters (?l1 ?l2 - loc)
@@ -54,7 +65,7 @@
             (at ?l1)
             (succ ?n1 ?n2)
             (teleport-count ?n1)
-            (not (teleport-count num3))
+            (not (teleport-count num8))
         )
         :effect (and
             (at ?l2)

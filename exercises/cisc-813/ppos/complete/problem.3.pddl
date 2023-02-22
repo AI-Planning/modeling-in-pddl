@@ -86,6 +86,15 @@
             (teleport-count num0)
             (check-count num0)
 
+            (oneof (teleport-count num0) (teleport-count num1) (teleport-count num2) (teleport-count num3) (teleport-count num4) (teleport-count num5) (teleport-count num6) (teleport-count num7) (teleport-count num8) (teleport-count num9) (teleport-count num10) (teleport-count num11) (teleport-count num12) (teleport-count num13) (teleport-count num14) (teleport-count num15) (teleport-count num16))
+            (oneof (check-count num0) (check-count num1) (check-count num2) (check-count num3) (check-count num4) (check-count num5) (check-count num6) (check-count num7) (check-count num8) (check-count num9) (check-count num10) (check-count num11) (check-count num12) (check-count num13) (check-count num14) (check-count num15) (check-count num16))
+
+            ; Not can-check on all locations
+            (not (can-check l11)) (not (can-check l21)) (not (can-check l31)) (not (can-check l41))
+            (not (can-check l12)) (not (can-check l22)) (not (can-check l32)) (not (can-check l42))
+            (not (can-check l13)) (not (can-check l23)) (not (can-check l33)) (not (can-check l43))
+            (not (can-check l14)) (not (can-check l24)) (not (can-check l34)) (not (can-check l44))
+
             (assigned l11 num1)
             (assigned l32 num1)
             (assigned l23 num1)
