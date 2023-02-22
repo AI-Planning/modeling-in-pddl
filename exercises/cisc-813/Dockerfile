@@ -48,6 +48,8 @@ RUN planutils install -f -y cpor
 
 
 # Temporal
+RUN planutils install -f -y popf
+RUN planutils install -f -y optic
 
 
 # Hybrid
