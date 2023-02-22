@@ -82,50 +82,127 @@
             (succ num8 num9) (succ num9 num10) (succ num10 num11) (succ num11 num12)
             (succ num12 num13) (succ num13 num14) (succ num14 num15) (succ num15 num16)
 
-            ; For each location, even means it's num2 or num4
+            ; For each location, even means it's num2 or num4 (similar for odd)
             (or (not (even l11)) (assigned l11 num2) (assigned l11 num4))
+            (or (not (assigned l11 num2)) (even l11))
+            (or (not (assigned l11 num4)) (even l11))
             (or (even l11) (assigned l11 num1) (assigned l11 num3))
+            (or (not (assigned l11 num1)) (not (even l11)))
+            (or (not (assigned l11 num3)) (not (even l11)))
+
             (or (not (even l21)) (assigned l21 num2) (assigned l21 num4))
+            (or (not (assigned l21 num2)) (even l21))
+            (or (not (assigned l21 num4)) (even l21))
             (or (even l21) (assigned l21 num1) (assigned l21 num3))
+            (or (not (assigned l21 num1)) (not (even l21)))
+            (or (not (assigned l21 num3)) (not (even l21)))
+
             (or (not (even l31)) (assigned l31 num2) (assigned l31 num4))
+            (or (not (assigned l31 num2)) (even l31))
+            (or (not (assigned l31 num4)) (even l31))
             (or (even l31) (assigned l31 num1) (assigned l31 num3))
+            (or (not (assigned l31 num1)) (not (even l31)))
+            (or (not (assigned l31 num3)) (not (even l31)))
+
             (or (not (even l41)) (assigned l41 num2) (assigned l41 num4))
+            (or (not (assigned l41 num2)) (even l41))
+            (or (not (assigned l41 num4)) (even l41))
             (or (even l41) (assigned l41 num1) (assigned l41 num3))
+            (or (not (assigned l41 num1)) (not (even l41)))
+            (or (not (assigned l41 num3)) (not (even l41)))
+
             (or (not (even l12)) (assigned l12 num2) (assigned l12 num4))
+            (or (not (assigned l12 num2)) (even l12))
+            (or (not (assigned l12 num4)) (even l12))
             (or (even l12) (assigned l12 num1) (assigned l12 num3))
+            (or (not (assigned l12 num1)) (not (even l12)))
+            (or (not (assigned l12 num3)) (not (even l12)))
+
             (or (not (even l22)) (assigned l22 num2) (assigned l22 num4))
+            (or (not (assigned l22 num2)) (even l22))
+            (or (not (assigned l22 num4)) (even l22))
             (or (even l22) (assigned l22 num1) (assigned l22 num3))
+            (or (not (assigned l22 num1)) (not (even l22)))
+            (or (not (assigned l22 num3)) (not (even l22)))
+
             (or (not (even l32)) (assigned l32 num2) (assigned l32 num4))
+            (or (not (assigned l32 num2)) (even l32))
+            (or (not (assigned l32 num4)) (even l32))
             (or (even l32) (assigned l32 num1) (assigned l32 num3))
+            (or (not (assigned l32 num1)) (not (even l32)))
+            (or (not (assigned l32 num3)) (not (even l32)))
+
             (or (not (even l42)) (assigned l42 num2) (assigned l42 num4))
+            (or (not (assigned l42 num2)) (even l42))
+            (or (not (assigned l42 num4)) (even l42))
             (or (even l42) (assigned l42 num1) (assigned l42 num3))
+            (or (not (assigned l42 num1)) (not (even l42)))
+            (or (not (assigned l42 num3)) (not (even l42)))
+
             (or (not (even l13)) (assigned l13 num2) (assigned l13 num4))
+            (or (not (assigned l13 num2)) (even l13))
+            (or (not (assigned l13 num4)) (even l13))
             (or (even l13) (assigned l13 num1) (assigned l13 num3))
+            (or (not (assigned l13 num1)) (not (even l13)))
+            (or (not (assigned l13 num3)) (not (even l13)))
+
             (or (not (even l23)) (assigned l23 num2) (assigned l23 num4))
+            (or (not (assigned l23 num2)) (even l23))
+            (or (not (assigned l23 num4)) (even l23))
             (or (even l23) (assigned l23 num1) (assigned l23 num3))
+            (or (not (assigned l23 num1)) (not (even l23)))
+            (or (not (assigned l23 num3)) (not (even l23)))
+
             (or (not (even l33)) (assigned l33 num2) (assigned l33 num4))
+            (or (not (assigned l33 num2)) (even l33))
+            (or (not (assigned l33 num4)) (even l33))
             (or (even l33) (assigned l33 num1) (assigned l33 num3))
+            (or (not (assigned l33 num1)) (not (even l33)))
+            (or (not (assigned l33 num3)) (not (even l33)))
+
             (or (not (even l43)) (assigned l43 num2) (assigned l43 num4))
+            (or (not (assigned l43 num2)) (even l43))
+            (or (not (assigned l43 num4)) (even l43))
             (or (even l43) (assigned l43 num1) (assigned l43 num3))
+            (or (not (assigned l43 num1)) (not (even l43)))
+            (or (not (assigned l43 num3)) (not (even l43)))
+
             (or (not (even l14)) (assigned l14 num2) (assigned l14 num4))
+            (or (not (assigned l14 num2)) (even l14))
+            (or (not (assigned l14 num4)) (even l14))
             (or (even l14) (assigned l14 num1) (assigned l14 num3))
+            (or (not (assigned l14 num1)) (not (even l14)))
+            (or (not (assigned l14 num3)) (not (even l14)))
+
             (or (not (even l24)) (assigned l24 num2) (assigned l24 num4))
+            (or (not (assigned l24 num2)) (even l24))
+            (or (not (assigned l24 num4)) (even l24))
             (or (even l24) (assigned l24 num1) (assigned l24 num3))
+            (or (not (assigned l24 num1)) (not (even l24)))
+            (or (not (assigned l24 num3)) (not (even l24)))
+
             (or (not (even l34)) (assigned l34 num2) (assigned l34 num4))
+            (or (not (assigned l34 num2)) (even l34))
+            (or (not (assigned l34 num4)) (even l34))
             (or (even l34) (assigned l34 num1) (assigned l34 num3))
+            (or (not (assigned l34 num1)) (not (even l34)))
+            (or (not (assigned l34 num3)) (not (even l34)))
+
             (or (not (even l44)) (assigned l44 num2) (assigned l44 num4))
+            (or (not (assigned l44 num2)) (even l44))
+            (or (not (assigned l44 num4)) (even l44))
             (or (even l44) (assigned l44 num1) (assigned l44 num3))
+            (or (not (assigned l44 num1)) (not (even l44)))
+            (or (not (assigned l44 num3)) (not (even l44)))
 
 
 
             ; Initialize counts
             (teleport-count num0)
             (check-count num0)
-            (evenodd-count num0)
 
             (oneof (teleport-count num0) (teleport-count num1) (teleport-count num2) (teleport-count num3) (teleport-count num4) (teleport-count num5) (teleport-count num6) (teleport-count num7) (teleport-count num8) (teleport-count num9) (teleport-count num10) (teleport-count num11) (teleport-count num12) (teleport-count num13) (teleport-count num14) (teleport-count num15) (teleport-count num16))
             (oneof (check-count num0) (check-count num1) (check-count num2) (check-count num3) (check-count num4) (check-count num5) (check-count num6) (check-count num7) (check-count num8) (check-count num9) (check-count num10) (check-count num11) (check-count num12) (check-count num13) (check-count num14) (check-count num15) (check-count num16))
-            (oneof (evenodd-count num0) (evenodd-count num1) (evenodd-count num2) (evenodd-count num3) (evenodd-count num4) (evenodd-count num5) (evenodd-count num6) (evenodd-count num7) (evenodd-count num8) (evenodd-count num9) (evenodd-count num10) (evenodd-count num11) (evenodd-count num12) (evenodd-count num13) (evenodd-count num14) (evenodd-count num15) (evenodd-count num16))
 
             (assigned l11 num1)
             (assigned l32 num1)
@@ -139,10 +216,10 @@
 
     (:goal
         (and
-            (solved l11) (solved l21) (solved l31) (solved l41)
-            (solved l12) (solved l22) (solved l32) (solved l42)
-            (solved l13) (solved l23) (solved l33) (solved l43)
-            (solved l14) (solved l24) (solved l34) (solved l44)
+            (solved l11) (solved l21) ;(solved l31) (solved l41)
+            (solved l12) (solved l22) ;(solved l32) (solved l42)
+            (solved l13) (solved l23) ;(solved l33) (solved l43)
+            (solved l14) (solved l24) ;(solved l34) (solved l44)
         )
     )
 

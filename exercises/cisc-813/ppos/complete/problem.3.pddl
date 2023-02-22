@@ -107,10 +107,10 @@
 
     (:goal
         (and
-            (solved l11) (solved l21) (solved l31) (solved l41)
-            (solved l12) (solved l22) (solved l32) (solved l42)
-            (solved l13) (solved l23) (solved l33) (solved l43)
-            (solved l14) (solved l24) (solved l34) (solved l44)
+            (solved l11) (solved l21) ;(solved l31) (solved l41)
+            (solved l12) (solved l22) ;(solved l32) (solved l42)
+            (solved l13) (solved l23) ;(solved l33) (solved l43)
+            (solved l14) (solved l24) ;(solved l34) (solved l44)
         )
     )
 

@@ -7,7 +7,6 @@
     (:constants
         num1 num2 num3 num4 - num
         l11 l12 l13 l14 l21 l22 l23 l24 l31 l32 l33 l34 l41 l42 l43 l44 - loc
-        N S E W - direction
     )
 
     (:predicates

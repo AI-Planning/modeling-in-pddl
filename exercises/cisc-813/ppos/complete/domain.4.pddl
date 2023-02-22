@@ -7,7 +7,6 @@
     (:constants
         num0 num1 num2 num3 num4 num5 num6 num7 num8 num9 num10 num11 num12 num13 num14 num15 num16 - num
         l11 l12 l13 l14 l21 l22 l23 l24 l31 l32 l33 l34 l41 l42 l43 l44 - loc
-        N S E W - direction
     )
 
     (:predicates
@@ -17,40 +16,42 @@
         (link ?l1 ?l2 - loc)
         (check-count ?n)
         (teleport-count ?n)
-        (evenodd-count ?n)
         (succ ?n1 ?n2 - num)
+        (can-check ?l - loc)
         (even ?l - loc)
     )
 
+
     (:action check
-        :parameters (?loc - loc ?n ?n1 ?n2 - num)
+        :parameters (?loc - loc ?n - num)
         :precondition (and
             (at ?loc)
             (not (solved ?loc))
-            (succ ?n1 ?n2)
-            (check-count ?n1)
-            (not (check-count num0))
+            (can-check ?loc)
         )
         :observe (assigned ?loc ?n)
+    )_
+
+    (:action setup-check
+        :parameters (?loc - loc ?n1 ?n2 - num)
+        :precondition (and
+            (at ?loc)
+            (not (can-check ?loc))
+            (succ ?n1 ?n2)
+            (check-count ?n1)
+            (not (check-count num5)) ; try 5 down to 2 observing when it breaks
+        )
         :effect (and
-            (not (check-count ?n1))
             (check-count ?n2)
+            (not (check-count ?n1))
+            (can-check ?loc)
         )
     )
 
     (:action evenodd
-        :parameters (?loc - loc ?n1 ?n2 - num)
-        :precondition (and
-            (at ?loc)
-            (evenodd-count ?n1)
-            (succ ?n1 ?n2)
-            (not (evenodd-count num10))
-        )
+        :parameters (?loc - loc)
+        :precondition (at ?loc)
         :observe (even ?loc)
-        :effect (and
-            (not (evenodd-count ?n1))
-            (evenodd-count ?n2)
-        )
     )
 
 
@@ -72,7 +73,7 @@
             (at ?l1)
             (succ ?n1 ?n2)
             (teleport-count ?n1)
-            (not (teleport-count num3))
+            (not (teleport-count num1))
         )
         :effect (and
             (at ?l2)
