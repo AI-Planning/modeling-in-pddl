@@ -65,7 +65,7 @@ docker run -it -v $(pwd):/PROJECT rddlprost
 
 ## Partially Observable Planning
 
-Coming soon...
+Walks through Secredoku -- a made up domain that has an embodied agent walking around a Sudoku board (or teleporting) in order to solve things. Also explores how limited sensing can be done with an object-based counting mechanism. Planners used are POPRP and CPOR, both of which are equipped to visualize contingent plans. Slides and PDDL are in the [`ppos`](ppos/) directory.
 
 ----
 
