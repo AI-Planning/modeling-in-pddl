@@ -1,4 +1,4 @@
-(define (problem secredoku-2)
+(define (problem secredoku-4)
     (:domain secredoku)
 
     (:init
