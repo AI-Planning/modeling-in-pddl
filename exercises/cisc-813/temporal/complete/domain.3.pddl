@@ -23,7 +23,11 @@
         (not-chording)
         (note-in ?p - pitch ?c - chord)
         (current-chord ?c - chord)
+        (chord-change ?from ?to - chord)
+        (changing)
     )
+
+    (:constants silence - chord)
 
     (:functions
         (note-length ?l - length)
@@ -65,8 +69,10 @@
         :condition (and
             (at start (not-chording))
             (at start (< (chord-count) (max-chord-count)))
+            (at start (changing))
         )
         :effect (and
+            (at start (not (current-chord silence)))
             (at start (not (not-chording)))
             (at start (current-chord ?c))
             (at start (increase (chord-count) 1))
@@ -75,6 +81,18 @@
         )
     )
 
-
+    (:durative-action progress
+        :parameters (?from ?to - chord)
+        :duration (= ?duration 0.1)
+        :condition (and
+            (at start (chord-change ?from ?to))
+            (at start (current-chord ?from))
+            (at end (current-chord ?to))
+        )
+        :effect (and
+            (at start (changing))
+            (at end (not (changing)))
+        )
+    )
 
 )

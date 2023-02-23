@@ -1,4 +1,3 @@
-;Header and description
 
 (define (domain music)
 
@@ -18,7 +17,7 @@
         length
     )
 
-    (:predicates ;todo: define predicates here
+    (:predicates
         (not-playing)
     )
 
