@@ -1,4 +1,4 @@
-(define (problem v3)
+(define (problem v4)
 
     (:domain music)
 
@@ -37,10 +37,13 @@
         (= (duration-count z_whole) 0)
 
         (= (max-duration-count) 4)
-        (= (max-note-count) 3)
+        (= (max-note-count) 2)
 
         (= (chord-count) 0)
         (= (max-chord-count) 8)
+
+        (= (max-cheats-per-chord) 2)
+        (= (cheats) 0)
 
         (note-in g y_Gmaj)
         (note-in b y_Gmaj)
@@ -74,8 +77,8 @@
 
         (>= (chord-count) 4)
 
-        (<= (melody-count) 24)
-        (>= (melody-count) 12)
+        (<= (melody-count) 20)
+        (>= (melody-count) 10)
 
         (>= (melody-length) 8)
         (<= (melody-length) 16)

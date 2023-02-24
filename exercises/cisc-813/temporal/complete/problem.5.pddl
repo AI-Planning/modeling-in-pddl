@@ -1,4 +1,4 @@
-(define (problem v3)
+(define (problem v5)
 
     (:domain music)
 
@@ -37,26 +37,33 @@
         (= (duration-count z_whole) 0)
 
         (= (max-duration-count) 4)
-        (= (max-note-count) 3)
+        (= (max-note-count) 2)
 
         (= (chord-count) 0)
         (= (max-chord-count) 8)
 
+        (= (max-cheats-per-chord) 3)
+        (= (cheats) 0)
+
         (note-in g y_Gmaj)
         (note-in b y_Gmaj)
         (note-in d y_Gmaj)
+        (tonic g y_Gmaj)
 
         (note-in d y_Dmaj)
         (note-in fsh y_Dmaj)
         (note-in a y_Dmaj)
+        (tonic d y_Dmaj)
 
         (note-in e y_Emin)
         (note-in g y_Emin)
         (note-in b y_Emin)
+        (tonic e y_Emin)
 
         (note-in c y_Cmaj)
         (note-in e y_Cmaj)
         (note-in g y_Cmaj)
+        (tonic c y_Cmaj)
 
         (chord-change silence y_Gmaj)
         (chord-change y_Gmaj y_Dmaj)
@@ -74,7 +81,7 @@
 
         (>= (chord-count) 4)
 
-        (<= (melody-count) 24)
+        (<= (melody-count) 20)
         (>= (melody-count) 12)
 
         (>= (melody-length) 8)
