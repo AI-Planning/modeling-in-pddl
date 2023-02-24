@@ -21,8 +21,7 @@
     (:action check
         :parameters (?loc - loc ?n - num)
         :precondition (and
-            (at ?loc)
-            (not (solved ?loc))
+            ; TODO
         )
         :observe (assigned ?loc ?n)
     )
@@ -30,24 +29,13 @@
     ; Typical move action (can move on a link if at the source)
     (:action move
         :parameters (?l1 ?l2 - loc)
-        :precondition (and
-            (at ?l1)
-            (link ?l1 ?l2)
-        )
-        :effect (and
-            (at ?l2)
-            (not (at ?l1))
-        )
+        ; TODO: :precondition and :effect
     )
 
     ; Teleport instantly from one location to another (no link necessary!)
     (:action teleport
         :parameters (?l1 ?l2 - loc)
-        :precondition(at ?l1)
-        :effect (and
-            (at ?l2)
-            (not (at ?l1))
-        )
+        ; TODO: :precondition and :effect
     )
 
     ; Solve a location if we know the number there

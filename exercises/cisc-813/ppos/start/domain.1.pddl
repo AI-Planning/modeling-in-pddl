@@ -16,15 +16,13 @@
 
     ; Check if the assigned value of a location is a particular number
     (:action check
-        :parameters (?loc - loc ?n - num)
-        :observe (assigned ?loc ?n)
+        ; TODO: :parameters and :observe
     )
 
     ; Sove the location if we know its value
     (:action solve
         :parameters (?loc - loc ?n - num)
-        :precondition (assigned ?loc ?n)
-        :effect (solved ?loc)
+        ; TODO: :precondition and :effect
     )
 
 )

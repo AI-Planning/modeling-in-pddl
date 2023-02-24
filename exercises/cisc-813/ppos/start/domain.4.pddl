@@ -18,7 +18,9 @@
         (teleport-count ?n) ; Number of teleports done
         (succ ?n1 ?n2 - num) ; For counting
         (can-check ?l - loc) ; Flag to enable checking
+        (even ?l - loc) ; Location has an even number
     )
+
 
     ; Check sensor to see if a location is assigned a number
     ;  Can only be done if at the location and not already solved.
@@ -31,7 +33,7 @@
             (can-check ?loc)
         )
         :observe (assigned ?loc ?n)
-    )_
+    )
 
     ; Keeps track of the number of checks done. Must be at the
     ;  location, not already can-check, numbers are successors,
@@ -43,7 +45,7 @@
             (not (can-check ?loc))
             (succ ?n1 ?n2)
             (check-count ?n1)
-            (not (check-count num4))
+            (not (check-count num5))
         )
         :effect (and
             (check-count ?n2)
@@ -51,6 +53,8 @@
             (can-check ?loc)
         )
     )
+
+    ; TODO: Sense if the location is an even number (must be at the location)
 
     ; Typical move action
     (:action move

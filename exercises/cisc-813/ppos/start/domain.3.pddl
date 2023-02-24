@@ -28,7 +28,7 @@
         :precondition (and
             (at ?loc)
             (not (solved ?loc))
-            (can-check ?loc)
+            (can-check ?loc) ; NOTE: Newly added precondition
         )
         :observe (assigned ?loc ?n)
     )_
@@ -36,20 +36,10 @@
     ; Keeps track of the number of checks done. Must be at the
     ;  location, not already can-check, numbers are successors,
     ;  and the check-count is ?n1 but not already num4 (max count).
+    ;  Adds can-check and updates the count.
     (:action setup-check
         :parameters (?loc - loc ?n1 ?n2 - num)
-        :precondition (and
-            (at ?loc)
-            (not (can-check ?loc))
-            (succ ?n1 ?n2)
-            (check-count ?n1)
-            (not (check-count num4))
-        )
-        :effect (and
-            (check-count ?n2)
-            (not (check-count ?n1))
-            (can-check ?loc)
-        )
+        ; TODO: :precondition and :effect
     )
 
     ; Typical move action
@@ -72,15 +62,12 @@
         :parameters (?l1 ?l2 - loc ?n1 ?n2 - num)
         :precondition (and
             (at ?l1)
-            (succ ?n1 ?n2)
-            (teleport-count ?n1)
-            (not (teleport-count num1))
+            ; TODO: restrict count details
         )
         :effect (and
             (at ?l2)
             (not (at ?l1))
-            (not (teleport-count ?n1))
-            (teleport-count ?n2)
+            ; TODO: update the count
         )
     )
 
