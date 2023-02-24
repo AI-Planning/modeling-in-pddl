@@ -76,6 +76,7 @@
             (link l13 l23) (link l33 l43) (link l43 l33) (link l23 l13)
             (link l14 l24) (link l34 l44) (link l44 l34) (link l24 l14)
 
+            ; Initial hints
             (assigned l11 num1)
             (assigned l32 num1)
             (assigned l23 num1)

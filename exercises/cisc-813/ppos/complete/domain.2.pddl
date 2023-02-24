@@ -16,6 +16,8 @@
         (link ?l1 ?l2 - loc)
     )
 
+    ; Check sensor to see if a location is assigned a number
+    ;  Can only be done if at the location and not already solved.
     (:action check
         :parameters (?loc - loc ?n - num)
         :precondition (and
@@ -25,6 +27,7 @@
         :observe (assigned ?loc ?n)
     )
 
+    ; Typical move action (can move on a link if at the source)
     (:action move
         :parameters (?l1 ?l2 - loc)
         :precondition (and
@@ -37,6 +40,7 @@
         )
     )
 
+    ; Teleport instantly from one location to another (no link necessary!)
     (:action teleport
         :parameters (?l1 ?l2 - loc)
         :precondition(at ?l1)
@@ -46,6 +50,7 @@
         )
     )
 
+    ; Solve a location if we know the number there
     (:action solve
         :parameters (?loc - loc ?n - num)
         :precondition (assigned ?loc ?n)

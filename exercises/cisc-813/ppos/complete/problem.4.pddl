@@ -76,7 +76,7 @@
             (link l13 l23) (link l33 l43) (link l43 l33) (link l23 l13)
             (link l14 l24) (link l34 l44) (link l44 l34) (link l24 l14)
 
-            ; Numbers from 0 to 4
+            ; Numbers from 0 to 16
             (succ num0 num1) (succ num1 num2) (succ num2 num3) (succ num3 num4)
             (succ num4 num5) (succ num5 num6) (succ num6 num7) (succ num7 num8)
             (succ num8 num9) (succ num9 num10) (succ num10 num11) (succ num11 num12)
@@ -204,6 +204,7 @@
             (oneof (teleport-count num0) (teleport-count num1) (teleport-count num2) (teleport-count num3) (teleport-count num4) (teleport-count num5) (teleport-count num6) (teleport-count num7) (teleport-count num8) (teleport-count num9) (teleport-count num10) (teleport-count num11) (teleport-count num12) (teleport-count num13) (teleport-count num14) (teleport-count num15) (teleport-count num16))
             (oneof (check-count num0) (check-count num1) (check-count num2) (check-count num3) (check-count num4) (check-count num5) (check-count num6) (check-count num7) (check-count num8) (check-count num9) (check-count num10) (check-count num11) (check-count num12) (check-count num13) (check-count num14) (check-count num15) (check-count num16))
 
+            ; Initial hints
             (assigned l11 num1)
             (assigned l32 num1)
             (assigned l23 num1)
@@ -216,6 +217,7 @@
 
     (:goal
         (and
+            ; Hide half the board
             (solved l11) (solved l21) ;(solved l31) (solved l41)
             (solved l12) (solved l22) ;(solved l32) (solved l42)
             (solved l13) (solved l23) ;(solved l33) (solved l43)

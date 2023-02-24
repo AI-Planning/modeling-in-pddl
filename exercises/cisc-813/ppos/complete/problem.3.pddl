@@ -61,6 +61,7 @@
             (not (solved l13)) (not (solved l23)) (not (solved l33)) (not (solved l43))
             (not (solved l14)) (not (solved l24)) (not (solved l34)) (not (solved l44))
 
+            ; Precise location
             (at l11) (not (at l21)) (not (at l31)) (not (at l41))
             (not (at l12)) (not (at l22)) (not (at l32)) (not (at l42))
             (not (at l13)) (not (at l23)) (not (at l33)) (not (at l43))
@@ -76,7 +77,7 @@
             (link l13 l23) (link l33 l43) (link l43 l33) (link l23 l13)
             (link l14 l24) (link l34 l44) (link l44 l34) (link l24 l14)
 
-            ; Numbers from 0 to 4
+            ; Numbers from 0 to 16
             (succ num0 num1) (succ num1 num2) (succ num2 num3) (succ num3 num4)
             (succ num4 num5) (succ num5 num6) (succ num6 num7) (succ num7 num8)
             (succ num8 num9) (succ num9 num10) (succ num10 num11) (succ num11 num12)
@@ -95,6 +96,7 @@
             (not (can-check l13)) (not (can-check l23)) (not (can-check l33)) (not (can-check l43))
             (not (can-check l14)) (not (can-check l24)) (not (can-check l34)) (not (can-check l44))
 
+            ; Initial hints
             (assigned l11 num1)
             (assigned l32 num1)
             (assigned l23 num1)
@@ -107,6 +109,7 @@
 
     (:goal
         (and
+            ; Half the board
             (solved l11) (solved l21) ;(solved l31) (solved l41)
             (solved l12) (solved l22) ;(solved l32) (solved l42)
             (solved l13) (solved l23) ;(solved l33) (solved l43)

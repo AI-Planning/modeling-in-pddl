@@ -56,6 +56,7 @@
                 (assigned l22 num4)
             )
 
+            ; Initial hint
             (assigned l11 num1)
 
             (not (solved l11))
