@@ -40,11 +40,14 @@
         (duration-count ?l - length)
         (max-chord-count)
         (chord-count)
+
+        ; Allow a certain number of cheats per chord
         (max-cheats-per-chord)
         (cheats)
     )
 
 
+    ; Action to play a note for a specified length
     (:durative-action play-note
         :parameters (?p - pitch ?l - length ?c - chord)
         :duration (= ?duration (note-length ?l))
@@ -65,6 +68,8 @@
         )
     )
 
+    ; Same as the play-note action, but allow for notes outside of the chord
+    ;   - Can only be played if we haven't already reached the cheat limit
     (:durative-action play-cheat-note
         :parameters (?p - pitch ?l - length)
         :duration (= ?duration (note-length ?l))
@@ -86,6 +91,7 @@
         )
     )
 
+    ; Action to play a chord. Resets the cheating count
     (:durative-action play-chord
         :parameters (?c - chord)
         :duration (= ?duration 4)
@@ -107,6 +113,7 @@
         )
     )
 
+    ; Envelope action to change chords
     (:durative-action progress
         :parameters (?from ?to - chord)
         :duration (= ?duration 0.1)

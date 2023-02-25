@@ -2,6 +2,7 @@
 
     (:domain music)
 
+    ; Our notes and durations
     (:objects
         z_eighth z_quarter z_half z_whole - length
         c csh d dsh e f fsh g gsh a ash b - pitch
@@ -35,6 +36,7 @@
         (= (duration-count z_half) 0)
         (= (duration-count z_whole) 0)
 
+        ; Settings for keeping things interesting
         (= (max-duration-count) 5)
         (= (max-note-count) 2)
 
@@ -45,9 +47,9 @@
 
         (not-playing)
 
+        ; Play something good!
         (<= (melody-count) 24)
         (>= (melody-count) 12)
-
         (>= (melody-length) 8)
         (<= (melody-length) 16)
 

@@ -42,6 +42,7 @@
         (= (chord-count) 0)
         (= (max-chord-count) 4)
 
+        ; The 3 notes in each chord
         (note-in g y_Gmaj)
         (note-in b y_Gmaj)
         (note-in d y_Gmaj)

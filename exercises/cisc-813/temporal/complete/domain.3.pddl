@@ -27,6 +27,7 @@
         (changing)
     )
 
+    ; Ssshhhhh!
     (:constants silence - chord)
 
     (:functions
@@ -63,6 +64,7 @@
         )
     )
 
+    ; Play a chord, but only if we're currently changing chords.
     (:durative-action play-chord
         :parameters (?c - chord)
         :duration (= ?duration 4)
@@ -81,6 +83,9 @@
         )
     )
 
+    ; Progress from one chord to another (short duration to envelope the chords)
+    ;   Condition: currently playing the ?from chord (and end up playing the ?to chord) and able to change to the ?to chord.
+    ;   Effect: start changing chords, and end changing chords.
     (:durative-action progress
         :parameters (?from ?to - chord)
         :duration (= ?duration 0.1)

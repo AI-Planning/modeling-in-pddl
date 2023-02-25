@@ -20,6 +20,8 @@
 
     (:predicates
         (not-playing)
+
+        ; Chords!
         (not-chording)
         (note-in ?p - pitch ?c - chord)
         (current-chord ?c - chord)
@@ -34,18 +36,23 @@
         (note-count ?p - pitch)
         (duration-count ?l - length)
 
+        ; Chord functions (want a progression)
         (max-chord-count)
         (chord-count)
     )
 
 
+    ; Action to play a note for a specified duration
     (:durative-action play-note
         :parameters (?p - pitch ?l - length ?c - chord)
         :duration (= ?duration (note-length ?l))
         :condition (and
-            (at start (not-playing))
+
+            ; Chord setup
             (at start (note-in ?p ?c))
             (over all (current-chord ?c))
+
+            (at start (not-playing))
             (at start (< (note-count ?p) (max-note-count)))
             (at start (< (duration-count ?l) (max-duration-count)))
         )
@@ -59,6 +66,9 @@
         )
     )
 
+    ; Action to play a chord for 4 beats
+    ;   Condition: not chording and less than max chords so far
+    ;   Effect: start chording, increase chord count, end chording
     (:durative-action play-chord
         :parameters (?c - chord)
         :duration (= ?duration 4)

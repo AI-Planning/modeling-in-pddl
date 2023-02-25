@@ -27,12 +27,24 @@
         (melody-length)
         (max-note-count)
         (max-duration-count)
-        (note-count ?p - pitch)
-        (duration-count ?l - length)
+        (note-count ?p - pitch) ; Number of times we've seen a note
+        (duration-count ?l - length) ; Number of times we've seen a duration
     )
 
 
-    (:durative-action play
+    ; Action to play a note for a specified duration
+    ;   Conditions:
+    ;       - Not currently playing a note
+    ;       - We haven't played this note too many times
+    ;       - We haven't played this duration too many times
+    ;   Effects:
+    ;       - Start playing the note
+    ;       - Increase the melody count
+    ;       - Increase the note count
+    ;       - Increase the duration count
+    ;       - End playing the note
+    ;       - Increase the total melody length
+    (:durative-action play-note
         :parameters (?p - pitch ?l - length)
         :duration (= ?duration (note-length ?l))
         :condition (and

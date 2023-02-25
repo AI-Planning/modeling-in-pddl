@@ -51,6 +51,11 @@ RUN planutils install -f -y cpor
 RUN planutils install -f -y popf
 RUN planutils install -f -y optic
 
+COPY temporal/make-music.py /workspace/bin/make-music.py
+RUN echo "#!/bin/bash" >> /usr/local/bin/make-music
+RUN echo "python3 /workspace/bin/make-music.py \$@" >> /usr/local/bin/make-music
+RUN chmod 777 /usr/local/bin/make-music
+
 
 # Hybrid
 

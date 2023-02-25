@@ -58,6 +58,7 @@
         (note-in e y_Cmaj)
         (note-in g y_Cmaj)
 
+        ; The standard 4-chord POP progression
         (chord-change silence y_Gmaj)
         (chord-change y_Gmaj y_Dmaj)
         (chord-change y_Dmaj y_Emin)
@@ -66,6 +67,7 @@
         (not-playing)
         (not-chording)
 
+        ; Start by change chords from silence to the first chord
         (current-chord silence)
 
     )

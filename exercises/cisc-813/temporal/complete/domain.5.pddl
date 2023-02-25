@@ -26,6 +26,8 @@
         (chord-change ?from ?to - chord)
         (changing)
         (started)
+
+        ; Tonic notes -- the first note of a chord
         (tonic ?p - pitch ?c - chord)
         (playing-tonic)
     )
@@ -46,7 +48,7 @@
         (cheats)
     )
 
-
+    ; Usual play-note action
     (:durative-action play-note
         :parameters (?p - pitch ?l - length ?c - chord)
         :duration (= ?duration (note-length ?l))
@@ -67,6 +69,7 @@
         )
     )
 
+    ; Special version of the play-note action that only plays the tonic note
     (:durative-action play-tonic-note
         :parameters (?p - pitch ?l - length ?c - chord)
         :duration (= ?duration (note-length ?l))
@@ -90,6 +93,7 @@
         )
     )
 
+    ; Third play-note action that does a cheat note
     (:durative-action play-cheat-note
         :parameters (?p - pitch ?l - length)
         :duration (= ?duration (note-length ?l))
@@ -111,6 +115,7 @@
         )
     )
 
+    ; Usual play-chord action
     (:durative-action play-chord
         :parameters (?c - chord)
         :duration (= ?duration 4)
@@ -130,6 +135,7 @@
         )
     )
 
+    ; A special progression that insists on playing the tonic note of the new chord
     (:durative-action progress
         :parameters (?from ?to - chord)
         :duration (= ?duration 0.1)
