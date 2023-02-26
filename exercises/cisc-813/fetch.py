@@ -3,7 +3,7 @@
 # WARNING: This file needs to be duplicated in both the root and rddl directories.
 
 
-import argparse, json, os, re, requests
+import argparse, os, requests
 
 USAGE = "usage: python fetch.py <formalism> <example>"
 
@@ -16,21 +16,31 @@ def fetch(formalism, example):
 
     # Get the JS file
     r = requests.get(js_url)
-    json_settings = re.search('"save-tabs".*drag-and-drop"', r.text, re.DOTALL).group(0).split('"drag-and-drop"')[0]
-    json_settings = '{' + json_settings.strip()[:-1] + '}'
-    data = json.loads(json_settings)
 
-    for fn in data['save-tabs']['settings']:
-        # Confirm if file already exists
-        if os.path.exists(fn):
-            print(f"File {fn} already exists. Overwrite? (y/n)")
-            if input() != 'y':
-                continue
-            else:
-                print("Overwriting file.")
-        print(f"Writing file {fn}...")
-        with open(fn, 'w') as f:
-            f.write(data['save-tabs']['settings'][fn])
+    status = 'looking'
+    for line in r.text.split('\n'):
+        if 'save-tabs' in line:
+            status = 'looking-for-files'
+        elif 'settings' in line and status == 'looking-for-files':
+            status = 'found-files'
+        elif status == 'found-files':
+            if line.strip().startswith('}'):
+                break
+            fn = line.split('"')[1]
+            content = line.split('"')[3]
+            content = content.replace('\\n', '\n')
+
+            # Confirm if file already exists
+            if os.path.exists(fn):
+                print(f"File {fn} already exists. Overwrite? (y/n)")
+                if input() != 'y':
+                    continue
+                else:
+                    print("Overwriting file.")
+            print(f"Writing file {fn}...")
+            with open(fn, 'w') as f:
+                f.write(content)
+
 
 
 if __name__ == "__main__":
