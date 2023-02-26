@@ -1,6 +1,6 @@
 (define (problem v4)
 
-    (:domain music)
+    (:domain music-v4)
 
     (:objects
         z_eighth z_quarter z_half z_whole - length

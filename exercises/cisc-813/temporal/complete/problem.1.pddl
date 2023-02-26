@@ -1,6 +1,6 @@
 (define (problem v1)
 
-    (:domain music)
+    (:domain music-v1)
 
     ; Our notes and durations
     (:objects

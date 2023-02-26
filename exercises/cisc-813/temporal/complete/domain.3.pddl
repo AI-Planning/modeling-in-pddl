@@ -1,5 +1,5 @@
 
-(define (domain music)
+(define (domain music-v3)
 
     (:requirements
         :durative-actions
