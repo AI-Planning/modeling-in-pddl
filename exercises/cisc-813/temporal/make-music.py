@@ -66,7 +66,7 @@ def main(fn):
     straddle = False
     print("time\tnow\tline")
     for line in lines:
-        if "progress" in line:
+        if "progress" in line or line[0] == ';':
             continue
         time = round(round(float(line.split(":")[0])*10) / 10.0, 1)
         gap = time - now
