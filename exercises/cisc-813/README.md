@@ -71,7 +71,14 @@ Walks through Secredoku -- a made up domain that has an embodied agent walking a
 
 ## Temporal Planning
 
-Coming soon...
+General idea is to build a model that corresponds to playing music through a chord progression. Tackles things with heavy use of functions / numeric variables (e.g., counting the times a note is played), and chords + chord changes play a role in making things interesting temporally. Additional notes:
+
+- Uses popf or optic for the planner
+- Both must be run with the `-T` option, since the partial-order search plateaus quickly
+- "Chord change" presents an interesting element to wrap the end/start of actions (chord plays)
+- "Chord" presents an interesting example of wrapping a set of durative actions (the notes played)
+- Students can toy around with the initial / final numeric constraints, making the melody more or less complex
+- A script is included to convert the plan to ABC format which can be pasted online to hear the melody+chords
 
 ----
 
