@@ -45,11 +45,10 @@
         :parameters (?s - shuttle ?c - circuit)
         :precondition (and
             (on ?s ?c)
-            (driving ?c)
+            (driving ?s)
         )
         :effect (and
-            ; (increase (at ?s ?c) (* #t (speed ?s)))
-            (increase (at ?s ?c) #t)
+            (increase (at ?s ?c) (* #t (speed ?s)))
         )
     )
 
@@ -71,57 +70,35 @@
         :effect (not (driving ?s))
     )
 
-    ; (:event crash
-    ;     :parameters (?s1 ?s2 - shuttle ?c1 ?c2 - circuit)
-    ;     :precondition (and
-    ;         (on ?s1 ?c1)
-    ;         (on ?s2 ?c2)
-    ;         (not (= ?s1 ?s2))
-    ;         (>= (at ?s1 ?c1) 0.5)
-    ;         (<= (at ?s1 ?c1) 1.5)
-    ;         (>= (at ?s2 ?c2) 0.5)
-    ;         (<= (at ?s2 ?c2) 1.5)
-    ;     )
-    ;     :effect (crashed)
-    ; )
-
-
-
+    (:event crash
+        :parameters ()
+        :precondition (and
+            (>= (at s1 c1) 4)
+            (<= (at s1 c1) 6)
+            (>= (at s2 c2) 4)
+            (<= (at s2 c2) 6)
+            (not (crashed))
+        )
+        :effect (crashed)
+    )
 
     ; Event to reset the location of the shuttle's
-    ; (:event loop
-    ;     :parameters (?s - shuttle ?c - circuit)
-    ;     :precondition (and
-    ;         (>= (at ?s ?c) (circuit-length ?c))
-    ;     )
-    ;     :effect (and
-    ;         (decrease (at ?s ?c) (circuit-length ?c))
-    ;         ; (increase (loops) 1)
-    ;     )
-    ; )
+    (:event loop
+        :parameters (?s - shuttle ?c - circuit)
+        :precondition (and
+            (>= (at ?s ?c) (circuit-length ?c))
+        )
+        :effect (and
+            (decrease (at ?s ?c) (circuit-length ?c))
+        )
+    )
 
 
     (:action finish
-        :parameters (?s1 ?s2 - shuttle ?c1 ?c2 - circuit)
+        :parameters ();?s1 ?s2 - shuttle ?c1 ?c2 - circuit)
         :precondition (and
 
-            ; (>= (at s2 c2) 10)
-            ; (>= (loops) 10)
-            ; (crashed)
-
-            (driving ?s1)
-            (driving ?s2)
-
-            (not (= ?s1 ?s2))
-            (on ?s1 ?c1)
-            (on ?s2 ?c2)
-
-            (>= (at ?s2 ?c2) 5)
-            ; (>= (at ?s2 ?c2) 5)
-
-            ; (<= (at ?s2 ?c2) 1.5)
-            ; (>= (at ?s1 ?c1) 0.5)
-            ; (<= (at ?s1 ?c1) 1.5)
+            (crashed)
 
         )
         :effect (done)
