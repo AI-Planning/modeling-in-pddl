@@ -57,7 +57,7 @@
     ; )
 
 
-    (:process light-count
+    (:process light-timer
         :parameters ()
         :precondition (>= (light-countdown) 0)
         :effect (decrease (light-countdown) #t)
