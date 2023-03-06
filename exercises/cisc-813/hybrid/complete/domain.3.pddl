@@ -26,6 +26,7 @@
         (at ?obj - locateable ?c - circuit)
         (speed ?s - shuttle)
         (circuit-length ?c - circuit)
+        (loops ?c - circuit)
     )
 
 
@@ -46,6 +47,7 @@
         :precondition (and
             (on ?s ?c)
             (driving ?s)
+            (not (crashed))
         )
         :effect (and
             (increase (at ?s ?c) (* #t (speed ?s)))
@@ -90,15 +92,18 @@
         )
         :effect (and
             (decrease (at ?s ?c) (circuit-length ?c))
+            (increase (loops ?c) 1)
         )
     )
 
 
     (:action finish
-        :parameters ();?s1 ?s2 - shuttle ?c1 ?c2 - circuit)
+        :parameters ()
         :precondition (and
 
             (crashed)
+            (>= (loops c1) 3)
+            (>= (loops c2) 3)
 
         )
         :effect (done)

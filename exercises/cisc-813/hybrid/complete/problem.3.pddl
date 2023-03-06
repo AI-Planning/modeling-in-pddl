@@ -17,7 +17,8 @@
         (= (speed s2) 4)
         (= (circuit-length c2) 10)
 
-        ; (= (loops) 0)
+        (= (loops c1) 0)
+        (= (loops c2) 0)
         ; (going c1)
         ; (going c2)
     )
