@@ -62,6 +62,7 @@ RUN planutils install -f -y enhsp-2020
 
 
 # Epistemic
+RUN planutils install -f -y rpmep
 
 
 # Misc

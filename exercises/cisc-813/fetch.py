@@ -27,7 +27,7 @@ def fetch(formalism, example):
             if line.strip().startswith('}'):
                 break
             fn = line.split('"')[1]
-            content = line.split('"')[3]
+            content = '"'.join(line.split('"')[3:-1])
             content = content.replace('\\n', '\n')
 
             # Confirm if file already exists

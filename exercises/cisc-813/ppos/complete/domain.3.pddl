@@ -31,7 +31,7 @@
             (can-check ?loc)
         )
         :observe (assigned ?loc ?n)
-    )_
+    )
 
     ; Keeps track of the number of checks done. Must be at the
     ;  location, not already can-check, numbers are successors,
