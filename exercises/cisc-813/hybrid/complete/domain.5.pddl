@@ -10,34 +10,67 @@
     (:constants
         c1 c2 - circuit
         s1 s2 - shuttle
+        p1 p2 p3 p4 p5 - person
     )
 
     (:predicates
-        (at-intersection ?p - person)
+        ; The shuttle is on the circuit
         (on ?o - locateable ?c - circuit)
+
+        ; The shuttle is driving
         (driving ?s - shuttle)
+
+        ; The shuttles have crashed (and goal can no longer be acheived)
         (crashed)
+
+        ; Special goal fluent
         (done)
+
+        ; The light is green for the circuit
         (going ?c - circuit)
+
+        ; The person is in the shuttle
         (in ?p - person ?s - shuttle)
+
+        ; The person has been served
         (served ?p - person)
     )
 
 
     (:functions
+        ; The location of the shuttle or person on the circuit
         (at ?obj - locateable ?c - circuit)
+
+        ; The destination of the person on the circuit
         (destination ?p - person ?c - circuit)
+
+        ; The speed of the shuttle (static)
         (speed ?s - shuttle)
+
+        ; The length of the circuit (static)
         (circuit-length ?c - circuit)
+
+        ; The number of loops a shuttle has made on a circuit
         (loops ?c - circuit)
+
+        ; The duration of the light cycle (static)
         (light-duration)
+
+        ; The time remaining in the light cycle
         (light-countdown)
+
+        ; The time a shuttle will still idle at a stop
         (idle-countdown ?s - shuttle)
+
+        ; The total time a shuttle will idle at a stop (static)
         (idle-time)
     )
 
 
-
+    ; Switch the light to the other circuit
+    ;  - shuttles drive again (in case they were stopped)
+    ;  - light countdown is reset
+    ;  - the circuit going switches
     (:event light-change
         :parameters (?c1 ?c2 - circuit)
         :precondition (and
@@ -55,12 +88,14 @@
     )
 
 
+    ; Process to count down the light timer
     (:process light-timer
         :parameters ()
         :precondition (>= (light-countdown) 0)
         :effect (decrease (light-countdown) #t)
     )
 
+    ; Process to count down the idle timer for a shuttle
     (:process idle-timer
         :parameters (?s - shuttle)
         :precondition (>= (idle-countdown ?s) 0)
@@ -68,6 +103,7 @@
     )
 
 
+    ; Event to stop a shuttle for a red light if it's close enough
     (:event stop-for-red
         :parameters (?s - shuttle ?c - circuit)
         :precondition (and
@@ -81,7 +117,7 @@
         )
     )
 
-    ; Process to move a shuttle on a circuit -- for now, it's an unbounded road!
+    ; Process to move a shuttle on a circuit
     (:process drive
         :parameters (?s - shuttle ?c - circuit)
         :precondition (and
@@ -95,6 +131,7 @@
         )
     )
 
+    ; The crash event (if both are too close around the 5.0 mark)
     (:event crash
         :parameters ()
         :precondition (and
@@ -107,7 +144,7 @@
         :effect (crashed)
     )
 
-    ; Event to reset the location of the shuttle's
+    ; Event to reset the location of the shuttles on a circuit loop
     (:event loop
         :parameters (?s - shuttle ?c - circuit)
         :precondition (and
@@ -119,24 +156,7 @@
         )
     )
 
-    (:action finish
-        :parameters (?p - person)
-        :precondition (and
-
-            (not (crashed))
-            ; (>= (loops c1) 3)
-            ; (>= (loops c2) 3)
-            ; (crashed)
-
-            ; Everyone is within 0.1 of their destination
-            ; (forall (?p - person) (served ?p))
-            (served ?p)
-
-        )
-        :effect (done)
-    )
-
-    ; Stop the shuttle for a certain amount of time
+    ; Stop the shuttle for a certain amount of time (driven by a timer)
     (:action stop
         :parameters (?s - shuttle ?c - circuit)
         :precondition (and
@@ -149,6 +169,7 @@
         )
     )
 
+    ; Let a pedestian board the shuttle
     (:action board
         :parameters (?s - shuttle ?c - circuit ?p - person)
         :precondition (and
@@ -163,6 +184,7 @@
         )
     )
 
+    ; Let a pedestrian unboard the shuttle
     (:action unboard
         :parameters (?s - shuttle ?c - circuit ?p - person)
         :precondition (and
@@ -175,6 +197,7 @@
         )
     )
 
+    ; Mark a person as served if they're at their destination
     (:action serve
         :parameters (?p - person ?c - circuit)
         :precondition (and
@@ -187,6 +210,7 @@
         )
     )
 
+    ; Pedestrians can switch circuits at the loop mark
     (:action switch-circuit
         :parameters (?p - person ?c1 ?c2 - circuit)
         :precondition (and
@@ -204,5 +228,28 @@
     )
 
 
+    ; Special goal-achieving action
+    (:action finish
+        :parameters ()
+        :precondition (and
+
+            ; (not (crashed))
+            ; (crashed)
+
+            ; Everyone is within 0.1 of their destination
+
+            ; the forall seemed to make it worse, so we move the people to constants instead of objects
+            ; (forall (?p - person) (served ?p))
+
+            ; Works to uncomment just p1 or just p5, but not both
+            (served p1)
+            ; (served p2)
+            ; (served p3)
+            ; (served p4)
+            ; (served p5)
+
+        )
+        :effect (done)
+    )
 
 )

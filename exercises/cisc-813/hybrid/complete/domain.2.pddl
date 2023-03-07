@@ -14,7 +14,6 @@
 
     (:predicates
         (going ?c - circuit)
-        (at-intersection ?p - person)
         (on ?s - shuttle ?c - circuit)
         (done)
     )

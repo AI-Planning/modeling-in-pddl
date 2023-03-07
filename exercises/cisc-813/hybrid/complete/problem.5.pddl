@@ -2,11 +2,6 @@
 
     (:domain shuttle5)
 
-    (:objects
-        p1 p2 - person
-        ; p1 p2 p3 p4 p5 - person
-    )
-
     (:init
         (on s1 c1)
         (= (at s1 c1) 0)
@@ -15,7 +10,7 @@
 
         (on s2 c2)
         (= (at s2 c2) 0)
-        (= (speed s2) 0.6)
+        (= (speed s2) 1)
         (= (circuit-length c2) 10)
 
         (= (loops c1) 0)
@@ -23,27 +18,38 @@
 
         (= (light-countdown) 10)
         (= (light-duration) 10)
+
         (going c1)
 
         (= (idle-countdown s1) 0)
         (= (idle-countdown s2) 0)
-        (= (idle-time) 1)
+        (= (idle-time) 2)
 
         ; Random locations for each person
         (= (at p1 c1) 3)
+        (= (at p1 c2) -100)
         (= (at p2 c2) 7)
-        ; (= (at p3 c1) 7)
-        ; (= (at p4 c2) 9)
-        ; (= (at p5 c2) 1)
+        (= (at p2 c1) -100)
+        (= (at p3 c1) 7)
+        (= (at p3 c2) -100)
+        (= (at p4 c2) 9)
+        (= (at p4 c1) -100)
+        (= (at p5 c2) 1)
+        (= (at p5 c1) -100)
+
         (on p1 c1)
         (on p2 c2)
+        (on p3 c1)
+        (on p4 c2)
+        (on p5 c2)
 
         ; Destinations for each person on the other circuit
         (= (destination p1 c2) 7)
         (= (destination p2 c1) 2)
-        ; (= (destination p3 c1) 3)
-        ; (= (destination p4 c2) 8)
-        ; (= (destination p5 c2) 2)
+        (= (destination p3 c2) 3)
+        (= (destination p4 c1) 8)
+        (= (destination p5 c1) 2)
+
     )
 
     (:goal (done))
