@@ -177,6 +177,8 @@
             (<= (- (at ?s ?c) (at ?p ?c)) 1)
             (>= (idle-countdown ?s) 0.1)
             (on ?p ?c)
+            (on ?s ?c)
+            (not (in ?p ?s))
         )
         :effect (and
             (assign (at ?p ?c) -100)
@@ -188,6 +190,8 @@
     (:action unboard
         :parameters (?s - shuttle ?c - circuit ?p - person)
         :precondition (and
+            (on ?s ?c)
+            (on ?p ?c)
             (in ?p ?s)
             (>= (idle-countdown ?s) 0.1)
         )
@@ -202,6 +206,7 @@
         :parameters (?p - person ?c - circuit)
         :precondition (and
             (not (served ?p))
+            (on ?p ?c)
             (>= (at ?p ?c) (destination ?p ?c))
             (<= (- (at ?p ?c) (destination ?p ?c)) 0.1)
         )
@@ -243,10 +248,10 @@
 
             ; Works to uncomment just p1 or just p5, but not both
             (served p1)
-            ; (served p2)
-            ; (served p3)
-            ; (served p4)
-            ; (served p5)
+            (served p2)
+            (served p3)
+            (served p4)
+            (served p5)
 
         )
         :effect (done)

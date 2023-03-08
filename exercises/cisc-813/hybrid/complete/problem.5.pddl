@@ -5,11 +5,13 @@
     (:init
         (on s1 c1)
         (= (at s1 c1) 0)
+        (= (at s1 c2) -100)
         (= (speed s1) 1)
         (= (circuit-length c1) 10)
 
         (on s2 c2)
         (= (at s2 c2) 0)
+        (= (at s2 c1) -100)
         (= (speed s2) 1)
         (= (circuit-length c2) 10)
 
@@ -28,14 +30,18 @@
         ; Random locations for each person
         (= (at p1 c1) 3)
         (= (at p1 c2) -100)
-        (= (at p2 c2) 7)
+
         (= (at p2 c1) -100)
+        (= (at p2 c2) 7)
+
         (= (at p3 c1) 7)
         (= (at p3 c2) -100)
-        (= (at p4 c2) 9)
+
         (= (at p4 c1) -100)
-        (= (at p5 c2) 1)
+        (= (at p4 c2) 9)
+
         (= (at p5 c1) -100)
+        (= (at p5 c2) 1)
 
         (on p1 c1)
         (on p2 c2)
