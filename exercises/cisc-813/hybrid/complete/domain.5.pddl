@@ -248,10 +248,10 @@
             ; (forall (?p - person) (served ?p))
 
             ; Works to uncomment just p1 or just p5, but not both
-            ; (served p1) ; works on its own
-            ; (served p2)
-            ; (served p3)
-            ; (served p4) ; works on its own
+            (served p1) ; works on its own
+            (served p2)
+            (served p3)
+            (served p4) ; works on its own
             (served p5)
 
         )
