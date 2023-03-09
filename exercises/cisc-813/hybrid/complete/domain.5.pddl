@@ -39,7 +39,7 @@
 
     (:functions
         ; The location of the shuttle or person on the circuit
-        (at ?obj - locateable ?c - circuit)
+        (at ?obj - locateable)
 
         ; The destination of the person on the circuit
         (destination ?p - person ?c - circuit)
@@ -107,9 +107,10 @@
     (:event stop-for-red
         :parameters (?s - shuttle ?c - circuit)
         :precondition (and
-            (>= (at ?s ?c) 4)
-            (<= (at ?s ?c) 5)
+            (>= (at ?s) 9)
+            (<= (at ?s) 10)
             (driving ?s)
+            (on ?s ?c)
             (not (going ?c))
         )
         :effect (and
@@ -127,7 +128,7 @@
             (not (crashed))
         )
         :effect (and
-            (increase (at ?s ?c) (* #t (speed ?s)))
+            (increase (at ?s) (* #t (speed ?s)))
         )
     )
 
@@ -135,10 +136,10 @@
     (:event crash
         :parameters ()
         :precondition (and
-            (>= (at s1 c1) 4.5)
-            (<= (at s1 c1) 5.5)
-            (>= (at s2 c2) 4.5)
-            (<= (at s2 c2) 5.5)
+            (>= (at s1) 9)
+            (<= (at s1) 11)
+            (>= (at s2) 9)
+            (<= (at s2) 11)
             (not (crashed))
         )
         :effect (crashed)
@@ -148,10 +149,11 @@
     (:event loop
         :parameters (?s - shuttle ?c - circuit)
         :precondition (and
-            (>= (at ?s ?c) (circuit-length ?c))
+            (on ?s ?c)
+            (>= (at ?s) (circuit-length ?c))
         )
         :effect (and
-            (decrease (at ?s ?c) (circuit-length ?c))
+            (decrease (at ?s) (circuit-length ?c))
             (increase (loops ?c) 1)
         )
     )
@@ -163,9 +165,10 @@
             (on ?s ?c)
             (driving ?s)
             (not (crashed))
+            (<= (idle-countdown ?s) 0)
         )
         :effect (and
-            (assign (idle-countdown ?s) (idle-time))
+            (increase (idle-countdown ?s) (idle-time))
         )
     )
 
@@ -173,15 +176,15 @@
     (:action board
         :parameters (?s - shuttle ?c - circuit ?p - person)
         :precondition (and
-            (<= (at ?p ?c) (at ?s ?c))
-            (<= (- (at ?s ?c) (at ?p ?c)) 1)
-            (>= (idle-countdown ?s) 0.1)
+            (<= (at ?p) (at ?s))
+            (<= (- (at ?s) (at ?p)) 2)
+            (>= (idle-countdown ?s) 1)
             (on ?p ?c)
             (on ?s ?c)
             (not (in ?p ?s))
         )
         :effect (and
-            (assign (at ?p ?c) -100)
+            (assign (at ?p) -100)
             (in ?p ?s)
         )
     )
@@ -193,11 +196,11 @@
             (on ?s ?c)
             (on ?p ?c)
             (in ?p ?s)
-            (>= (idle-countdown ?s) 0.1)
+            (>= (idle-countdown ?s) 1)
         )
         :effect (and
             (not (in ?p ?s))
-            (assign (at ?p ?c) (at ?s ?c))
+            (assign (at ?p) (at ?s))
         )
     )
 
@@ -207,8 +210,8 @@
         :precondition (and
             (not (served ?p))
             (on ?p ?c)
-            (>= (at ?p ?c) (destination ?p ?c))
-            (<= (- (at ?p ?c) (destination ?p ?c)) 0.1)
+            (>= (at ?p) (destination ?p ?c))
+            (<= (- (at ?p) (destination ?p ?c)) 2)
         )
         :effect (and
             (served ?p)
@@ -221,14 +224,12 @@
         :precondition (and
             (on ?p ?c1)
             (not (on ?p ?c2))
-            (<= (at ?p ?c1) 5.1)
-            (>= (at ?p ?c1) 4.9)
+            (<= (at ?p) 11)
+            (>= (at ?p) 9)
         )
         :effect (and
             (not (on ?p ?c1))
             (on ?p ?c2)
-            (assign (at ?p ?c2) (at ?p ?c1))
-            (assign (at ?p ?c1) -100)
         )
     )
 
@@ -247,10 +248,10 @@
             ; (forall (?p - person) (served ?p))
 
             ; Works to uncomment just p1 or just p5, but not both
-            (served p1)
-            (served p2)
-            (served p3)
-            (served p4)
+            ; (served p1) ; works on its own
+            ; (served p2)
+            ; (served p3)
+            ; (served p4) ; works on its own
             (served p5)
 
         )
