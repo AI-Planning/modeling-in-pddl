@@ -13,8 +13,6 @@
     )
 
     (:predicates
-        ; (going ?c - circuit)
-        ; (at-intersection ?p - person)
         (on ?s - shuttle ?c - circuit)
         (driving ?s - shuttle)
         (crashed)
@@ -28,49 +26,52 @@
         (speed ?s - shuttle)
         (circuit-length ?c - circuit)
         (loops ?c - circuit)
+
+        ; Two new functions for a timer!
         (light-duration)
         (light-countdown)
     )
 
 
     ; Light change event when the timer counts down
+    ;   Precondition:
+    ;       - The light countdown is 0 or less
+    ;       - The circuit that has the rightaway is going
+    ;       - The circuit that doesn't have the rightaway is not going
+    ;   Effect:
+    ;       - Reset the light countdown to the light duration (use 'increase')
+    ;       - Set the circuit that has the rightaway to not going
+    ;       - Set the circuit that doesn't have the rightaway to going
+    ;       - Set both of the shuttles to driving
     (:event light-change
         :parameters (?c1 ?c2 - circuit)
-        :precondition (and
-            (<= (light-countdown) 0)
-            (going ?c1)
-            (not (going ?c2))
-        )
-        :effect (and
-            (increase (light-countdown) (light-duration))
-            (driving s1)
-            (driving s2)
-            (not (going ?c1))
-            (going ?c2)
-        )
+        :precondition () ; TODO
+        :effect () ; TODO
     )
 
     ; Timer process for the street light
+    ;   Precondition: Light countdown is greater than or equal to 0
+    ;   Effect: Decrease the light countdown by #t
     (:process light-timer
         :parameters ()
-        :precondition (>= (light-countdown) 0)
-        :effect (decrease (light-countdown) #t)
+        :precondition () ; TODO
+        :effect () ; TODO
     )
 
     ; Event that stops a car when it gets close to the intersection and
     ;  the circuit doesn't have the rightaway.
+    ;      Precondition:
+    ;          - The shuttle is on the circuit that doesn't have the rightaway (i.e., circuit is not going)
+    ;          - The shuttle is between 4 and 5 (so, close)
+    ;          - The shuttle is driving
+    ;      Effect:
+    ;          - The shuttle is no longer driving
     (:event stop-for-red
         :parameters (?s - shuttle ?c - circuit)
-        :precondition (and
-            (>= (at ?s ?c) 4)
-            (<= (at ?s ?c) 5)
-            (driving ?s)
-            (not (going ?c))
-        )
-        :effect (and
-            (not (driving ?s))
-        )
+        :precondition () ; TODO
+        :effect () ; TODO
     )
+
 
 
     ; Process to move a shuttle on a circuit -- for now, it's an unbounded road!

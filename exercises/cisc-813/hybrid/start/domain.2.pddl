@@ -50,16 +50,15 @@
         )
     )
 
-    ; Event to reset the location of the shuttle's
+    ; Event to reset the location of the two shuttles
+    ;   Precondition: the shuttle is at least as far as the circuit length
+    ;   Effect:
+    ;     (1) Decrease the location of the shuttle by the circuit length
+    ;     (2) Increase the number of loops by 1
     (:event loop
         :parameters (?s - shuttle ?c - circuit)
-        :precondition (and
-            (>= (at ?s ?c) (circuit-length ?c))
-        )
-        :effect (and
-            (decrease (at ?s ?c) (circuit-length ?c))
-            (increase (loops) 1)
-        )
+        :precondition () ; TODO
+        :effect ; TODO
     )
 
     ; Finish action that can happen only when one shuttle is far enough and 10 loops have occurred

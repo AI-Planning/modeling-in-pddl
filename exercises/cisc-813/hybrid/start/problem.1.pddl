@@ -16,6 +16,8 @@
 
     (:goal
         (and
+            ; Note that we use a special "done" fluent so an
+            ;  action preconditions can be used for the real goal.
             (done)
         )
     )

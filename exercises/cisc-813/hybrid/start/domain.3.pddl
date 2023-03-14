@@ -13,8 +13,6 @@
     )
 
     (:predicates
-        ; (going ?c - circuit)
-        ; (at-intersection ?p - person)
         (on ?s - shuttle ?c - circuit)
         (driving ?s - shuttle)
         (crashed)
@@ -35,8 +33,11 @@
         :parameters (?s - shuttle ?c - circuit)
         :precondition (and
             (on ?s ?c)
-            (driving ?s)
-            (not (crashed))
+
+
+            ; TODO: Should be driving and not crashed
+
+
         )
         :effect (and
             (increase (at ?s ?c) (* #t (speed ?s)))
@@ -44,36 +45,31 @@
     )
 
     ; Action to start driving a shuttle on a circuit
+    ;   Precondition: on the circuit and not already driving
+    ;   Effect: driving
     (:action start-driving
         :parameters (?s - shuttle ?c - circuit)
-        :precondition (and
-            (on ?s ?c)
-            (not (driving ?s))
-        )
-        :effect (driving ?s)
+        :precondition (); TODO
+        :effect (); TODO
     )
 
     ; Action to stop driving a shuttle on a circuit
+    ;   Precondition: on the circuit and driving
+    ;   Effect: not driving
     (:action stop-driving
         :parameters (?s - shuttle ?c - circuit)
-        :precondition (and
-            (on ?s ?c)
-            (driving ?s)
-        )
-        :effect (not (driving ?s))
+        :precondition () ; TODO
+        :effect () ; TODO
     )
 
-    ; Event for the shuttles to crash if they are both within 4 - 6
+    ; Event for the shuttles to crash if they are both within 4 - 6 on their circuits
+    ;  I.e., they are both close to the intersecting mid-point of 5.
+    ;    Precondition: both shuttles are within 4 - 6, and not already crashed
+    ;    Effect: crashed
     (:event crash
         :parameters ()
-        :precondition (and
-            (>= (at s1 c1) 4)
-            (<= (at s1 c1) 6)
-            (>= (at s2 c2) 4)
-            (<= (at s2 c2) 6)
-            (not (crashed))
-        )
-        :effect (crashed)
+        :precondition () ; TODO
+        :effect () ; TODO
     )
 
     ; Event to reset the location of the shuttle's
