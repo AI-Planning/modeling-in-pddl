@@ -1,0 +1,78 @@
+
+
+
+(define (domain treasure)
+
+    (:agents a b c d)
+
+    (:types loc)
+    (:constants )
+
+    (:predicates
+            (has-treasure ?agent)
+            (treasure-at ?l - loc)
+        {AK}(at ?agent - agent ?l - loc)
+        {AK}(connected ?l1 ?l2 - loc)
+    )
+
+    (:action move
+        :derive-condition   always
+        :parameters         (?a - agent ?l1 ?l2 - loc)
+        :precondition       (and (at ?a ?l1) (connected ?l1 ?l2))
+        :effect             (and (at ?a ?l2) (!at ?a ?l1))
+    )
+
+    (:action take
+        :derive-condition (at $agent$ ?l)
+        :parameters       (?a - agent ?l - loc)
+        :precondition     (and (at ?a ?l) (treasure-at ?l))
+        :effect           (and (!treasure-at ?l) (has-treasure ?a))
+    )
+
+    (:action drop
+        :derive-condition (at $agent$ ?l)
+        :parameters       (?a - agent ?l - loc)
+        :precondition     (and (at ?a ?l) (has-treasure ?a))
+        :effect           (and (!has-treasure ?a) (treasure-at ?l))
+    )
+
+)
+
+(define (problem treasure1)
+
+    (:domain treasure)
+
+    (:objects l0 l1 l2 l3 l4 - loc)
+
+    (:projection )
+    (:task valid_generation)
+
+    (:init-type complete)
+    (:init
+
+        ; Map -- star around l0
+        (connected l0 l1)
+        (connected l0 l2)
+        (connected l0 l3)
+        (connected l0 l4)
+        (connected l1 l0)
+        (connected l2 l0)
+        (connected l3 l0)
+        (connected l4 l0)
+
+        ; Agents all in l0
+        (forall ?ag - agent (at ?ag l0))
+
+        ; Treasure in l4
+        (treasure-at l4)
+
+    )
+
+    (:depth 1)
+
+    (:goal
+        [a](has-treasure b)
+        [c](has-treasure d)
+        (forall ?ag - agent (at ?ag l0))
+    )
+)

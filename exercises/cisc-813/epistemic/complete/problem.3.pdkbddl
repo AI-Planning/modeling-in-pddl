@@ -1,0 +1,86 @@
+
+
+
+(define (domain treasure)
+
+    (:agents a b c)
+
+    (:types loc)
+    (:constants )
+
+    (:predicates
+            (has-treasure ?agent)
+            (treasure-at ?l - loc)
+        {AK}(at ?agent - agent ?l - loc)
+        {AK}(connected ?l1 ?l2 - loc)
+    )
+
+    (:action move
+        :derive-condition   always
+        :parameters         (?a - agent ?l1 ?l2 - loc)
+        :precondition       (and (at ?a ?l1) (connected ?l1 ?l2))
+        :effect             (and (at ?a ?l2) (!at ?a ?l1))
+    )
+
+    (:action take
+        :derive-condition (at $agent$ ?l)
+        :parameters       (?a - agent ?l - loc)
+        :precondition     (and (at ?a ?l) (treasure-at ?l))
+        :effect           (and (forall ?l2 - loc (!treasure-at ?l2)) (has-treasure ?a))
+    )
+
+    (:action drop
+        :derive-condition (at $agent$ ?l)
+        :parameters       (?a - agent ?l - loc)
+        :precondition     (and (at ?a ?l) (has-treasure ?a))
+        :effect           (and (forall ?a2 - agent (!has-treasure ?a2)) (treasure-at ?l))
+    )
+
+    (:action ask
+        :derive-condition (at $agent$ ?l)
+        :parameters (?a1 ?a2 ?a3 - agent ?l - loc)
+        :precondition (and (at ?a1 ?l) (at ?a2 ?l))
+        :effect (and (when [?a2](has-treasure ?a3) [?a1](has-treasure ?a3))
+                     (when [?a2](has-treasure ?a3) [?a1][?a2](has-treasure ?a3))
+                     (when [?a2](!has-treasure ?a3) [?a1](!has-treasure ?a3))
+                     (when [?a2](!has-treasure ?a3) [?a1][?a2](!has-treasure ?a3)))
+    )
+
+)
+
+(define (problem treasure3)
+
+    (:domain treasure)
+
+    (:objects l0 l1 - loc)
+
+    (:projection )
+    (:task valid_generation)
+
+    (:init-type complete)
+    (:init
+
+        ; Just a pair of rooms
+        (connected l1 l0)
+        (connected l0 l1)
+
+        (at a l1)
+        (at b l0)
+        (at c l0)
+
+        ; Treasure in l1
+        (treasure-at l1)
+
+    )
+
+    (:depth 2)
+
+    (:goal
+        (has-treasure a)
+        [b](has-treasure a)
+        [c](has-treasure a)
+        [c][b](!has-treasure a)
+        [b][c](!has-treasure a)
+        (forall ?ag - agent (at ?ag l0))
+    )
+)
