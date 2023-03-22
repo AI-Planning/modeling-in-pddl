@@ -1,0 +1,115 @@
+
+
+
+(define (domain treasure)
+
+    (:agents a b c)
+
+    (:types loc)
+    (:constants )
+
+    (:predicates
+            (has-treasure ?agent)
+            (treasure-at ?l - loc)
+        {AK}(diff ?a1 ?a2 - agent)
+        {AK}(at ?agent - agent ?l - loc)
+        {AK}(connected ?l1 ?l2 - loc)
+        {AK}(can-infer)
+    )
+
+    (:action move
+        :derive-condition   always
+        :parameters         (?a - agent ?l1 ?l2 - loc)
+        :precondition       (and (at ?a ?l1) (connected ?l1 ?l2))
+        :effect             (and
+                                (at ?a ?l2)
+                                (!at ?a ?l1)
+                                ; <?a>(treasure-at ?l1)
+                                ; <?a>(!treasure-at ?l1)
+                                (when (treasure-at ?l2) [?a](treasure-at ?l2))
+                                (when (!treasure-at ?l2) [?a](!treasure-at ?l2))
+                            )
+    )
+
+    (:action take
+        :derive-condition (at $agent$ ?l)
+        :parameters       (?a - agent ?l - loc)
+        :precondition     (and (at ?a ?l) (treasure-at ?l))
+        :effect           (and (forall ?l2 - loc (!treasure-at ?l2)) (has-treasure ?a))
+    )
+
+    ; (:action drop
+    ;     :derive-condition (at $agent$ ?l)
+    ;     :parameters       (?a - agent ?l - loc)
+    ;     :precondition     (and (at ?a ?l) (has-treasure ?a))
+    ;     :effect           (and (forall ?a2 - agent (!has-treasure ?a2)) (treasure-at ?l))
+    ; )
+
+    (:action ask-not
+        :derive-condition (at $agent$ ?l)
+        :parameters (?a1 ?a2 ?a3 - agent ?l - loc)
+        :precondition (and (at ?a1 ?l) (at ?a2 ?l))
+        :effect (and (when [?a2](!has-treasure ?a3) [?a1](!has-treasure ?a3))
+                     (when [?a2](!has-treasure ?a3) [?a1][?a2](!has-treasure ?a3)))
+    )
+
+    (:action infer
+        :derive-condition always
+        :parameters (?a1 ?a2 ?a3 - agent ?l - loc)
+        :precondition (and (can-infer) (diff ?a1 ?a2) (diff ?a1 ?a3) (diff ?a2 ?a3) (at ?a1 ?l) (at ?a2 ?l) (at ?a3 ?l))
+        :effect (and (!can-infer) (when (and (!has-treasure ?a1) (!has-treasure ?a2) (forall (?l2 - loc) (!treasure-at ?l2))) (has-treasure ?a3)))
+    )
+
+)
+
+(define (problem treasure5)
+
+    (:domain treasure)
+
+    (:objects l0 l1 - loc)
+
+    (:projection )
+    (:task valid_generation)
+
+    (:init-type complete)
+    (:init
+
+        ; Just a pair of rooms
+        (connected l1 l0)
+        (connected l0 l1)
+
+        (at a l0)
+        (at b l1)
+        (at c l1)
+
+        (diff a b)
+        (diff a c)
+        (diff b c)
+        (diff b a)
+        (diff c a)
+        (diff c b)
+
+        ; (forall ?ag - agent [?ag](!has-treasure ?ag))
+        (forall (?l - loc) (!treasure-at ?l))
+
+        (has-treasure a)
+        (!has-treasure b)
+        (!has-treasure c)
+
+        [a](has-treasure a)
+        [b](!has-treasure b)
+        [c](!has-treasure c)
+
+        (can-infer)
+
+    )
+
+    (:depth 2)
+
+    (:goal
+
+        [b](has-treasure a)
+        [c](has-treasure a)
+
+    )
+)
