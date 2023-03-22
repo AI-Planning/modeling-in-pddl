@@ -15,6 +15,7 @@
         {AK}(connected ?l1 ?l2 - loc)
     )
 
+    ; Move action modified so that agents are suspicious about rooms they aren't in
     (:action move
         :derive-condition   always
         :parameters         (?a - agent ?l1 ?l2 - loc)
@@ -22,8 +23,14 @@
         :effect             (and
                                 (at ?a ?l2)
                                 (!at ?a ?l1)
+
+                                ; ?a thinks it's possible there is a treasure at ?l1
+                                ;  and also thinks it's possible there isn't a treasure at ?l1
                                 <?a>(treasure-at ?l1)
                                 <?a>(!treasure-at ?l1)
+
+                                ; When there is treasure at ?l2, then ?a will see it and believe it
+                                ; Same for when there isn't treasure at ?l2
                                 (when (treasure-at ?l2) [?a](treasure-at ?l2))
                                 (when (!treasure-at ?l2) [?a](!treasure-at ?l2))
                             )
@@ -75,13 +82,19 @@
         (at b l1)
         (at c l1)
 
-        ; Treasure in l1
+        ; Treasure in l1 (note that we are now specifying where there isn't treasure)
         (treasure-at l1)
+        (!treasure-at l0)
 
     )
 
     (:depth 2)
 
+    ; Goal:
+    ;   - a has the treasure
+    ;   - b and c believe there is treasure at locations 0 and 1 (respectively)
+    ;   - all agents are in location l0
+    ;   - NOTE: This shouldn't be solvable with suspicious agents
     (:goal
         (has-treasure a)
         [b](treasure-at l0)

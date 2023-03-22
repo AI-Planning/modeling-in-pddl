@@ -3,6 +3,7 @@
 
 (define (domain treasure)
 
+    ; Note that we've said goodbye to agent d for now
     (:agents a b c)
 
     (:types loc)
@@ -36,14 +37,20 @@
         :effect           (and (forall ?a2 - agent (!has-treasure ?a2)) (treasure-at ?l))
     )
 
+    ; Ask action can now be overheard by other agents in the same location
     (:action ask
         :derive-condition (at $agent$ ?l)
         :parameters (?a1 ?a2 ?a3 - agent ?l - loc)
         :precondition (and (at ?a1 ?l) (at ?a2 ?l))
-        :effect (and (when [?a2](has-treasure ?a3) [?a1](has-treasure ?a3))
-                     (when [?a2](has-treasure ?a3) [?a1][?a2](has-treasure ?a3))
-                     (when [?a2](!has-treasure ?a3) [?a1](!has-treasure ?a3))
-                     (when [?a2](!has-treasure ?a3) [?a1][?a2](!has-treasure ?a3)))
+        :effect (and
+            ; ?a1 believes what ?a2 does about ?a3 holding the treasure
+            (when [?a2](has-treasure ?a3) [?a1](has-treasure ?a3))
+            (when [?a2](!has-treasure ?a3) [?a1](!has-treasure ?a3))
+
+            ; ?a1 also believes that ?a2 believes their response
+            (when [?a2](has-treasure ?a3) [?a1][?a2](has-treasure ?a3))
+            (when [?a2](!has-treasure ?a3) [?a1][?a2](!has-treasure ?a3))
+        )
     )
 
 )
@@ -52,6 +59,7 @@
 
     (:domain treasure)
 
+    ; Note: Reduced to just 2 locations now.
     (:objects l0 l1 - loc)
 
     (:projection )
@@ -75,6 +83,11 @@
 
     (:depth 2)
 
+    ; Goal:
+    ;   - a has the treasure
+    ;   - b and c believe a has the treasure
+    ;   - b and c believe each other believes that a /doesn't/ have the treasure
+    ;   - all agents are all in l0
     (:goal
         (has-treasure a)
         [b](has-treasure a)

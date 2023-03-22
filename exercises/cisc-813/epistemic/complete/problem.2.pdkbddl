@@ -34,14 +34,21 @@
         :parameters       (?a - agent ?l - loc)
         :precondition     (and (at ?a ?l) (has-treasure ?a))
         :effect           (and (!has-treasure ?a) (treasure-at ?l))
+
     )
 
+    ; One agent can ask another if some agent has the treasure
     (:action ask
         :derive-condition never
         :parameters (?a1 ?a2 ?a3 - agent ?l - loc)
         :precondition (and (at ?a1 ?l) (at ?a2 ?l))
-        :effect (and (when [?a2](has-treasure ?a3) [?a1](has-treasure ?a3))
-                     (when [?a2](!has-treasure ?a3) [?a1](!has-treasure ?a3)))
+        :effect (and
+            ; When ?a2 believes ?a3 has the treasure, ?a1 believes ?a3 has the treasure
+            (when [?a2](has-treasure ?a3) [?a1](has-treasure ?a3))
+
+            ; Same, but for when ?a2 believes ?a3 does not have the treasure
+            (when [?a2](!has-treasure ?a3) [?a1](!has-treasure ?a3))
+        )
     )
 
 )
@@ -58,12 +65,13 @@
     (:init-type complete)
     (:init
 
-        ; Map -- star around l0
+        ; Map -- star around l0, but only 1-way now.
         (connected l1 l0)
         (connected l2 l0)
         (connected l3 l0)
         (connected l4 l0)
 
+        ; Note that the agents have a and b starting in l1 (along with the treasure)
         (at a l1)
         (at b l1)
         (at c l0)
@@ -76,6 +84,10 @@
 
     (:depth 1)
 
+    ; Goal:
+    ;  - c believes a has the treasure
+    ;  - d believes it possible that a doesn't have the treasure.
+    ;  - all agents wind up in l0
     (:goal
         [c](has-treasure a)
         <d>(!has-treasure a)

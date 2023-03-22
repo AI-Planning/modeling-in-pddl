@@ -9,12 +9,20 @@
     (:constants )
 
     (:predicates
+            ; Agent has the treasure
             (has-treasure ?agent)
+
+            ; Treasure is at the location
             (treasure-at ?l - loc)
+
+            ; Always know where everyone is
         {AK}(at ?agent - agent ?l - loc)
+
+            ; Always know the (static) map
         {AK}(connected ?l1 ?l2 - loc)
     )
 
+    ; Move from one location to another
     (:action move
         :derive-condition   always
         :parameters         (?a - agent ?l1 ?l2 - loc)
@@ -22,6 +30,7 @@
         :effect             (and (at ?a ?l2) (!at ?a ?l1))
     )
 
+    ; Pick up the treasure
     (:action take
         :derive-condition (at $agent$ ?l)
         :parameters       (?a - agent ?l - loc)
@@ -29,6 +38,7 @@
         :effect           (and (!treasure-at ?l) (has-treasure ?a))
     )
 
+    ; Drop the treasure
     (:action drop
         :derive-condition (at $agent$ ?l)
         :parameters       (?a - agent ?l - loc)
@@ -44,10 +54,14 @@
 
     (:objects l0 l1 l2 l3 l4 - loc)
 
+    ; No perspective projection
     (:projection )
+    ; Want valid plans
     (:task valid_generation)
 
+    ; This will assume everything not mentioned in the init is not believed
     (:init-type complete)
+
     (:init
 
         ; Map -- star around l0
@@ -68,8 +82,11 @@
 
     )
 
+    ; For now, just an epistemic depth of 1
     (:depth 1)
 
+    ; Goal: a believes b has it, and c believes d has it.
+    ;       Also, they all wind up in l0
     (:goal
         [a](has-treasure b)
         [c](has-treasure d)
