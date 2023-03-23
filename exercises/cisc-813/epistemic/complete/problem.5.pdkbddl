@@ -59,7 +59,7 @@
     ; Infer action
     ;  - Derive it always
     ;  - Parameters are 3 agents and a location
-    ;  - Precondition is that the 3 agents are at the location and all differenct (and we can still infer)
+    ;  - Precondition is that the 3 agents are at the location and all different (and we can still infer)
     ;  - Effect is that we can no longer infer, and when the first 2 agents don't have the treasure + no
     ;    location does, then the third agent has the treasure.
     (:action infer

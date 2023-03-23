@@ -23,6 +23,7 @@
     )
 
     ; Move from one location to another
+    ;  You get this one for free. Yay!
     (:action move
         :derive-condition   always
         :parameters         (?a - agent ?l1 ?l2 - loc)
@@ -31,19 +32,23 @@
     )
 
     ; Pick up the treasure
+    ;  - Precondition: at the location, and treasure is there
+    ;  - Effect: treasure no longer at the location, and agent has the treasure
     (:action take
         :derive-condition (at $agent$ ?l)
         :parameters       (?a - agent ?l - loc)
-        :precondition     (and (at ?a ?l) (treasure-at ?l))
-        :effect           (and (!treasure-at ?l) (has-treasure ?a))
+        :precondition     () ; TODO
+        :effect           () ; TODO
     )
 
     ; Drop the treasure
+    ;  - Precondition: at the location, and agent has the treasure
+    ;  - Effect: treasure is at the location, and agent no longer has the treasure
     (:action drop
         :derive-condition (at $agent$ ?l)
         :parameters       (?a - agent ?l - loc)
-        :precondition     (and (at ?a ?l) (has-treasure ?a))
-        :effect           (and (!has-treasure ?a) (treasure-at ?l))
+        :precondition     () ; TODO
+        :effect           () ; TODO
     )
 
 )
@@ -88,8 +93,6 @@
     ; Goal: a believes b has it, and c believes d has it.
     ;       Also, they all wind up in l0
     (:goal
-        [a](has-treasure b)
-        [c](has-treasure d)
-        (forall ?ag - agent (at ?ag l0))
+        ; TODO
     )
 )

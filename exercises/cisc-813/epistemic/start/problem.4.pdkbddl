@@ -24,15 +24,15 @@
                                 (at ?a ?l2)
                                 (!at ?a ?l1)
 
-                                ; ?a thinks it's possible there is a treasure at ?l1
-                                ;  and also thinks it's possible there isn't a treasure at ?l1
-                                <?a>(treasure-at ?l1)
-                                <?a>(!treasure-at ?l1)
+                                ; NOTE: Do the goal first, then try solving, then implement these effects
+                                ;        before trying again.
 
-                                ; When there is treasure at ?l2, then ?a will see it and believe it
+                                ; TODO: ?a thinks it's possible there is a treasure at ?l1
+                                ;  and also thinks it's possible there isn't a treasure at ?l1
+
+                                ; TODO: When there is treasure at ?l2, then ?a will see it and believe it
                                 ; Same for when there isn't treasure at ?l2
-                                (when (treasure-at ?l2) [?a](treasure-at ?l2))
-                                (when (!treasure-at ?l2) [?a](!treasure-at ?l2))
+
                             )
     )
 
@@ -96,9 +96,10 @@
     ;   - all agents are in location l0
     ;   - NOTE: This shouldn't be solvable with suspicious agents
     (:goal
-        (has-treasure a)
-        [b](treasure-at l0)
-        [c](treasure-at l1)
-        (forall ?ag - agent (at ?ag l0))
+
+
+        ; TODO
+
+
     )
 )

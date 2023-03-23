@@ -38,17 +38,13 @@
     )
 
     ; One agent can ask another if some agent has the treasure
+    ;  - Derive it never
+    ;  - Parameters are 3 agents and a location (one agent asks a second if the third has the treasure)
+    ;  - Precondition is that the first agent is at the location and the second agent is at the location
+    ;  - Effect is (1) when the second agent believes the third has the treasure, the first will too; and
+    ;              (2) when the second agent believes the third does not have the treasure, the first will too.
     (:action ask
-        :derive-condition never
-        :parameters (?a1 ?a2 ?a3 - agent ?l - loc)
-        :precondition (and (at ?a1 ?l) (at ?a2 ?l))
-        :effect (and
-            ; When ?a2 believes ?a3 has the treasure, ?a1 believes ?a3 has the treasure
-            (when [?a2](has-treasure ?a3) [?a1](has-treasure ?a3))
-
-            ; Same, but for when ?a2 believes ?a3 does not have the treasure
-            (when [?a2](!has-treasure ?a3) [?a1](!has-treasure ?a3))
-        )
+        ; TODO
     )
 
 )
@@ -89,8 +85,10 @@
     ;  - d believes it possible that a doesn't have the treasure.
     ;  - all agents wind up in l0
     (:goal
-        [c](has-treasure a)
-        <d>(!has-treasure a)
-        (forall ?ag - agent (at ?ag l0))
+
+
+        ; TODO
+
+
     )
 )

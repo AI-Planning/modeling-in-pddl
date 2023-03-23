@@ -11,10 +11,12 @@
     (:predicates
             (has-treasure ?agent)
             (treasure-at ?l - loc)
-        {AK}(diff ?a1 ?a2 - agent)
         {AK}(at ?agent - agent ?l - loc)
         {AK}(connected ?l1 ?l2 - loc)
-        {AK}(can-infer)
+
+        ; TODO: Add diff and can-infer AK predicates. The former
+        ;       should take in two agent parameters.
+
     )
 
     (:action move
@@ -24,8 +26,11 @@
         :effect             (and
                                 (at ?a ?l2)
                                 (!at ?a ?l1)
+
+                                ; Note that we've made them oblivious again, just so we can have interesting goals
                                 ; <?a>(treasure-at ?l1)
                                 ; <?a>(!treasure-at ?l1)
+
                                 (when (treasure-at ?l2) [?a](treasure-at ?l2))
                                 (when (!treasure-at ?l2) [?a](!treasure-at ?l2))
                             )
@@ -59,41 +64,13 @@
     ; Infer action
     ;  - Derive it always
     ;  - Parameters are 3 agents and a location
-    ;  - Precondition is that the 3 agents are at the location and all differenct (and we can still infer)
+    ;  - Precondition is that the 3 agents are at the location and all different (and we can still infer)
     ;  - Effect is that we can no longer infer, and when the first 2 agents don't have the treasure + no
     ;    location does, then the third agent has the treasure.
     (:action infer
-        :derive-condition always
-        :parameters (?a1 ?a2 ?a3 - agent ?l - loc)
-        :precondition (and
 
-            (can-infer)
+        ; TODO
 
-            (diff ?a1 ?a2)
-            (diff ?a1 ?a3)
-            (diff ?a2 ?a3)
-
-            (at ?a1 ?l)
-            (at ?a2 ?l)
-            (at ?a3 ?l)
-
-        )
-        :effect (and
-
-            (!can-infer)
-
-            (when
-
-                (and
-                    (!has-treasure ?a1)
-                    (!has-treasure ?a2)
-                    (forall
-                        (?l2 - loc)
-                        (!treasure-at ?l2)
-                    )
-                )
-
-                (has-treasure ?a3)))
     )
 
 )
@@ -118,13 +95,7 @@
         (at b l1)
         (at c l1)
 
-        ; All diff predicaes (since we can't use (not (= ?a1 ?a2)))
-        (diff a b)
-        (diff a c)
-        (diff b c)
-        (diff b a)
-        (diff c a)
-        (diff c b)
+        ; TODO: All diff predicaes (since we can't use (not (= ?a1 ?a2)))
 
         ; The treasure isn't at any location.
         (forall (?l - loc) (!treasure-at ?l))
@@ -134,13 +105,9 @@
         (!has-treasure b)
         (!has-treasure c)
 
-        ; Every agent knows if they have the treasure or not.
-        [a](has-treasure a)
-        [b](!has-treasure b)
-        [c](!has-treasure c)
+        ; TODO: Every agent knows if they have the treasure or not.
 
-        ; We can infer
-        (can-infer)
+        ; TODO: We can infer
 
     )
 
@@ -149,8 +116,7 @@
     ; Goal: Both b and c believe that a has the treasure.
     (:goal
 
-        [b](has-treasure a)
-        [c](has-treasure a)
+        ; TODO
 
     )
 )
