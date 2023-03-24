@@ -1,0 +1,94 @@
+
+
+
+(define (domain treasure)
+
+    (:agents a b c d)
+
+    (:types loc)
+    (:constants )
+
+    (:predicates
+            (has-treasure ?agent)
+            (treasure-at ?l - loc)
+        {AK}(at ?agent - agent ?l - loc)
+        {AK}(connected ?l1 ?l2 - loc)
+    )
+
+    (:action move
+        :derive-condition   always
+        :parameters         (?a - agent ?l1 ?l2 - loc)
+        :precondition       (and (at ?a ?l1) (connected ?l1 ?l2))
+        :effect             (and (at ?a ?l2) (!at ?a ?l1))
+    )
+
+    (:action take
+        :derive-condition (at $agent$ ?l)
+        :parameters       (?a - agent ?l - loc)
+        :precondition     (and (at ?a ?l) (treasure-at ?l))
+        :effect           (and (!treasure-at ?l) (has-treasure ?a))
+    )
+
+    (:action drop
+        :derive-condition (at $agent$ ?l)
+        :parameters       (?a - agent ?l - loc)
+        :precondition     (and (at ?a ?l) (has-treasure ?a))
+        :effect           (and (!has-treasure ?a) (treasure-at ?l))
+
+    )
+
+    ; One agent can ask another if some agent has the treasure
+    ;  - Derive it never
+    ;  - Parameters are 3 agents and a location (one agent asks a second if the third has the treasure)
+    ;  - Precondition is that the first agent is at the location and the second agent is at the location
+    ;  - Effect is (1) when the second agent believes the third has the treasure, the first will too; and
+    ;              (2) when the second agent believes the third does not have the treasure, the first will too.
+    (:action ask
+        ; TODO
+    )
+
+)
+
+(define (problem treasure2)
+
+    (:domain treasure)
+
+    (:objects l0 l1 l2 l3 l4 - loc)
+
+    (:projection )
+    (:task valid_generation)
+
+    (:init-type complete)
+    (:init
+
+        ; Map -- star around l0, but only 1-way now.
+        (connected l1 l0)
+        (connected l2 l0)
+        (connected l3 l0)
+        (connected l4 l0)
+
+        ; Note that the agents have a and b starting in l1 (along with the treasure)
+        (at a l1)
+        (at b l1)
+        (at c l0)
+        (at d l0)
+
+        ; Treasure in l1
+        (treasure-at l1)
+
+    )
+
+    (:depth 1)
+
+    ; Goal:
+    ;  - c believes a has the treasure
+    ;  - d believes it possible that a doesn't have the treasure.
+    ;  - all agents wind up in l0
+    (:goal
+
+
+        ; TODO
+
+
+    )
+)

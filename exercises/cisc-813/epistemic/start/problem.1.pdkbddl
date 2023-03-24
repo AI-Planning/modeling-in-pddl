@@ -1,0 +1,98 @@
+
+
+
+(define (domain treasure)
+
+    (:agents a b c d)
+
+    (:types loc)
+    (:constants )
+
+    (:predicates
+            ; Agent has the treasure
+            (has-treasure ?agent)
+
+            ; Treasure is at the location
+            (treasure-at ?l - loc)
+
+            ; Always know where everyone is
+        {AK}(at ?agent - agent ?l - loc)
+
+            ; Always know the (static) map
+        {AK}(connected ?l1 ?l2 - loc)
+    )
+
+    ; Move from one location to another
+    ;  You get this one for free. Yay!
+    (:action move
+        :derive-condition   always
+        :parameters         (?a - agent ?l1 ?l2 - loc)
+        :precondition       (and (at ?a ?l1) (connected ?l1 ?l2))
+        :effect             (and (at ?a ?l2) (!at ?a ?l1))
+    )
+
+    ; Pick up the treasure
+    ;  - Precondition: at the location, and treasure is there
+    ;  - Effect: treasure no longer at the location, and agent has the treasure
+    (:action take
+        :derive-condition (at $agent$ ?l)
+        :parameters       (?a - agent ?l - loc)
+        :precondition     () ; TODO
+        :effect           () ; TODO
+    )
+
+    ; Drop the treasure
+    ;  - Precondition: at the location, and agent has the treasure
+    ;  - Effect: treasure is at the location, and agent no longer has the treasure
+    (:action drop
+        :derive-condition (at $agent$ ?l)
+        :parameters       (?a - agent ?l - loc)
+        :precondition     () ; TODO
+        :effect           () ; TODO
+    )
+
+)
+
+(define (problem treasure1)
+
+    (:domain treasure)
+
+    (:objects l0 l1 l2 l3 l4 - loc)
+
+    ; No perspective projection
+    (:projection )
+    ; Want valid plans
+    (:task valid_generation)
+
+    ; This will assume everything not mentioned in the init is not believed
+    (:init-type complete)
+
+    (:init
+
+        ; Map -- star around l0
+        (connected l0 l1)
+        (connected l0 l2)
+        (connected l0 l3)
+        (connected l0 l4)
+        (connected l1 l0)
+        (connected l2 l0)
+        (connected l3 l0)
+        (connected l4 l0)
+
+        ; Agents all in l0
+        (forall ?ag - agent (at ?ag l0))
+
+        ; Treasure in l4
+        (treasure-at l4)
+
+    )
+
+    ; For now, just an epistemic depth of 1
+    (:depth 1)
+
+    ; Goal: a believes b has it, and c believes d has it.
+    ;       Also, they all wind up in l0
+    (:goal
+        ; TODO
+    )
+)

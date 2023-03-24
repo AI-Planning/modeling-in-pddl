@@ -1,0 +1,122 @@
+
+
+
+(define (domain treasure)
+
+    (:agents a b c)
+
+    (:types loc)
+    (:constants )
+
+    (:predicates
+            (has-treasure ?agent)
+            (treasure-at ?l - loc)
+        {AK}(at ?agent - agent ?l - loc)
+        {AK}(connected ?l1 ?l2 - loc)
+
+        ; TODO: Add diff and can-infer AK predicates. The former
+        ;       should take in two agent parameters.
+
+    )
+
+    (:action move
+        :derive-condition   always
+        :parameters         (?a - agent ?l1 ?l2 - loc)
+        :precondition       (and (at ?a ?l1) (connected ?l1 ?l2))
+        :effect             (and
+                                (at ?a ?l2)
+                                (!at ?a ?l1)
+
+                                ; Note that we've made them oblivious again, just so we can have interesting goals
+                                ; <?a>(treasure-at ?l1)
+                                ; <?a>(!treasure-at ?l1)
+
+                                (when (treasure-at ?l2) [?a](treasure-at ?l2))
+                                (when (!treasure-at ?l2) [?a](!treasure-at ?l2))
+                            )
+    )
+
+    ; NOTE: We've commented out the take/drop so that the belief can only be done through
+    ;       communication and inference.
+    ; (:action take
+    ;     :derive-condition (at $agent$ ?l)
+    ;     :parameters       (?a - agent ?l - loc)
+    ;     :precondition     (and (at ?a ?l) (treasure-at ?l))
+    ;     :effect           (and (forall ?l2 - loc (!treasure-at ?l2)) (has-treasure ?a))
+    ; )
+
+    ; (:action drop
+    ;     :derive-condition (at $agent$ ?l)
+    ;     :parameters       (?a - agent ?l - loc)
+    ;     :precondition     (and (at ?a ?l) (has-treasure ?a))
+    ;     :effect           (and (forall ?a2 - agent (!has-treasure ?a2)) (treasure-at ?l))
+    ; )
+
+    ; NOTE: For now, we only allow the asking of false statements. Rest will need inference.
+    (:action ask-not
+        :derive-condition (at $agent$ ?l)
+        :parameters (?a1 ?a2 ?a3 - agent ?l - loc)
+        :precondition (and (at ?a1 ?l) (at ?a2 ?l))
+        :effect (and (when [?a2](!has-treasure ?a3) [?a1](!has-treasure ?a3))
+                     (when [?a2](!has-treasure ?a3) [?a1][?a2](!has-treasure ?a3)))
+    )
+
+    ; Infer action
+    ;  - Derive it always
+    ;  - Parameters are 3 agents and a location
+    ;  - Precondition is that the 3 agents are at the location and all different (and we can still infer)
+    ;  - Effect is that we can no longer infer, and when the first 2 agents don't have the treasure + no
+    ;    location does, then the third agent has the treasure.
+    (:action infer
+
+        ; TODO
+
+    )
+
+)
+
+(define (problem treasure5)
+
+    (:domain treasure)
+
+    (:objects l0 l1 - loc)
+
+    (:projection )
+    (:task valid_generation)
+
+    (:init-type complete)
+    (:init
+
+        ; Just a pair of rooms
+        (connected l1 l0)
+        (connected l0 l1)
+
+        (at a l0)
+        (at b l1)
+        (at c l1)
+
+        ; TODO: All diff predicaes (since we can't use (not (= ?a1 ?a2)))
+
+        ; The treasure isn't at any location.
+        (forall (?l - loc) (!treasure-at ?l))
+
+        ; a has the treasure, and b and c don't.
+        (has-treasure a)
+        (!has-treasure b)
+        (!has-treasure c)
+
+        ; TODO: Every agent knows if they have the treasure or not.
+
+        ; TODO: We can infer
+
+    )
+
+    (:depth 2)
+
+    ; Goal: Both b and c believe that a has the treasure.
+    (:goal
+
+        ; TODO
+
+    )
+)

@@ -1,0 +1,81 @@
+
+(define (domain music-v2)
+
+    (:requirements
+        :durative-actions
+        :timed-initial-literals
+        :typing
+        :conditional-effects
+        :negative-preconditions
+        :duration-inequalities
+        :equality
+        :fluents
+    )
+
+    (:types
+        pitch
+        length
+        chord
+    )
+
+    (:predicates
+        (not-playing)
+
+        ; Chords!
+        (not-chording)
+        (note-in ?p - pitch ?c - chord)
+        (current-chord ?c - chord)
+    )
+
+    (:functions
+        (note-length ?l - length)
+        (melody-count)
+        (melody-length)
+        (max-note-count)
+        (max-duration-count)
+        (note-count ?p - pitch)
+        (duration-count ?l - length)
+
+        ; Chord functions (want a progression)
+        (max-chord-count)
+        (chord-count)
+    )
+
+
+    ; Action to play a note for a specified duration
+    (:durative-action play-note
+        :parameters (?p - pitch ?l - length ?c - chord)
+        :duration (= ?duration (note-length ?l))
+        :condition (and
+
+            ; TODO: Chord setup
+            ;  - Note should be in the chord
+            ;  - The chord should be playing for the entire duration of the note
+
+            (at start (not-playing))
+            (at start (< (note-count ?p) (max-note-count)))
+            (at start (< (duration-count ?l) (max-duration-count)))
+        )
+        :effect (and
+            (at start (not (not-playing)))
+            (at start (increase (melody-count) 1))
+            (at start (increase (note-count ?p) 1))
+            (at start (increase (duration-count ?l) 1))
+            (at end (not-playing))
+            (at end  (increase (melody-length) (note-length ?l)))
+        )
+    )
+
+    ; Action to play a chord for 4 beats
+    ;   Condition: not chording and less than max chords so far
+    ;   Effect: start chording, increase chord count, end chording
+    (:durative-action play-chord
+        :parameters (?c - chord)
+        :duration (= ?duration 4) ; For now, we only allow 4-beat chords
+        :condition () ; TODO: See above
+        :effect ()  ; TODO: See above
+    )
+
+
+
+)
