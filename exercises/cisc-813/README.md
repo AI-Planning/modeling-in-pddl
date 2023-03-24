@@ -19,7 +19,7 @@ Then, from a directory students wish to work from, they can run the following co
 docker run -it --privileged -v $(pwd):/root/cisc813 cjmuise/cisc813
 ```
 
-This will mount the current directory as `/root/cisc813` in the container, and will also give the container ability to run the planners (`--privilegedd` is required for planutils).
+This will mount the current directory as `/root/cisc813` in the container, and will also give the container ability to run the planners (`--privileged` is required for planutils).
 
 In each of the slide decks, there will be examples indicated by a pair of terms: `{formalism} / {example}`. These can be retrieved by the students, in the docker image above, but running the following command:
 
