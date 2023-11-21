@@ -58,7 +58,7 @@ RUN chmod 777 /usr/local/bin/make-music
 
 
 # Hybrid
-RUN planutils install -f -y enhsp-2020
+RUN planutils install -f -y enhsp
 
 
 # Epistemic
