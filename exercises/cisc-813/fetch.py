@@ -10,9 +10,9 @@ USAGE = "usage: python fetch.py <formalism> <example>"
 
 def fetch(formalism, example):
 
-    r = requests.get(f"http://editor.planning.domains/planning-course/{formalism}/{example}")
+    r = requests.get(f"https://editor.planning.domains/planning-course/{formalism}/{example}")
     session_id = r.url.split('=')[-1]
-    js_url = f"http://editor.planning.domains/session/{session_id}"
+    js_url = f"https://editor.planning.domains/session/{session_id}"
 
     # Get the JS file
     r = requests.get(js_url)
