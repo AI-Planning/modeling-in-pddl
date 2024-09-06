@@ -81,6 +81,8 @@ RUN echo "#!/bin/bash" >> /usr/local/bin/fetch-exercise
 RUN echo "python3 /workspace/bin/fetch.py \$@" >> /usr/local/bin/fetch-exercise
 RUN chmod 777 /usr/local/bin/fetch-exercise
 
+RUN planutils configure -s PAAS_SERVER http://cisc813.caslab.queensu.ca:5001
+
 WORKDIR /root/cisc813
 
 CMD planutils activate
