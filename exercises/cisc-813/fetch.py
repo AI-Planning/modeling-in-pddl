@@ -29,6 +29,7 @@ def fetch(formalism, example):
             fn = line.split('"')[1]
             content = '"'.join(line.split('"')[3:-1])
             content = content.replace('\\n', '\n')
+            content = content.replace('\\t', '\t')
 
             # Confirm if file already exists
             if os.path.exists(fn):
