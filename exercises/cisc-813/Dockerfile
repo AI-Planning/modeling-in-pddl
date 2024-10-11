@@ -46,6 +46,14 @@ RUN chmod 777 /usr/local/bin/prppp
 RUN planutils install -f -y poprp
 RUN planutils install -f -y cpor
 
+# HTN
+RUN planutils install -f -y panda
+
+COPY htn/htnviz.py /workspace/bin/htnviz.py
+RUN echo "#!/bin/bash" >> /usr/local/bin/panda-viz
+RUN echo "panda \$@ | tee panda.out" >> /usr/local/bin/panda-viz
+RUN echo "python3 /workspace/bin/htnviz.py panda.out" >> /usr/local/bin/panda-viz
+RUN chmod 777 /usr/local/bin/panda-viz
 
 # Temporal
 RUN planutils install -f -y popf
@@ -72,6 +80,8 @@ COPY fetch.py /workspace/bin/fetch.py
 RUN echo "#!/bin/bash" >> /usr/local/bin/fetch-exercise
 RUN echo "python3 /workspace/bin/fetch.py \$@" >> /usr/local/bin/fetch-exercise
 RUN chmod 777 /usr/local/bin/fetch-exercise
+
+RUN planutils configure -s PAAS_SERVER http://cisc813.caslab.queensu.ca:5001
 
 WORKDIR /root/cisc813
 
