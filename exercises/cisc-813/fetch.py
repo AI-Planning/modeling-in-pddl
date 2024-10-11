@@ -28,8 +28,7 @@ def fetch(formalism, example):
                 break
             fn = line.split('"')[1]
             content = '"'.join(line.split('"')[3:-1])
-            content = content.replace('\\n', '\n')
-            content = content.replace('\\t', '\t')
+            content = content.replace('\\n', '\n').replace('\\t', '\t').replace('\\"', '"')
 
             # Confirm if file already exists
             if os.path.exists(fn):

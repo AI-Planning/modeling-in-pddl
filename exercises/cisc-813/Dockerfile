@@ -66,7 +66,7 @@ RUN chmod 777 /usr/local/bin/make-music
 
 
 # Hybrid
-RUN planutils install -f -y enhsp-2020
+RUN planutils install -f -y enhsp
 
 
 # Epistemic
@@ -84,5 +84,9 @@ RUN chmod 777 /usr/local/bin/fetch-exercise
 RUN planutils configure -s PAAS_SERVER http://cisc813.caslab.queensu.ca:5001
 
 WORKDIR /root/cisc813
+
+# Comment out this line (or modify and deploy your own PaaS) if using outside of
+#  the Queen's University context.
+RUN planutils configure -s PAAS_SERVER http://cisc813.caslab.queensu.ca:5001
 
 CMD planutils activate
