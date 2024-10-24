@@ -1,0 +1,79 @@
+(define (domain restaurant)
+    (:requirements :strips :typing :hierarchy)
+
+    (:types
+        food person room - object
+        server chef guest - person
+        meal dish ingredient - food
+    )
+
+    (:constants
+        front-of-house kitchen fridge - room
+        appetizer main-course dessert - dish
+    )
+
+    (:predicates
+        (has-ingredient ?d - dish ?i - ingredient)
+        (prepared ?d - food)
+    )
+
+    (:task noop)
+
+    (:task serve_couple :parameters (?g1 ?g2 - guest))
+
+    (:task prepare_meal :parameters (?g - guest))
+
+    ; (:task prepare-dish :parameters (?d - dish ?m - meal) )
+
+    (:method m_serve-couple
+        :parameters (?g1 ?g2 - guest)
+        :task (serve_couple ?g1 ?g2)
+        :subtasks (and
+            (prepare_meal ?g1)
+            (prepare_meal ?g2)
+        )
+    )
+
+    (:method m_three-course-meal
+        :parameters (?g - guest ?m - meal)
+        :task (prepare_meal ?g)
+        :subtasks (and
+            (prepare-dish appetizer ?m)
+            (prepare-dish main-course ?m)
+            (prepare-dish dessert ?m)
+        )
+    )
+
+    (:method m_two-course-meal
+        :parameters (?g - guest ?m - meal)
+        :task (prepare_meal ?g)
+        :subtasks (and
+            (prepare-dish appetizer ?m)
+            (prepare-dish main-course ?m)
+        )
+    )
+
+    (:action prepare-dish
+        :parameters (?d - dish ?m - meal)
+        ; :precondition (and
+
+        ; )
+        :precondition (and
+            (forall
+                (?i - ingredient)
+                (imply
+                    (has-ingredient ?d ?i)
+                    (prepared ?i)))
+        )
+        :effect (and
+            (prepared ?d)
+        )
+    )
+
+    (:method m_noop
+        :task (noop)
+        ; :task (serve_couple ?g1 ?g2)
+        :subtasks ()
+    )
+
+)

@@ -1,0 +1,28 @@
+(define (problem bear1)
+    (:domain restaurant)
+    (:objects
+        alice bob - guest
+        m1 m2 - meal
+        lettuce tomato beef potato chocolate sugar - ingredient
+    )
+
+    (:htn
+        :subtasks (serve_couple alice bob)
+    )
+
+    (:init
+        (has-ingredient appetizer lettuce)
+        (has-ingredient appetizer tomato)
+        (has-ingredient main-course beef)
+        (has-ingredient main-course potato)
+        (has-ingredient dessert chocolate)
+        (has-ingredient dessert sugar)
+        (prepared lettuce)
+        (prepared tomato)
+        (prepared beef)
+        (prepared potato)
+        (prepared chocolate)
+        (prepared sugar)
+    )
+
+)
