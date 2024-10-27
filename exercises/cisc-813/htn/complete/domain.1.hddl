@@ -17,13 +17,11 @@
         (prepared ?d - food)
     )
 
-    (:task noop)
-
     (:task serve_couple :parameters (?g1 ?g2 - guest))
 
     (:task prepare_meal :parameters (?g - guest))
 
-    ; (:task prepare-dish :parameters (?d - dish ?m - meal) )
+    (:task prepare_ingredients)
 
     (:method m_serve-couple
         :parameters (?g1 ?g2 - guest)
@@ -38,6 +36,7 @@
         :parameters (?g - guest ?m - meal)
         :task (prepare_meal ?g)
         :subtasks (and
+            (prepare_ingredients)
             (prepare-dish appetizer ?m)
             (prepare-dish main-course ?m)
             (prepare-dish dessert ?m)
@@ -48,16 +47,28 @@
         :parameters (?g - guest ?m - meal)
         :task (prepare_meal ?g)
         :subtasks (and
+            (prepare_ingredients)
             (prepare-dish appetizer ?m)
             (prepare-dish main-course ?m)
         )
     )
 
+    (:method m_prepare-ingredients
+        :parameters (?i - ingredient)
+        :task (prepare_ingredients)
+        :subtasks (and
+            (prepare-ingredient ?i)
+            (prepare_ingredients)
+        )
+    )
+
+    (:method m_done-preparing-ingredients
+        :task (prepare_ingredients)
+        :subtasks ()
+    )
+
     (:action prepare-dish
         :parameters (?d - dish ?m - meal)
-        ; :precondition (and
-
-        ; )
         :precondition (and
             (forall
                 (?i - ingredient)
@@ -70,10 +81,12 @@
         )
     )
 
-    (:method m_noop
-        :task (noop)
-        ; :task (serve_couple ?g1 ?g2)
-        :subtasks ()
+    (:action prepare-ingredient
+        :parameters (?i - ingredient)
+        :precondition ()
+        :effect (and
+            (prepared ?i)
+        )
     )
 
 )

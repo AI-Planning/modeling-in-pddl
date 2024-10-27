@@ -104,6 +104,12 @@ Walks through Secredoku -- a made up domain that has an embodied agent walking a
 
 ----
 
+## Hierarchical Task Networks
+
+Explores the world of running a high-intensity kitchen, from the back-of-restaurant to the front-end staff. The domain is built up incrementally, and the slides are in the [`htn`](htn/) directory. Included also is a wrapper to the `panda` planner that will redirect users to an online visualization of the plan.
+
+----
+
 ## Temporal Planning
 
 General idea is to build a model that corresponds to playing music through a chord progression. Tackles things with heavy use of functions / numeric variables (e.g., counting the times a note is played), and chords + chord changes play a role in making things interesting temporally. Additional notes:

@@ -3,7 +3,7 @@
     (:objects
         alice bob - guest
         m1 m2 - meal
-        lettuce tomato beef potato chocolate sugar - ingredient
+        tomato mozzarella parmesan oil pasta strawberries chocolate - ingredient
     )
 
     (:htn
@@ -11,18 +11,16 @@
     )
 
     (:init
-        (has-ingredient appetizer lettuce)
         (has-ingredient appetizer tomato)
-        (has-ingredient main-course beef)
-        (has-ingredient main-course potato)
+        (has-ingredient appetizer mozzarella)
+        (has-ingredient appetizer oil)
+        (has-ingredient main-course pasta)
+        (has-ingredient main-course parmesan)
+        (has-ingredient dessert strawberries)
         (has-ingredient dessert chocolate)
-        (has-ingredient dessert sugar)
-        (prepared lettuce)
-        (prepared tomato)
-        (prepared beef)
-        (prepared potato)
-        (prepared chocolate)
-        (prepared sugar)
+
+        ; some things don't need to be prepared
+        (prepared oil)
     )
 
 )
