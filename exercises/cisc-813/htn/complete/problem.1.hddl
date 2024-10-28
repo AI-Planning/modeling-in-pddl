@@ -7,7 +7,7 @@
     )
 
     (:htn
-        :subtasks (serve_couple alice bob)
+        :subtasks (serve-couple alice bob)
     )
 
     (:init
