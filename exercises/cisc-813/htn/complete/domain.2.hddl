@@ -1,0 +1,117 @@
+(define (domain restaurant)
+    (:requirements :strips :typing :hierarchy)
+
+    (:types
+        food person room - object
+        server chef guest - person
+        meal dish ingredient - food
+    )
+
+    (:constants
+        front-of-house kitchen fridge - room
+        appetizer main-course dessert - dish
+    )
+
+    (:predicates
+        (has-ingredient ?d - dish ?i - ingredient)
+        (prepared ?d - food)
+    )
+
+
+    ; https://www.eatingwell.com/recipe/7928252/arugula-fennel-salad-with-lemon-vinaigrette/
+
+    ; Whisk oil, lemon zest, lemon juice, salt and pepper in
+    ; a large bowl. Add arugula and fennel and toss gently to
+    ; combine. Serve topped with Parmesan and fennel fronds, if
+    ; desired.
+
+    (:task serve-couple :parameters (?g1 ?g2 - guest))
+
+    (:task prepare-meal :parameters (?g - guest))
+
+    (:task prepare-ingredients)
+
+    (:task prepare-special)
+
+    (:method m_prepare-special-salad
+        :task (prepare-special)
+        :subtasks (and
+            (t1 (prepare-ingredients))
+            (t2 (salad-whisk))
+            (t3 (salad-toss))
+            (t4 (salad-top))
+        )
+        :ordering (and
+            (< t2 t3)
+            (< t3 t4)
+        )
+    )
+
+    (:method m_serve-couple
+        :parameters (?g1 ?g2 - guest)
+        :task (serve-couple ?g1 ?g2)
+        :subtasks (and
+            (prepare-special)
+            (prepare-meal ?g1)
+            (prepare-meal ?g2)
+        )
+    )
+
+    (:method m_three-course-meal
+        :parameters (?g - guest ?m - meal)
+        :task (prepare-meal ?g)
+        :subtasks (and
+            (prepare-ingredients)
+            (prepare-dish appetizer ?m)
+            (prepare-dish main-course ?m)
+            (prepare-dish dessert ?m)
+        )
+    )
+
+    (:method m_two-course-meal
+        :parameters (?g - guest ?m - meal)
+        :task (prepare-meal ?g)
+        :subtasks (and
+            (prepare-ingredients)
+            (prepare-dish appetizer ?m)
+            (prepare-dish main-course ?m)
+        )
+    )
+
+    (:method m_prepare-ingredients
+        :parameters (?i - ingredient)
+        :task (prepare-ingredients)
+        :subtasks (and
+            (prepare-ingredient ?i)
+            (prepare-ingredients)
+        )
+    )
+
+    (:method m_done-preparing-ingredients
+        :task (prepare-ingredients)
+        :subtasks ()
+    )
+
+    (:action prepare-dish
+        :parameters (?d - dish ?m - meal)
+        :precondition (and
+            (forall
+                (?i - ingredient)
+                (imply
+                    (has-ingredient ?d ?i)
+                    (prepared ?i)))
+        )
+        :effect (and
+            (prepared ?d)
+        )
+    )
+
+    (:action prepare-ingredient
+        :parameters (?i - ingredient)
+        :precondition ()
+        :effect (and
+            (prepared ?i)
+        )
+    )
+
+)

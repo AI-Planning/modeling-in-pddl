@@ -1,0 +1,26 @@
+(define (problem bear2)
+    (:domain restaurant)
+    (:objects
+        alice bob - guest
+        m1 m2 - meal
+        tomato mozzarella parmesan oil pasta strawberries chocolate lemon-zest lemon-juice salt pepper arugula fennel - ingredient
+    )
+
+    (:htn
+        :subtasks (serve-couple alice bob)
+    )
+
+    (:init
+        (has-ingredient appetizer tomato)
+        (has-ingredient appetizer mozzarella)
+        (has-ingredient appetizer oil)
+        (has-ingredient main-course pasta)
+        (has-ingredient main-course parmesan)
+        (has-ingredient dessert strawberries)
+        (has-ingredient dessert chocolate)
+
+        ; some things don't need to be prepared
+        (prepared oil)
+    )
+
+)
