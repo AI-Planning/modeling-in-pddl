@@ -4,12 +4,14 @@
     (:types
         food person room - object
         server chef guest - person
-        meal dish ingredient - food
+        meal dish dish-part ingredient - food
     )
 
     (:constants
         front-of-house kitchen fridge - room
         appetizer main-course dessert - dish
+        salad-toss salad-whisk salad-top - dish-part
+        special - meal
     )
 
     (:predicates
@@ -32,14 +34,17 @@
     (:task prepare-ingredients)
 
     (:task prepare-special)
+    (:task prepare-salad-toss)
+    (:task prepare-salad-whisk)
+    (:task prepare-salad-top)
 
     (:method m_prepare-special-salad
         :task (prepare-special)
         :subtasks (and
             (t1 (prepare-ingredients))
-            (t2 (salad-whisk))
-            (t3 (salad-toss))
-            (t4 (salad-top))
+            (t2 (prepare-dish salad-whisk special))
+            (t3 (prepare-dish salad-toss special))
+            (t4 (prepare-dish salad-top special))
         )
         :ordering (and
             (< t2 t3)
@@ -47,13 +52,14 @@
         )
     )
 
+
     (:method m_serve-couple
         :parameters (?g1 ?g2 - guest)
         :task (serve-couple ?g1 ?g2)
         :subtasks (and
             (prepare-special)
-            (prepare-meal ?g1)
-            (prepare-meal ?g2)
+            ; (prepare-meal ?g1)
+            ; (prepare-meal ?g2)
         )
     )
 
@@ -103,6 +109,12 @@
         )
         :effect (and
             (prepared ?d)
+            ; (forall (?i - ingredient)
+            ;     (when
+            ;         (has-ingredient ?d ?i)
+            ;         (not (prepared ?i))
+            ;     )
+            ; )
         )
     )
 
