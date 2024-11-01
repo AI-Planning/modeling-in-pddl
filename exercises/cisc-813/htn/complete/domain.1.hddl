@@ -83,10 +83,8 @@
 
     (:action prepare-ingredient
         :parameters (?i - ingredient)
-        :precondition ()
-        :effect (and
-            (prepared ?i)
-        )
+        :precondition (not (prepared ?i))
+        :effect (prepared ?i)
     )
 
 )
