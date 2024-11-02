@@ -1,0 +1,101 @@
+(define (domain restaurant)
+    (:requirements :strips :typing :hierarchy)
+
+    (:types
+        food person location - object
+        server chef guest - person
+        meal dish ingredient - food
+    )
+
+    (:constants
+        front-of-house kitchen fridge floor1 floor2 - location
+        appetizer main-course dessert - dish
+    )
+
+    (:predicates
+        (connected ?l1 ?l2 - location)
+        (at ?p - person ?l - location)
+        (has ?f - food ?p - person)
+    )
+
+
+    (:task order :parameters (?m - meal ?g - guest))
+    (:task hands :parameters (?m - meal ?g - guest))
+    (:task goto :parameters (?s - person ?d - location))
+
+    (:method m_handle-order
+        :parameters (?m - meal ?g - guest ?c - chef)
+        :task (order ?m ?g)
+        :ordered-subtasks (and
+            (prepare ?m ?c)
+            (hands ?m ?g)
+        )
+    )
+
+    (:method m_deliver-meal
+        :parameters (?m - meal ?g - guest ?s - server ?l - location)
+        :task (hands ?m ?g)
+        :precondition (at ?g ?l)
+        :ordered-subtasks (and
+            (goto ?s kitchen)
+            (pickup ?m ?s kitchen)
+            (goto ?s ?l)
+            (dropoff ?m ?g ?s ?l)
+            (goto ?s front-of-house)
+        )
+    )
+
+    (:method m_goto
+        :parameters (?p - person ?cur ?next ?dest - location)
+        :task (goto ?p ?dest)
+        :ordered-subtasks (and
+            (move ?p ?cur ?next)
+            (goto ?p ?dest)
+        )
+    )
+
+    (:method m_goto_done
+        :parameters (?p - person ?dest - location)
+        :task (goto ?p ?dest)
+        :precondition (at ?p ?dest)
+        :subtasks ()
+    )
+
+    (:action move
+        :parameters (?p - person ?l1 ?l2 - location)
+        :precondition (and
+            (at ?p ?l1)
+            (connected ?l1 ?l2)
+        )
+        :effect (and
+            (not (at ?p ?l1))
+            (at ?p ?l2)
+        )
+    )
+
+    (:action pickup
+        :parameters (?m - meal ?s - server ?l - location)
+        :precondition (and (at ?s ?l) (at ?m ?l))
+        :effect (and (has ?m ?s) (not (at ?m ?l)))
+    )
+
+    (:action dropoff
+        :parameters (?m - meal ?g - guest ?s - server ?l - location)
+        :precondition (and
+            (at ?s ?l)
+            (at ?g ?l)
+            (has ?m ?s)
+        )
+        :effect (and
+            (not (has ?m ?s))
+            (has ?m ?g)
+        )
+    )
+
+    (:action prepare
+        :parameters (?m - meal ?c - chef)
+        :precondition (and (at ?c kitchen))
+        :effect (at ?m kitchen)
+    )
+
+)

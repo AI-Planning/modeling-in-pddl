@@ -1,0 +1,44 @@
+(define (problem bear3)
+    (:domain restaurant)
+    (:objects
+        alice bob cathy devon - guest
+        carmen sydney marcus tina - chef
+        richie fak natalie - server
+
+        m1 m2 m3 m4 - meal
+    )
+
+    (:htn
+        :subtasks (and
+            (order m1 alice)
+            (order m2 bob)
+            (order m3 cathy)
+            (order m4 devon)
+            (goto carmen fridge)
+        )
+    )
+
+    (:init
+        (connected front-of-house kitchen)
+        (connected kitchen front-of-house)
+        (connected kitchen fridge)
+        (connected front-of-house floor1)
+        (connected floor1 front-of-house)
+        (connected front-of-house floor2)
+        (connected floor2 front-of-house)
+
+        (at carmen kitchen)
+        (at sydney kitchen)
+
+        (at alice floor1)
+        (at bob floor1)
+        (at cathy floor2)
+        (at devon floor2)
+
+        (at richie front-of-house)
+        (at fak front-of-house)
+        (at natalie front-of-house)
+
+    )
+
+)
