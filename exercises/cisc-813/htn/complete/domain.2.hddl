@@ -34,14 +34,14 @@
     (:task prepare-salad-whisk)
     (:task prepare-salad-top)
 
-    
+
     ; https://www.eatingwell.com/recipe/7928252/arugula-fennel-salad-with-lemon-vinaigrette/
 
     ; Whisk oil, lemon zest, lemon juice, salt and pepper in
     ; a large bowl. Add arugula and fennel and toss gently to
     ; combine. Serve topped with Parmesan and fennel fronds, if
     ; desired.
-    
+
     (:method m_prepare-special-salad
         :task (prepare-special)
         :subtasks (and
@@ -55,7 +55,6 @@
             (< t3 t4)
         )
     )
-
 
     (:method m_serve-couple
         :parameters (?g1 ?g2 - guest)
