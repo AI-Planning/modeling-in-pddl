@@ -1,4 +1,4 @@
-(define (problem bear2)
+(define (problem bear4)
     (:domain restaurant)
     (:objects
         alice bob - guest
@@ -27,7 +27,7 @@
 
         (has-ingredient salad-toss arugula)
         (has-ingredient salad-toss fennel)
-        
+
         (has-ingredient salad-top parmesan)
         (has-ingredient salad-top fennel)
 
