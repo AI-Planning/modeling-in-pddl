@@ -1,0 +1,218 @@
+(define (domain restaurant)
+    (:requirements :strips :typing :hierarchy)
+
+    (:types
+        food person room - object
+        server chef guest - person
+        meal dish ingredient - food
+        dish-part - dish
+    )
+
+    (:constants
+        front-of-house kitchen fridge - room
+        appetizer main-course dessert - dish
+        salad-toss salad-whisk salad-top - dish-part
+        special - meal
+        tomato mozzarella parmesan oil pasta strawberries chocolate lemon-zest lemon-juice salt pepper arugula fennel - ingredient
+    )
+
+    (:predicates
+        (has-ingredient ?d - dish ?i - ingredient)
+        (prepared ?d - food)
+    )
+
+
+
+    (:task serve-couple :parameters (?g1 ?g2 - guest))
+
+    (:task prepare-meal :parameters (?g - guest))
+
+    (:task prepare-ingredients)
+    (:task prepare-salad-ingredients)
+
+    (:task prepare-special)
+    (:task prepare-salad-toss)
+    (:task prepare-salad-whisk)
+    (:task prepare-salad-top)
+
+
+    ; https://www.eatingwell.com/recipe/7928252/arugula-fennel-salad-with-lemon-vinaigrette/
+
+    ; Whisk oil, lemon zest, lemon juice, salt and pepper in
+    ; a large bowl. Add arugula and fennel and toss gently to
+    ; combine. Serve topped with Parmesan and fennel fronds, if
+    ; desired.
+
+    (:method m_prepare-special-salad
+        :task (prepare-special)
+        :subtasks (and
+            (t1 (prepare-salad-ingredients))
+            (t2 (prepare-dish_salad-whisk special))
+            (t3 (prepare-dish_salad-toss special))
+            (t4 (prepare-dish_salad-top special))
+        )
+        :ordering (and
+            (< t2 t3)
+            (< t3 t4)
+        )
+    )
+
+    (:method m_serve-couple
+        :parameters (?g1 ?g2 - guest)
+        :task (serve-couple ?g1 ?g2)
+        :ordered-subtasks (and
+            (prepare-special)
+            (prepare-meal ?g1)
+            (prepare-meal ?g2)
+        )
+    )
+
+    (:method m_three-course-meal
+        :parameters (?g - guest ?m - meal)
+        :task (prepare-meal ?g)
+        :precondition (not (= ?m special))
+        :subtasks (and
+            (t1 (prepare-ingredients))
+            (t2 (prepare-dish_appetizer ?m))
+            (t3 (prepare-dish_main-course ?m))
+            (t4 (prepare-dish_dessert ?m))
+        )
+        :ordering (and
+            (< t2 t4)
+            (< t3 t4)
+        )
+    )
+
+    (:method m_two-course-meal
+        :parameters (?g - guest ?m - meal)
+        :task (prepare-meal ?g)
+        :precondition (not (= ?m special))
+        :subtasks (and
+            (prepare-ingredients)
+            (prepare-dish_appetizer ?m)
+            (prepare-dish_main-course ?m)
+        )
+    )
+
+    (:method m_prepare-ingredients
+        :parameters (?i - ingredient)
+        :task (prepare-ingredients)
+        :subtasks (and
+            (prepare-ingredient ?i)
+            (prepare-ingredients)
+        )
+    )
+
+    (:method m_done-preparing-ingredients
+        :task (prepare-ingredients)
+        :subtasks ()
+    )
+
+    (:method m_prepare-salad-ingredients
+        :task (prepare-salad-ingredients)
+        :subtasks (and
+            (prepare-ingredient oil)
+            (prepare-ingredient lemon-zest)
+            (prepare-ingredient lemon-juice)
+            (prepare-ingredient salt)
+            (prepare-ingredient pepper)
+            (prepare-ingredient arugula)
+            (prepare-ingredient fennel)
+            (prepare-ingredient parmesan)
+            (prepare-ingredient fennel)
+        )
+    )
+
+    (:action prepare-dish_salad-toss
+        :parameters (?m - meal)
+        :precondition (and
+            (prepared arugula)
+            (prepared fennel)
+        )
+        :effect (and
+            (prepared salad-toss)
+            (not (prepared arugula))
+            (not (prepared fennel))
+        )
+    )
+
+    (:action prepare-dish_salad-whisk
+        :parameters (?m - meal)
+        :precondition (and
+            (prepared oil)
+            (prepared lemon-zest)
+            (prepared lemon-juice)
+            (prepared salt)
+            (prepared pepper)
+        )
+        :effect (and
+            (prepared salad-whisk)
+            (not (prepared oil))
+            (not (prepared lemon-zest))
+            (not (prepared lemon-juice))
+            (not (prepared salt))
+            (not (prepared pepper))
+        )
+    )
+
+    (:action prepare-dish_salad-top
+        :parameters (?m - meal)
+        :precondition (and
+            (prepared parmesan)
+            (prepared fennel)
+        )
+        :effect (and
+            (prepared salad-top)
+            (not (prepared parmesan))
+            (not (prepared fennel))
+        )
+    )
+
+    (:action prepare-dish_appetizer
+        :parameters (?m - meal)
+        :precondition (and
+            (prepared tomato)
+            (prepared mozzarella)
+            (prepared oil)
+        )
+        :effect (and
+            (prepared appetizer)
+            (not (prepared tomato))
+            (not (prepared mozzarella))
+            (not (prepared oil))
+        )
+    )
+
+    (:action prepare-dish_main-course
+        :parameters (?m - meal)
+        :precondition (and
+            (prepared pasta)
+            (prepared parmesan)
+        )
+        :effect (and
+            (prepared main-course)
+            (not (prepared pasta))
+            (not (prepared parmesan))
+        )
+    )
+
+    (:action prepare-dish_dessert
+        :parameters (?m - meal)
+        :precondition (and
+            (prepared strawberries)
+            (prepared chocolate)
+        )
+        :effect (and
+            (prepared dessert)
+            (not (prepared strawberries))
+            (not (prepared chocolate))
+        )
+    )
+
+    (:action prepare-ingredient
+        :parameters (?i - ingredient)
+        :precondition (not (prepared ?i))
+        :effect (prepared ?i)
+    )
+
+)
