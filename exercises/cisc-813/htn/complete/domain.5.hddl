@@ -9,6 +9,8 @@
 
     (:constants
         front-of-house kitchen fridge floor1 floor2 - location
+
+        ; https://www.eatingwell.com/article/7992234/every-dish-they-make-on-the-bear-plus-recipes/
         beef-sandwich beef-braciole chicken-suqaar chicken-piccata - dish
     )
 
