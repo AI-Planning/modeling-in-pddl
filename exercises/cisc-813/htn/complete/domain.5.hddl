@@ -24,6 +24,7 @@
     )
 
     (:task take-orders)
+
     (:task order :parameters (?d - dish ?g - guest))
     (:task hands :parameters (?m - meal ?g - guest))
     (:task goto :parameters (?s - person ?d - location))

@@ -10,7 +10,7 @@
 
     (:htn
         :ordered-subtasks (and
-            (goto carmen fridge)
+            (goto carmen fridge) ; Anyone watch the show? Note the lack of (connected fridge kitchen)...
             (take-orders)
         )
     )

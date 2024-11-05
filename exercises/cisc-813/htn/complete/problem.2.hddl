@@ -3,6 +3,7 @@
     (:objects
         alice bob - guest
         m1 m2 - meal
+        ; moved these ingredients to constants in the domain
         ; tomato mozzarella parmesan oil pasta strawberries chocolate lemon-zest lemon-juice salt pepper arugula fennel - ingredient
     )
 
@@ -11,6 +12,8 @@
     )
 
     (:init
+
+        ; Technically, these has-ingredients are no longer required due to the hard-coding of ingredients in the domain actions
         (has-ingredient appetizer tomato)
         (has-ingredient appetizer mozzarella)
         (has-ingredient appetizer oil)
@@ -30,9 +33,6 @@
         
         (has-ingredient salad-top parmesan)
         (has-ingredient salad-top fennel)
-
-        ; some things don't need to be prepared
-        (prepared oil)
     )
 
 )

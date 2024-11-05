@@ -17,7 +17,7 @@
     )
 
     (:predicates
-        (has-ingredient ?d - dish ?i - ingredient)
+        (has-ingredient ?d - dish ?i - ingredient) ; No longer used, since we manually specify the ingredients needed in the actions
         (prepared ?d - food)
     )
 
@@ -61,7 +61,7 @@
         :task (serve-couple ?g1 ?g2)
         :ordered-subtasks (and
             (prepare-meal ?g1)
-            (prepare-meal ?g2)
+            ; (prepare-meal ?g2)
             (prepare-special)
         )
     )
@@ -106,6 +106,9 @@
         :task (prepare-ingredients)
         :subtasks ()
     )
+
+
+    ; This action now explodes the grounding. Any idea as to why? (rhetorical question discuss with your instructor)
 
     ; (:action prepare-dish
     ;     :parameters (?d - dish ?m - meal)

@@ -18,9 +18,6 @@
         (has-ingredient main-course parmesan)
         (has-ingredient dessert strawberries)
         (has-ingredient dessert chocolate)
-
-        ; some things don't need to be prepared
-        (prepared oil)
     )
 
 )
