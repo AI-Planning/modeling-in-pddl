@@ -1,0 +1,115 @@
+(define (domain restaurant)
+    (:requirements :strips :typing :hierarchy)
+
+    (:types
+        food person location - object
+        server chef guest - person
+        meal dish ingredient - food
+    )
+
+    (:constants
+        front-of-house kitchen fridge floor1 floor2 - location
+        appetizer main-course dessert - dish
+    )
+
+    (:predicates
+        (connected ?l1 ?l2 - location)
+        (at ?p - person ?l - location)
+        (has ?f - food ?p - person)
+    )
+
+
+    ; A guest has ordered a meal
+    (:task order :parameters (?m - meal ?g - guest))
+
+    ; A server needs to get the meal to the guest (i.e., it's ready in the kitchen)
+    (:task hands :parameters (?m - meal ?g - guest))
+
+    ; A person needs to move to a location
+    (:task goto :parameters (?s - person ?d - location))
+
+    (:method m_handle-order
+        :parameters (?m - meal ?g - guest ?c - chef)
+        :task (order ?m ?g)
+        :ordered-subtasks (and
+            ; NOTE: Take a look at the prepare action below
+            (prepare ?m ?c)
+            (hands ?m ?g)
+        )
+    )
+
+    (:method m_deliver-meal
+        
+        :parameters (?m - meal ?g - guest ?s - server ?l - location)
+        :task (hands ?m ?g)
+
+        ; TODO:
+        ;  - Make sure the guest is at the location
+        ;  - Get the server to the kithen
+        ;  - Pickup the meal
+        ;  - Get the server to the guest
+        ;  - Dropoff the meal
+        ;  - Get the server back to the front-of-house
+
+    )
+
+    (:method m_goto
+
+        ; TODO: The task parameters, but also the current and next locations        
+        :parameters (?p - person ?cur ?next ?dest - location)
+
+        :task (goto ?p ?dest)
+
+        :ordered-subtasks (and
+            ; TODO: Move and then recursively call goto
+        )
+
+    )
+
+    ; Base case given for free
+    (:method m_goto_done
+        :parameters (?p - person ?dest - location)
+        :task (goto ?p ?dest)
+        :precondition (at ?p ?dest)
+        :subtasks ()
+    )
+
+    
+    (:action move
+        :parameters (?p - person ?l1 ?l2 - location)
+        :precondition (and
+            (at ?p ?l1)
+            (connected ?l1 ?l2)
+        )
+        :effect (and
+            (not (at ?p ?l1))
+            (at ?p ?l2)
+        )
+    )
+
+    (:action pickup
+        :parameters (?m - meal ?s - server ?l - location)
+        :precondition (and (at ?s ?l) (at ?m ?l))
+        :effect (and (has ?m ?s) (not (at ?m ?l)))
+    )
+
+    (:action dropoff
+        :parameters (?m - meal ?g - guest ?s - server ?l - location)
+        :precondition (and
+            (at ?s ?l)
+            (at ?g ?l)
+            (has ?m ?s)
+        )
+        :effect (and
+            (not (has ?m ?s))
+            (has ?m ?g)
+        )
+    )
+
+    (:action prepare
+        :parameters (?m - meal ?c - chef)
+        :precondition (and (at ?c kitchen))
+        :effect (at ?m kitchen)
+    )
+
+)
