@@ -9,12 +9,9 @@
     )
 
     (:htn
-        :subtasks (and
-            (order m1 alice)
-            (order m2 bob)
-            (order m3 cathy)
-            (order m4 devon)
+        :ordered-subtasks (and
             (goto carmen fridge)
+            (take-orders)
         )
     )
 
@@ -40,5 +37,12 @@
         (at natalie front-of-house)
 
     )
+
+    (:goal (and
+        (ordered beef-sandwich)
+        (ordered beef-braciole)
+        (ordered chicken-suqaar)
+        (ordered chicken-piccata)
+    ))
 
 )

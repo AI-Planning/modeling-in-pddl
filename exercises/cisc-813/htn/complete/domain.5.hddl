@@ -4,34 +4,57 @@
     (:types
         food person location - object
         server chef guest - person
-        meal dish ingredient - food
+        meal dish - food
     )
 
     (:constants
         front-of-house kitchen fridge floor1 floor2 - location
-        appetizer main-course dessert - dish
+        beef-sandwich beef-braciole chicken-suqaar chicken-piccata - dish
     )
 
     (:predicates
         (connected ?l1 ?l2 - location)
         (at ?p - person ?l - location)
         (has ?f - food ?p - person)
+        (order-in ?g - guest)
+        (ordered ?d - dish)
+        (prepared ?m - meal)
     )
 
-    ; TODO
-    ;  - start with a higher level task that lets a server take an order
-    ;  - the order task should have the meal type and there should only be 1 of 2-course and 3-course meals
-    ;  - meal prep should be done by chefs, and ingredient prep should be done by them too
-
-    (:task order :parameters (?m - meal ?g - guest))
+    (:task take-orders)
+    (:task order :parameters (?d - dish ?g - guest))
     (:task hands :parameters (?m - meal ?g - guest))
     (:task goto :parameters (?s - person ?d - location))
 
-    (:method m_handle-order
-        :parameters (?m - meal ?g - guest ?c - chef)
-        :task (order ?m ?g)
+    (:method m_take-orders
+        :parameters (?d - dish ?g - guest ?s - server ?l - location)
+        :task (take-orders)
+        :precondition (not (order-in ?g))
         :ordered-subtasks (and
-            (prepare ?m ?c)
+            (order ?d ?g)
+            (take-orders)
+        )
+    )
+
+    (:method m_done-taking-orders
+        :task (take-orders)
+        :precondition (forall (?g - guest) (order-in ?g))
+        :subtasks ()
+    )
+
+    (:method m_handle-order
+        :parameters (?m - meal ?d - dish ?g - guest ?c - chef ?l - location ?s - server)
+        :task (order ?d ?g)
+        :precondition (and
+            (at ?s front-of-house)
+            (at ?g ?l)
+        )
+        :ordered-subtasks (and
+            (goto ?s ?l)
+            (register-order ?d ?g)
+            (goto ?s kitchen)
+            (prepare ?m ?d ?c)
+            (goto ?s front-of-house)
             (hands ?m ?g)
         )
     )
@@ -63,6 +86,14 @@
         :task (goto ?p ?dest)
         :precondition (at ?p ?dest)
         :subtasks ()
+    )
+
+    (:action register-order
+        :parameters (?d - dish ?g - guest)
+        :effect (and
+            (order-in ?g)
+            (ordered ?d)
+        )
     )
 
     (:action move
@@ -97,9 +128,16 @@
     )
 
     (:action prepare
-        :parameters (?m - meal ?c - chef)
-        :precondition (and (at ?c kitchen))
-        :effect (at ?m kitchen)
+        :parameters (?m - meal ?d - dish ?c - chef)
+        :precondition (and
+            (at ?c kitchen)
+            (not (prepared ?m))
+        )
+        :effect (and
+            (at ?m kitchen)
+            (ordered ?d)
+            (prepared ?m)
+        )
     )
 
 )
