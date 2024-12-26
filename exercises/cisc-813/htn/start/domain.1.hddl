@@ -1,0 +1,86 @@
+(define (domain restaurant)
+    (:requirements :strips :typing :hierarchy)
+
+    (:types
+        food person room - object
+        server chef guest - person
+        meal dish ingredient - food
+    )
+
+    (:constants
+        front-of-house kitchen fridge - room
+        appetizer main-course dessert - dish
+    )
+
+    (:predicates
+        (has-ingredient ?d - dish ?i - ingredient)
+        (prepared ?d - food)
+    )
+
+    (:task serve-couple :parameters (?g1 ?g2 - guest))
+
+    (:task prepare-meal :parameters (?g - guest))
+
+    (:task prepare-ingredients)
+
+    (:method m_serve-couple
+        
+        :parameters (?g1 ?g2 - guest)
+
+        :task ; TODO: matich with the right task
+
+        :subtasks (and
+            ; TODO: prepare a meal for each guest
+        )
+
+    )
+
+    (:method m_three-course-meal
+        
+        :parameters (?g - guest ?m - meal)
+
+        ; TODO: Can handle preparing a meal for a guest
+
+        ; TODO: Needs to prepare ingredients and the three dishes (appetizer, main-course, dessert)
+    )
+
+    (:method m_two-course-meal
+        
+        ; TODO: Similar to the above, but just for appetizer and main-course
+
+    )
+
+    (:method m_prepare-ingredients
+        
+        ; TODO: Prepares a specific ingredient and recursively prepares another
+
+    )
+
+    (:method m_done-preparing-ingredients
+        
+        ; TODO: Base case for the above method (no sub tasks)
+        
+    )
+
+    ; For now, we assume that ingredients are not used up.
+    (:action prepare-dish
+        :parameters (?d - dish ?m - meal)
+        :precondition (and
+            (forall
+                (?i - ingredient)
+                (imply
+                    (has-ingredient ?d ?i)
+                    (prepared ?i)))
+        )
+        :effect (and
+            (prepared ?d)
+        )
+    )
+
+    (:action prepare-ingredient
+        :parameters (?i - ingredient)
+        :precondition (not (prepared ?i))
+        :effect (prepared ?i)
+    )
+
+)

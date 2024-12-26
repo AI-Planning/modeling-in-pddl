@@ -1,0 +1,90 @@
+(define (domain restaurant)
+    (:requirements :strips :typing :hierarchy)
+
+    (:types
+        food person room - object
+        server chef guest - person
+        meal dish ingredient - food
+    )
+
+    (:constants
+        front-of-house kitchen fridge - room
+        appetizer main-course dessert - dish
+    )
+
+    (:predicates
+        (has-ingredient ?d - dish ?i - ingredient)
+        (prepared ?d - food)
+    )
+
+    (:task serve-couple :parameters (?g1 ?g2 - guest))
+
+    (:task prepare-meal :parameters (?g - guest))
+
+    (:task prepare-ingredients)
+
+    (:method m_serve-couple
+        :parameters (?g1 ?g2 - guest)
+        :task (serve-couple ?g1 ?g2)
+        :subtasks (and
+            (prepare-meal ?g1)
+            (prepare-meal ?g2)
+        )
+    )
+
+    (:method m_three-course-meal
+        :parameters (?g - guest ?m - meal)
+        :task (prepare-meal ?g)
+        :subtasks (and
+            (prepare-ingredients)
+            (prepare-dish appetizer ?m)
+            (prepare-dish main-course ?m)
+            (prepare-dish dessert ?m)
+        )
+    )
+
+    (:method m_two-course-meal
+        :parameters (?g - guest ?m - meal)
+        :task (prepare-meal ?g)
+        :subtasks (and
+            (prepare-ingredients)
+            (prepare-dish appetizer ?m)
+            (prepare-dish main-course ?m)
+        )
+    )
+
+    (:method m_prepare-ingredients
+        :parameters (?i - ingredient)
+        :task (prepare-ingredients)
+        :subtasks (and
+            (prepare-ingredient ?i)
+            (prepare-ingredients)
+        )
+    )
+
+    (:method m_done-preparing-ingredients
+        :task (prepare-ingredients)
+        :subtasks ()
+    )
+
+    (:action prepare-dish
+        :parameters (?d - dish ?m - meal)
+        :precondition (and
+            (forall
+                (?i - ingredient)
+                (imply
+                    (has-ingredient ?d ?i)
+                    (prepared ?i)))
+        )
+        :effect (and
+            (prepared ?d)
+        )
+    )
+
+    (:action prepare-ingredient
+        :parameters (?i - ingredient)
+        :precondition (not (prepared ?i))
+        :effect (prepared ?i)
+    )
+
+)

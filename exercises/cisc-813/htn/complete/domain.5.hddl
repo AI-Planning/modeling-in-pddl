@@ -1,0 +1,212 @@
+(define (domain restaurant)
+    (:requirements :strips :typing :hierarchy)
+
+    (:types
+        food person location - object
+        server chef guest - person
+        meal dish - food
+    )
+
+    (:constants
+        front-of-house kitchen fridge floor1 floor2 - location
+
+        ; https://www.eatingwell.com/article/7992234/every-dish-they-make-on-the-bear-plus-recipes/
+        beef-sandwich beef-braciole chicken-suqaar chicken-piccata - dish
+    )
+
+    (:predicates
+        
+        ; Standard connection between locations
+        (connected ?l1 ?l2 - location)
+
+        ; Location of a person
+        (at ?p - person ?l - location)
+
+        ; Who has what
+        (has ?f - food ?p - person)
+
+        ; Marks if the guest ordered
+        (order-in ?g - guest)
+
+        ; Marks if the dish was ordered (to have some variety)
+        (ordered ?d - dish)
+
+        ; Marks if the meal was prepared yet
+        (prepared ?m - meal)
+
+    )
+
+    ; Top-level task
+    (:task take-orders)
+
+    ; Guest orders a dish
+    (:task order :parameters (?d - dish ?g - guest))
+
+    ; Meal is ready to be served
+    (:task hands :parameters (?m - meal ?g - guest))
+
+    ; Person moves to a final location
+    (:task goto :parameters (?s - person ?d - location))
+
+    ; Top-level (recursive) method to take orders
+    (:method m_take-orders
+        :parameters (?d - dish ?g - guest ?s - server ?l - location)
+        :task (take-orders)
+        :precondition (not (order-in ?g))
+        :ordered-subtasks (and
+            (order ?d ?g)
+            (take-orders)
+        )
+    )
+
+    ; Can only finish when all the guests have ordered
+    (:method m_done-taking-orders
+        :task (take-orders)
+        :precondition (forall (?g - guest) (order-in ?g))
+        :subtasks ()
+    )
+
+    ; The breakdown for handling an order:
+    ;  - go to the guest
+    ;  - register their order
+    ;  - head to the kitchen to deliver the order
+    ;  - prepare the meal
+    ;  - send the server to the back of the front of house (concurrent with meal prep)
+    ;  - call "hands" for the meal
+    (:method m_handle-order
+        :parameters (?m - meal ?d - dish ?g - guest ?c - chef ?l - location ?s - server)
+        :task (order ?d ?g)
+        :precondition (and
+            (at ?s front-of-house)
+            (at ?g ?l)
+        )
+        :ordered-subtasks (and
+            (goto ?s ?l)
+            (register-order ?d ?g)
+            (goto ?s kitchen)
+            (prepare ?m ?d ?c)
+            (goto ?s front-of-house)
+            (hands ?m ?g)
+        )
+
+        ; Ideally, we would use the following ordering. However, it causes a blowup of the state space
+        ;  and renders it impossible to solve. Thus, we stick with the total ordering above.
+        ;
+        ; :subtasks (and
+        ;     (t1 (goto ?s ?l))
+        ;     (t2 (register-order ?d ?g))
+        ;     (t3 (goto ?s kitchen))
+        ;     (t4 (prepare ?m ?d ?c))
+        ;     (t5 (goto ?s front-of-house))
+        ;     (t6 (hands ?m ?g))
+        ; )
+        ; :ordering (and
+        ;     (< t1 t2)
+        ;     (< t2 t3)
+        ;     (< t3 t4)
+        ;     (< t3 t5)
+        ;     (< t4 t6)
+        ; )
+        ;
+        ; 1--2--3--4--6
+        ;        \ 
+        ;         5
+
+    )
+
+    ; The breakdown for preparing a meal:
+    ;  - go to the kitchen
+    ;  - pick up the meal
+    ;  - go to the guest
+    ;  - drop off the meal
+    ;  - go to the front of house
+    (:method m_deliver-meal
+        :parameters (?m - meal ?g - guest ?s - server ?l - location)
+        :task (hands ?m ?g)
+        :precondition (at ?g ?l)
+        :ordered-subtasks (and
+            (goto ?s kitchen)
+            (pickup ?m ?s kitchen)
+            (goto ?s ?l)
+            (dropoff ?m ?g ?s ?l)
+            (goto ?s front-of-house)
+        )
+    )
+
+    
+    ; Recursive goto that moves once and repeats (base case is when at the destination)
+    (:method m_goto
+        :parameters (?p - person ?cur ?next ?dest - location)
+        :task (goto ?p ?dest)
+        :ordered-subtasks (and
+            (move ?p ?cur ?next)
+            (goto ?p ?dest)
+        )
+    )
+
+    (:method m_goto_done
+        :parameters (?p - person ?dest - location)
+        :task (goto ?p ?dest)
+        :precondition (at ?p ?dest)
+        :subtasks ()
+    )
+
+    
+    ; Keep track of the orders
+    (:action register-order
+        :parameters (?d - dish ?g - guest)
+        :effect (and
+            (order-in ?g)
+            (ordered ?d)
+        )
+    )
+
+    ; Simple move
+    (:action move
+        :parameters (?p - person ?l1 ?l2 - location)
+        :precondition (and
+            (at ?p ?l1)
+            (connected ?l1 ?l2)
+        )
+        :effect (and
+            (not (at ?p ?l1))
+            (at ?p ?l2)
+        )
+    )
+
+    ; Simple pickup
+    (:action pickup
+        :parameters (?m - meal ?s - server ?l - location)
+        :precondition (and (at ?s ?l) (at ?m ?l))
+        :effect (and (has ?m ?s) (not (at ?m ?l)))
+    )
+
+    ; Simple dropoff with the guest being there
+    (:action dropoff
+        :parameters (?m - meal ?g - guest ?s - server ?l - location)
+        :precondition (and
+            (at ?s ?l)
+            (at ?g ?l)
+            (has ?m ?s)
+        )
+        :effect (and
+            (not (has ?m ?s))
+            (has ?m ?g)
+        )
+    )
+
+    ; Prepare a meal of a particular type with a particular chef
+    (:action prepare
+        :parameters (?m - meal ?d - dish ?c - chef)
+        :precondition (and
+            (at ?c kitchen)
+            (not (prepared ?m))
+        )
+        :effect (and
+            (at ?m kitchen)
+            (ordered ?d)
+            (prepared ?m)
+        )
+    )
+
+)
