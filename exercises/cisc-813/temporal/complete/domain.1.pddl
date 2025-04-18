@@ -58,7 +58,7 @@
             (at start (increase (note-count ?p) 1))
             (at start (increase (duration-count ?l) 1))
             (at end (not-playing))
-            (at end  (increase (melody-length) (note-length ?l)))
+            (at start  (increase (melody-length) (note-length ?l)))
         )
     )
 
